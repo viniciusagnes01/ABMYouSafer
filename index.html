@@ -36,7 +36,7 @@
       <a href="#drawflow">Drawflow</a>
       <a href="#score">Score ABM</a>
       <a href="#emails">Emails por persona</a>
-      <a href="#social">Redes sociais</a>
+      <a href="#social">Canais captação</a>
       <a href="#lps">LPs por persona</a>
       <a href="#crm">Régua CRM</a>
       <a href="#conteudos">Conteúdos e blog</a>
@@ -59,7 +59,7 @@
         <h1>ABM YouSafer para transformar ISPs em pipeline previsível.</h1>
         <p class="lead">
           Este painel apresenta a estratégia completa: ICP, lista de contas, progressão por estágio,
-          score, scrap, clusterização por cargo, conteúdos por canal, emails por persona, LPs, régua CRM, handoff comercial e
+          score, scrap, clusterização por porte da base, persona/cargo, conteúdos por canal, emails por persona, LPs, régua CRM, handoff comercial e
           roteiro de decisão para o Gabriel.
         </p>
         <div class="hero-actions">
@@ -108,7 +108,7 @@
         <div>
           <p class="eyebrow"><span></span> Scrap, base e clusterização</p>
           <h2>Do scrap público à rota ABM da conta.</h2>
-          <p>Este módulo mostra como o scrap e a base de mailing deixam de ser uma planilha solta e viram decisão de rota: 1:1, 1:poucos ou 1:muitos. A persona selecionada ativa uma tabela, um exemplo real de lead, o funil ABM e o downflow recomendado.</p>
+          <p>Este módulo mostra como o scrap e a base de mailing deixam de ser uma planilha solta e viram decisão de rota. A nova regra é: tamanho estimado da base define 1:1, 1:poucos ou 1:muitos; persona/cargo define a narrativa, a LP e a cadência.</p>
         </div>
         <img src="assets/img/consultant-show-phone.png" alt="Mascote YouSafer demonstrando o fluxo de clusterização" />
       </header>
@@ -139,6 +139,17 @@
       </div>
 
       <div class="cluster-stats" id="clusterStats"></div>
+
+      <div class="base-priority-box">
+        <div>
+          <p class="eyebrow"><span></span> Nova regra de negócio</p>
+          <h3>Base primeiro. Persona depois. Intenção no timing.</h3>
+          <p>O porte da base é o melhor proxy de potencial econômico para YouSafer. Ele define o nível de esforço ABM. A persona define o argumento de convencimento. O score/intenção define quando passar para vendas.</p>
+        </div>
+        <strong>Score ABM preservado</strong>
+      </div>
+
+      <div class="base-rules" id="baseRules"></div>
 
       <div class="cluster-control-room">
         <aside class="cluster-sidebar card-3d">
@@ -247,19 +258,36 @@
 
     <section class="panel" id="social" data-section>
       <header class="section-head wide">
-        <p class="eyebrow"><span></span> Redes sociais por canal</p>
-        <h2>9 temas para cada canal e uma aba de artigos/SEO.</h2>
-        <p>Os temas estão separados por função: LinkedIn para autoridade e multi-thread; Instagram para entendimento rápido; Facebook para distribuição/remarketing; Blog para SEO e intenção de médio prazo.</p>
+        <p class="eyebrow"><span></span> Principais canais de captação</p>
+        <h2>Matriz de canais, clusters por base e posts por canal.</h2>
+        <p>A aba agora separa função do canal, cluster de base e grade semanal. Clique em cada canal para ver os posts, CTAs, persona, cluster e papel no funil.</p>
       </header>
-      <div class="channel-tabs" role="tablist" aria-label="Selecionar canal social">
+
+      <div class="capture-matrix-wrap">
+        <div class="panel-title-row compact">
+          <h3>Matriz por canal</h3>
+          <span>funil · papel · CTA</span>
+        </div>
+        <div class="capture-matrix" id="channelMatrix"></div>
+      </div>
+
+      <div class="base-channel-wrap">
+        <div class="panel-title-row compact">
+          <h3>Cluster por usuários ativos</h3>
+          <span>ângulo principal · melhor canal</span>
+        </div>
+        <div class="base-channel-grid" id="channelBaseClusters"></div>
+      </div>
+
+      <div class="channel-tabs channel-capture-tabs" role="tablist" aria-label="Selecionar canal de aquisição">
         <button class="active" data-channel="LinkedIn">LinkedIn</button>
         <button data-channel="Instagram">Instagram</button>
         <button data-channel="Facebook">Facebook</button>
-        <button data-channel="Artigos / Blog">Artigos / Blog</button>
+        <button data-channel="Blog">Blog</button>
       </div>
-      <div class="social-dashboard">
+      <div class="social-dashboard acquisition-dashboard">
         <aside class="channel-strategy" id="channelStrategy"></aside>
-        <div class="social-grid" id="socialGrid"></div>
+        <div class="social-grid acquisition-post-grid" id="socialGrid"></div>
       </div>
     </section>
 
