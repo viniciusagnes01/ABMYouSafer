@@ -45,38 +45,129 @@ const emailThemes = [
   { title: 'Um argumento além da velocidade', persona: 'Comercial', hook: 'Mostrar como vender internet com saúde digital no pacote.', cta: 'Baixar kit comercial' },
   { title: 'Seu SVA gera uso ou só ocupa contrato?', persona: 'Produto/SVA', hook: 'Comparar SVA utilitário com benefícios de baixo valor percebido.', cta: 'Ver checklist' },
   { title: 'Retenção antes do cancelamento', persona: 'CS / Retenção', hook: 'Apresentar régua de ativação nos primeiros 30 dias.', cta: 'Receber régua' },
-  { title: 'Diagnóstico de Retenção para Provedores', persona: 'CEO / Comercial', hook: 'Convite consultivo para conta com fit e sinais.', cta: 'Agendar diagnóstico' }
+  { title: 'Diagnóstico de Retenção para Provedores', persona: 'CEO / Comercial', hook: 'Convite consultivo para conta com fit e sinais.', cta: 'Agendar diagnóstico' },
+  { title: 'A pergunta que o financeiro fará sobre SVA', persona: 'Financeiro', hook: 'Antecipar ROI, payback e risco percebido.', cta: 'Ver modelo de cálculo' }
 ];
 
-const emailSequence = [
-  { day: 'D0', title: 'Entrada no fluxo + enriquecimento', trigger: 'Conta entra por lista, inbound, social ou evento', action: 'Tag de origem, tier, persona e tarefa de revisão.' },
-  { day: 'D1', title: 'Email 1 - tese de churn', trigger: 'ICP confirmado', action: 'Educar sem pedir reunião; CTA para conteúdo curto.' },
-  { day: 'D3', title: 'Email 2 - argumento além da velocidade', trigger: 'Sem resposta ou clique leve', action: 'Direcionar Comercial/CEO para checklist de SVA.' },
-  { day: 'D5', title: 'LinkedIn + social selling', trigger: 'Conta engajou ou abriu email', action: 'Conexão do Gabriel + comentário contextual.' },
-  { day: 'D7', title: 'Email 3 - calculadora churn x SVA', trigger: 'Clique em conteúdo de dor', action: 'Convite para estimar impacto financeiro.' },
-  { day: 'D10', title: 'WhatsApp permitido / SDR', trigger: 'Score >= 50 ou formulário parcial', action: 'Mensagem consultiva e tentativa de diagnóstico.' },
-  { day: 'D14', title: 'Email 4 - case/prova lógica', trigger: 'Conta morna sem reunião', action: 'Prova de uso, régua 30 dias e objeção respondida.' },
-  { day: 'D21', title: 'Reengajamento ou handoff', trigger: 'Sem avanço ou score >= 70', action: 'No-show/closed-lost para nutrição ou SQA para closer.' }
-];
+const emailPersonas = {
+  ceo: {
+    label: 'CEO / Dono',
+    promise: 'Convencer pela proteção de receita, diferenciação e visão estratégica.',
+    summary: 'A abordagem precisa mostrar que o problema não é só marketing: é previsibilidade, valor da base e defesa contra guerra de preço.',
+    bullets: ['Falar de churn e margem', 'Evitar linguagem técnica de ferramenta', 'Levar para diagnóstico e simulação executiva'],
+    sequence: [
+      { day: 'D0', title: 'Conta entra na lista Tier 1/2', trigger: 'Base recorrente + decisor acessível', action: 'Enriquecer empresa, mapear dono/CEO e registrar hipótese de dor.' },
+      { day: 'D1', title: 'Email 1 — velocidade virou commodity', trigger: 'ICP validado', action: 'Tese curta: preço e velocidade não sustentam diferenciação. CTA para leitura de 2 min.' },
+      { day: 'D3', title: 'LinkedIn Gabriel — autoridade', trigger: 'Email aberto ou conexão possível', action: 'Conexão sem venda: comentário sobre retenção e valor percebido em ISPs.' },
+      { day: 'D5', title: 'Email 2 — custo de perder 1% da base', trigger: 'Sem resposta', action: 'Trazer cálculo simples de churn x receita. CTA para calculadora.' },
+      { day: 'D8', title: 'Retargeting por conta', trigger: 'Visita em conteúdo ou LP', action: 'Anúncio com tese de retenção e convite para diagnóstico.' },
+      { day: 'D10', title: 'Email 3 — diagnóstico executivo', trigger: 'Score >= 50', action: 'Convite consultivo: mapear base, churn, SVA atual e oportunidade de diferenciação.' },
+      { day: 'D14', title: 'WhatsApp permitido / SDR', trigger: 'Clique, resposta ou formulário parcial', action: 'Mensagem objetiva com contexto da conta e opção de horário.' }
+    ]
+  },
+  comercial: {
+    label: 'Diretor Comercial',
+    promise: 'Convencer pelo argumento de venda: defender preço, sair do desconto e criar nova conversa.',
+    summary: 'O comercial precisa enxergar a YouSafer como uma ferramenta para vender melhor o plano de internet, não como benefício anexado.',
+    bullets: ['Falar de argumento de venda', 'Usar exemplos de abordagem', 'Levar para kit comercial e diagnóstico'],
+    sequence: [
+      { day: 'D0', title: 'Mapear responsável comercial', trigger: 'Conta com time comercial ou operação ativa', action: 'Registrar canal de venda, objeções prováveis e ofertas atuais.' },
+      { day: 'D1', title: 'Email 1 — um argumento além da velocidade', trigger: 'Persona comercial confirmada', action: 'Mostrar que saúde digital cria conversa de valor sem entrar direto em desconto.' },
+      { day: 'D3', title: 'Email 2 — script para vender SVA na base', trigger: 'Sem resposta ou abertura', action: 'Enviar ângulo prático: como falar com cliente sem prometer plano de saúde.' },
+      { day: 'D5', title: 'LinkedIn — prova de abordagem', trigger: 'Conta engajou', action: 'Post/comentário sobre guerra de preço e diferenciação comercial.' },
+      { day: 'D7', title: 'CTA — baixar kit comercial', trigger: 'Clique em email ou post', action: 'Levar para LP do kit com perguntas sobre equipe, objeções e oferta atual.' },
+      { day: 'D10', title: 'Email 3 — diagnóstico comercial', trigger: 'Score >= 50', action: 'Convite para revisar oferta atual e construir argumento de retenção.' },
+      { day: 'D14', title: 'SLA SDR', trigger: 'Baixou kit ou respondeu', action: 'SDR aborda com contexto de venda, objeção e próximo passo.' }
+    ]
+  },
+  produto: {
+    label: 'Produto / SVA',
+    promise: 'Convencer pela qualidade do benefício, uso percebido e diferença entre SVA útil e SVA decorativo.',
+    summary: 'Produto/SVA precisa comparar valor percebido, ativação e uso. O foco é mostrar que saúde digital tem mais utilidade recorrente.',
+    bullets: ['Falar de uso percebido', 'Comparar SVA utilitário x entretenimento', 'Levar para checklist e prova de uso'],
+    sequence: [
+      { day: 'D0', title: 'Identificar responsável por SVA/produto', trigger: 'Provedor já usa ou avalia SVAs', action: 'Registrar SVAs atuais, ativação e possíveis lacunas de percepção.' },
+      { day: 'D1', title: 'Email 1 — seu SVA gera uso?', trigger: 'Persona produto confirmada', action: 'Abrir com pergunta direta sobre benefício que o cliente lembra e usa.' },
+      { day: 'D3', title: 'Email 2 — utilitário vs entretenimento', trigger: 'Abertura ou clique leve', action: 'Comparativo simples: saúde digital como SVA de necessidade, não de distração.' },
+      { day: 'D5', title: 'Conteúdo — checklist SVA', trigger: 'Interesse em categoria', action: 'Enviar checklist com critérios de valor percebido, ativação e recorrência.' },
+      { day: 'D8', title: 'Email 3 — prova de ativação', trigger: 'Baixou checklist', action: 'Mostrar como benefício vira uso nos primeiros 30 dias.' },
+      { day: 'D11', title: 'Reunião técnica leve', trigger: 'Score >= 50', action: 'Convite para avaliar aderência do benefício ao pacote atual.' },
+      { day: 'D16', title: 'Reengajamento', trigger: 'Sem reunião', action: 'Enviar comparativo visual de SVA e pergunta sobre ativação atual.' }
+    ]
+  },
+  cs: {
+    label: 'CS / Retenção',
+    promise: 'Convencer pela ativação, uso nos primeiros 30 dias e redução de cancelamento por valor percebido.',
+    summary: 'CS precisa entender que o benefício só retém se entrar na rotina do cliente. A cadência puxa régua de ativação e prevenção de churn.',
+    bullets: ['Falar de ativação e jornada', 'Mostrar régua de 30 dias', 'Levar para diagnóstico de retenção'],
+    sequence: [
+      { day: 'D0', title: 'Mapear CS/retention', trigger: 'Conta tem base ativa relevante', action: 'Registrar jornada atual, onboarding, canais de comunicação e gatilhos de cancelamento.' },
+      { day: 'D1', title: 'Email 1 — retenção antes do cancelamento', trigger: 'Persona CS confirmada', action: 'Mostrar que o benefício precisa ser ativado antes do cliente pensar em sair.' },
+      { day: 'D3', title: 'Email 2 — primeiros 30 dias do benefício', trigger: 'Abertura ou clique', action: 'Enviar visão da régua: boas-vindas, uso, lembrete, prova de valor e resgate.' },
+      { day: 'D6', title: 'CTA — baixar régua 30 dias', trigger: 'Interesse em ativação', action: 'LP com campos sobre onboarding, canais e base ativa.' },
+      { day: 'D9', title: 'Email 3 — sinais de risco', trigger: 'Baixou régua', action: 'Conectar baixa ativação com churn silencioso e perda de valor percebido.' },
+      { day: 'D12', title: 'Diagnóstico de retenção', trigger: 'Score >= 50', action: 'Convite para revisar régua atual e oportunidades de ativação do SVA.' },
+      { day: 'D18', title: 'Reengajamento com pergunta', trigger: 'Sem resposta', action: 'Perguntar como o provedor comunica benefícios após o 7º dia.' }
+    ]
+  },
+  financeiro: {
+    label: 'Financeiro / Controller',
+    promise: 'Convencer por impacto financeiro conservador: churn, margem, payback e risco controlado.',
+    summary: 'Financeiro precisa de números e premissas. A comunicação deve ser sóbria, sem hype, com cálculo simples e cenário conservador.',
+    bullets: ['Falar de custo de churn', 'Usar cálculo conservador', 'Levar para simulação e business case'],
+    sequence: [
+      { day: 'D0', title: 'Mapear financeiro/controller', trigger: 'Conta com base e margem estimável', action: 'Registrar ticket médio, base, margem estimada e custo de aquisição quando possível.' },
+      { day: 'D1', title: 'Email 1 — quanto custa perder clientes?', trigger: 'Persona financeira confirmada', action: 'Abrir com cálculo de churn mensal e impacto em receita recorrente.' },
+      { day: 'D3', title: 'Email 2 — ROI conservador do SVA', trigger: 'Sem resposta ou abertura', action: 'Mostrar que a conta não precisa prometer milagre: basta reduzir perda e aumentar percepção.' },
+      { day: 'D6', title: 'CTA — pedir simulação', trigger: 'Clique em cálculo', action: 'LP calculadora com campos de ticket, churn, margem e base ativa.' },
+      { day: 'D9', title: 'Email 3 — perguntas do financeiro', trigger: 'Baixou/visitou calculadora', action: 'Responder objeções: custo, LGPD, implantação, risco e payback.' },
+      { day: 'D12', title: 'Business case preliminar', trigger: 'Score >= 60', action: 'Enviar estrutura de simulação e chamar para diagnóstico com decisor.' },
+      { day: 'D18', title: 'Follow-up executivo', trigger: 'Sem avanço', action: 'Retomar com cenário conservador e convite para validar premissas em 20 minutos.' }
+    ]
+  }
+};
 
 const socialPosts = [
-  { channel: 'LinkedIn', title: 'Velocidade virou commodity', objective: 'Abrir consciência executiva em CEO e Comercial.', bullets: ['Post do Gabriel com tese forte', 'CTA leve para diagnóstico', 'Comentário em decisores de Tier 1'] },
+  // LinkedIn
+  { channel: 'LinkedIn', title: 'Velocidade virou commodity', objective: 'Abrir consciência executiva em CEO e Comercial.', bullets: ['Post assinado pelo Gabriel', 'Tese sobre preço x valor percebido', 'CTA leve para diagnóstico'] },
   { channel: 'LinkedIn', title: 'Quanto custa perder 1% da base?', objective: 'Levar CFO/CEO para dor financeira do churn.', bullets: ['Carrossel com cálculo simples', 'Link para calculadora', 'Retargeting de visitantes'] },
-  { channel: 'LinkedIn', title: 'SVA útil vs SVA de entretenimento', objective: 'Educar Produto/SVA e Marketing sobre valor percebido.', bullets: ['Comparativo visual', 'CTA para checklist', 'Uso em cadência Apollo'] },
+  { channel: 'LinkedIn', title: 'SVA útil vs SVA de entretenimento', objective: 'Educar Produto/SVA e Marketing sobre utilidade real.', bullets: ['Comparativo visual', 'CTA para checklist', 'Uso na cadência Apollo'] },
+  { channel: 'LinkedIn', title: 'Quem precisa comprar a tese do SVA?', objective: 'Explicar comitê de compra e multi-thread.', bullets: ['Mapa CEO/Comercial/CS/Financeiro', 'Conteúdo para vendas', 'CTA para plano ABM'] },
+  { channel: 'LinkedIn', title: 'Retenção não começa no cancelamento', objective: 'Conectar CS e ativação à retenção.', bullets: ['Framework de 30 dias', 'CTA para régua de ativação', 'Post técnico para CS'] },
+  { channel: 'LinkedIn', title: 'Diagnóstico de Retenção para Provedores', objective: 'Gerar mão levantada em contas com dor.', bullets: ['Post convite consultivo', 'Sem promessa genérica', 'CTA para LP diagnóstico'] },
+  { channel: 'LinkedIn', title: 'As 7 perguntas do financeiro sobre SVA', objective: 'Aproximar Controller/CFO com abordagem racional.', bullets: ['Formato checklist', 'Conecta risco e ROI', 'CTA para simulação'] },
+  { channel: 'LinkedIn', title: 'Como vender internet sem desconto', objective: 'Dar munição para Diretor Comercial.', bullets: ['Exemplo de script', 'Argumento além da velocidade', 'CTA para kit comercial'] },
+  { channel: 'LinkedIn', title: 'O que aprendemos com provedores', objective: 'Reengajar contas frias com aprendizado de mercado.', bullets: ['Post de learnings', 'Tom consultivo', 'CTA para retomar conversa'] },
+
+  // Instagram
   { channel: 'Instagram', title: 'Cliente não cancela só por preço', objective: 'Transformar a tese em conteúdo visual e simples.', bullets: ['Reels curto', 'Carrossel de dor', 'Stories com enquete'] },
-  { channel: 'Instagram', title: 'Benefício que entra na rotina', objective: 'Mostrar saúde como utilidade diária para famílias.', bullets: ['Post explicativo', 'Prova de uso', 'CTA para landing page'] },
-  { channel: 'Instagram', title: 'Como vender internet com saúde', objective: 'Ajudar comercial do provedor a entender argumento.', bullets: ['Carrossel de scripts', 'Story com caixa de pergunta', 'Remarketing'] },
-  { channel: 'Facebook', title: 'Retenção para provedores regionais', objective: 'Distribuição e remarketing em público ISP.', bullets: ['Post educativo', 'Anúncio por interesse/cargo', 'Link para checklist'] },
-  { channel: 'Facebook', title: 'Guia de SVA de alto valor', objective: 'Captura de leads de meio de funil.', bullets: ['Post com benefício prático', 'LP checklist', 'Tag MQA se completar'] },
-  { channel: 'Facebook', title: 'Convite para diagnóstico', objective: 'Reimpactar quem abriu formulário ou visitou LP.', bullets: ['Criativo direto', 'WhatsApp permitido', 'SLA SDR em 24h'] }
+  { channel: 'Instagram', title: 'Benefício que entra na rotina', objective: 'Mostrar saúde como utilidade diária para famílias.', bullets: ['Cena cotidiana', 'Prova de uso', 'CTA para saber mais'] },
+  { channel: 'Instagram', title: 'SVA que ninguém usa não retém', objective: 'Educar sobre ativação de benefício.', bullets: ['Carrossel 5 erros', 'Gancho de CS', 'CTA para régua 30 dias'] },
+  { channel: 'Instagram', title: 'Quanto custa reconquistar cliente?', objective: 'Simplificar a dor financeira para decisores.', bullets: ['Reels com conta rápida', 'Sticker de pergunta', 'Link para calculadora'] },
+  { channel: 'Instagram', title: 'Saúde digital no pacote de internet', objective: 'Mostrar o benefício de forma tangível.', bullets: ['Mockup da oferta', 'Antes/depois de argumento', 'CTA para diagnóstico'] },
+  { channel: 'Instagram', title: '3 sinais de que seu SVA é fraco', objective: 'Gerar dor em Produto/SVA e Comercial.', bullets: ['Carrossel educativo', 'Checklist no final', 'Remarketing para engajados'] },
+  { channel: 'Instagram', title: 'Perguntas que seu cliente faz antes de cancelar', objective: 'Conectar atendimento, valor percebido e retenção.', bullets: ['Formato lista', 'CTA para conversa', 'Stories com votação'] },
+  { channel: 'Instagram', title: 'Por dentro da ativação em 30 dias', objective: 'Mostrar processo e não só promessa.', bullets: ['Linha do tempo visual', 'Benefício lembrado', 'CTA para régua'] },
+  { channel: 'Instagram', title: 'Case/hipótese de uso do benefício', objective: 'Reduzir risco percebido com narrativa prática.', bullets: ['Mini storytelling', 'Uso recorrente', 'CTA para simulação'] },
+
+  // Facebook
+  { channel: 'Facebook', title: 'Convite para diagnóstico de retenção', objective: 'Reimpactar quem abriu formulário ou visitou LP.', bullets: ['Criativo direto', 'WhatsApp permitido', 'SLA SDR em 24h'] },
+  { channel: 'Facebook', title: 'Checklist SVA de alto valor', objective: 'Distribuir isca para audiência de provedores.', bullets: ['Público lookalike/remarketing', 'Formulário simples', 'Tag de persona'] },
+  { channel: 'Facebook', title: 'Calculadora churn x SVA', objective: 'Capturar intenção financeira.', bullets: ['Criativo com número', 'CTA simulação', 'Campo de base ativa'] },
+  { channel: 'Facebook', title: 'Kit comercial para vender sem desconto', objective: 'Apoiar equipe comercial do provedor.', bullets: ['Criativo de dor comercial', 'CTA download', 'Segmentação por cargo'] },
+  { channel: 'Facebook', title: 'Régua de ativação em 30 dias', objective: 'Atrair CS/Retenção e operações.', bullets: ['Formato passo a passo', 'CTA baixar régua', 'Remarketing por engajamento'] },
+  { channel: 'Facebook', title: 'SVA útil vs entretenimento', objective: 'Educar sobre valor percebido.', bullets: ['Comparativo simples', 'CTA checklist', 'Testar criativo estático'] },
+  { channel: 'Facebook', title: 'Benefício que protege a base', objective: 'Reforçar retenção para público amplo.', bullets: ['Copy de baixa fricção', 'Imagem de família/rotina', 'CTA conteúdo'] },
+  { channel: 'Facebook', title: 'Live/mesa sobre retenção em ISPs', objective: 'Gerar presença e aquecer contas.', bullets: ['Evento remarketing', 'Lista de inscritos', 'Handoff para CRM'] },
+  { channel: 'Facebook', title: 'Reengajamento de contas mornas', objective: 'Trazer de volta quem não converteu.', bullets: ['Criativo com pergunta', 'Oferta de simulação', 'Sequência D21'] }
 ];
 
 const personaLps = [
-  { persona: 'CEO / Dono', title: 'Diagnóstico de Retenção para Provedores', why: 'É quem decide prioridade estratégica e precisa enxergar proteção de receita.', attention: '“Quanto custa perder 1% da sua base todos os meses?”', cta: 'Agendar diagnóstico', fields: 'Base ativa, churn estimado, ticket médio, região e timing.' },
-  { persona: 'Diretor Comercial', title: 'Kit para vender internet sem desconto', why: 'Precisa de argumento para sair da guerra de preço e abrir conversa com valor.', attention: '“Um argumento além da velocidade para defender preço e margem.”', cta: 'Baixar kit comercial', fields: 'Tamanho do time, oferta atual, objeções e canais de venda.' },
-  { persona: 'Produto / SVA', title: 'Checklist de SVA de alto valor percebido', why: 'Compara benefício genérico com utilidade real e ajuda a validar a categoria.', attention: '“Seu SVA gera uso ou só ocupa espaço no contrato?”', cta: 'Receber checklist', fields: 'SVAs atuais, adesão, uso percebido e maturidade de ativação.' },
-  { persona: 'CS / Retenção', title: 'Régua de ativação do benefício em 30 dias', why: 'Garante que o benefício vire uso e não apenas promessa comercial.', attention: '“SVA sem ativação não gera retenção.”', cta: 'Baixar régua 30 dias', fields: 'Onboarding, canais de comunicação, base e gatilhos de cancelamento.' },
-  { persona: 'Financeiro / Controller', title: 'Calculadora churn x SVA de saúde', why: 'Traduz a tese em impacto de margem, payback e proteção de receita.', attention: '“Compare o custo do churn com o custo de proteger a base.”', cta: 'Pedir simulação', fields: 'Ticket médio, churn, margem, custo de aquisição e base ativa.' }
+  { persona: 'CEO / Dono', title: 'Diagnóstico de Retenção para Provedores', why: 'É quem decide prioridade estratégica e precisa enxergar proteção de receita.', attention: '“Quanto custa perder 1% da sua base todos os meses?”', cta: 'Agendar diagnóstico', fields: 'Base ativa, churn estimado, ticket médio, região e timing.', promise: 'Mostrar onde a base perde valor e como um SVA útil pode defender receita.' },
+  { persona: 'Diretor Comercial', title: 'Kit para vender internet sem desconto', why: 'Precisa de argumento para sair da guerra de preço e abrir conversa com valor.', attention: '“Um argumento além da velocidade para defender preço e margem.”', cta: 'Baixar kit comercial', fields: 'Tamanho do time, oferta atual, objeções e canais de venda.', promise: 'Dar scripts e argumentos para vender saúde digital no pacote.' },
+  { persona: 'Produto / SVA', title: 'Checklist de SVA de alto valor percebido', why: 'Compara benefício genérico com utilidade real e ajuda a validar a categoria.', attention: '“Seu SVA gera uso ou só ocupa espaço no contrato?”', cta: 'Receber checklist', fields: 'SVAs atuais, adesão, uso percebido e maturidade de ativação.', promise: 'Ajudar o time a avaliar se o benefício gera percepção e recorrência.' },
+  { persona: 'CS / Retenção', title: 'Régua de ativação do benefício em 30 dias', why: 'Garante que o benefício vire uso e não apenas promessa comercial.', attention: '“SVA sem ativação não gera retenção.”', cta: 'Baixar régua 30 dias', fields: 'Onboarding, canais de comunicação, base e gatilhos de cancelamento.', promise: 'Mostrar como transformar benefício contratado em uso lembrado pelo cliente.' },
+  { persona: 'Financeiro / Controller', title: 'Calculadora churn x SVA de saúde', why: 'Traduz a tese em impacto de margem, payback e proteção de receita.', attention: '“Compare o custo do churn com o custo de proteger a base.”', cta: 'Pedir simulação', fields: 'Ticket médio, churn, margem, custo de aquisição e base ativa.', promise: 'Dar uma leitura conservadora de impacto antes de pedir decisão.' }
 ];
 
 const crmCadence = [
@@ -142,6 +233,44 @@ function updateScore() {
   document.getElementById('progBar').style.width = `${(buckets.progression / 20) * 100}%`;
 }
 
+function renderEmailPersonaTabs() {
+  const tabs = document.getElementById('emailPersonaTabs');
+  if (!tabs) return;
+  tabs.innerHTML = Object.entries(emailPersonas).map(([key, persona], index) => `
+    <button class="${index === 0 ? 'active' : ''}" data-persona="${key}">${persona.label}</button>
+  `).join('');
+  tabs.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderEmailSequence(btn.dataset.persona);
+    });
+  });
+}
+
+function renderEmailSequence(personaKey = 'ceo') {
+  const persona = emailPersonas[personaKey] || emailPersonas.ceo;
+  const summary = document.getElementById('personaSummary');
+  const wrap = document.getElementById('emailSequence');
+  if (summary) {
+    summary.innerHTML = `
+      <small>Persona selecionada</small>
+      <h3>${persona.label}</h3>
+      <p><strong>${persona.promise}</strong></p>
+      <p>${persona.summary}</p>
+      <ul>${persona.bullets.map(item => `<li>${item}</li>`).join('')}</ul>
+    `;
+  }
+  if (!wrap) return;
+  wrap.innerHTML = persona.sequence.map(item => `
+    <article class="email-card">
+      <small>${item.day} · ${item.trigger}</small>
+      <h3>${item.title}</h3>
+      <p>${item.action}</p>
+    </article>
+  `).join('');
+}
+
 function renderEmailThemes() {
   const wrap = document.getElementById('emailThemes');
   if (!wrap) return;
@@ -151,18 +280,6 @@ function renderEmailThemes() {
       <h3>${item.title}</h3>
       <p>${item.hook}</p>
       <span class="tagline">${item.cta}</span>
-    </article>
-  `).join('');
-}
-
-function renderEmailSequence() {
-  const wrap = document.getElementById('emailSequence');
-  if (!wrap) return;
-  wrap.innerHTML = emailSequence.map(item => `
-    <article class="email-card">
-      <small>${item.day} · ${item.trigger}</small>
-      <h3>${item.title}</h3>
-      <p>${item.action}</p>
     </article>
   `).join('');
 }
@@ -200,7 +317,8 @@ function renderPersonaLps() {
       <h3>${item.title}</h3>
       <p>${item.why}</p>
       <dl>
-        <dt>Gancho</dt><dd>${item.attention}</dd>
+        <dt>Como chamar atenção</dt><dd>${item.attention}</dd>
+        <dt>Promessa curta</dt><dd>${item.promise}</dd>
         <dt>CTA</dt><dd>${item.cta}</dd>
         <dt>Campos</dt><dd>${item.fields}</dd>
       </dl>
@@ -298,8 +416,9 @@ function setupParallax() {
 }
 
 renderScoreChecks();
+renderEmailPersonaTabs();
+renderEmailSequence('ceo');
 renderEmailThemes();
-renderEmailSequence();
 renderSocial();
 setupSocialTabs();
 renderPersonaLps();
