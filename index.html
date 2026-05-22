@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#002d91" />
+  <title>YouSafer ABM Command Center</title>
+  <meta name="description" content="Site executivo para apresentar a estratégia ABM completa da YouSafer para ISPs, com automação, playbook, fluxo, KPIs e plano de execução." />
+  <link rel="icon" href="assets/yousafer-mark.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <aside class="side-nav" aria-label="Navegação da apresentação">
+    <a class="brand" href="#top" aria-label="YouSafer ABM Command Center">
+      <img src="assets/yousafer-mark.svg" alt="" />
+      <span>YouSafer<br /><strong>ABM</strong></span>
+    </a>
+    <nav>
+      <a href="#diagnostico">Diagnóstico</a>
+      <a href="#arquitetura">Sistema</a>
+      <a href="#drawflow">Drawflow</a>
+      <a href="#progressao">Progressão</a>
+      <a href="#plays">Plays</a>
+      <a href="#automacao">Automação</a>
+      <a href="#conteudo">Conteúdo</a>
+      <a href="#execucao">Execução</a>
+    </nav>
+    <button id="themeToggle" class="ghost-btn" type="button">Modo apresentação</button>
+  </aside>
+
+  <main id="top">
+    <section class="hero section reveal">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">YouSafer · Account Based Marketing · ISPs</p>
+          <h1>Máquina ABM para transformar retenção em pipeline previsível.</h1>
+          <p class="lead">
+            Site executivo para apresentar a estratégia completa de ABM da YouSafer: tese, segmentação, plays,
+            automação, conteúdo, handoff comercial, KPIs e plano de execução em um formato inspirado no padrão do V4 Command Center.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-btn" href="#drawflow">Ver fluxo estratégico</a>
+            <a class="secondary-btn" href="#plays">Abrir playbook completo</a>
+          </div>
+        </div>
+        <div class="command-card glass">
+          <div class="command-topline">
+            <span class="live-dot"></span>
+            <span>ABM System Online</span>
+          </div>
+          <div class="score-ring" aria-label="Prontidão da estratégia em 74 por cento">
+            <svg viewBox="0 0 120 120" role="img">
+              <circle cx="60" cy="60" r="48" class="ring-bg" />
+              <circle cx="60" cy="60" r="48" class="ring-fg" style="--score: 74" />
+            </svg>
+            <div><strong>74</strong><span>Health inicial</span></div>
+          </div>
+          <div class="mini-metrics">
+            <span><strong>24</strong> plays</span>
+            <span><strong>4</strong> LPs</span>
+            <span><strong>6</strong> cadências</span>
+            <span><strong>4h-24h</strong> SLA</span>
+          </div>
+        </div>
+      </div>
+      <div class="metric-strip" id="metricStrip"></div>
+    </section>
+
+    <section id="diagnostico" class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Diagnóstico estratégico</p>
+        <h2>A narrativa certa não é evento. É máquina de demanda por conta.</h2>
+        <p>
+          As fontes setoriais, bases externas, eventos e Apollo são insumos. O centro da apresentação é uma operação ABM contínua para ISPs,
+          construída em torno de retenção, valor percebido e SVA de saúde.
+        </p>
+      </div>
+      <div class="two-col">
+        <article class="panel card-accent">
+          <h3>Tese central</h3>
+          <p>
+            Velocidade e preço viraram commodity. O provedor que quer crescer com previsibilidade precisa criar utilidade recorrente,
+            reduzir a pressão por desconto e aumentar a percepção de valor da base.
+          </p>
+          <div class="quote-card">
+            “A YouSafer não vende mais um benefício. Ela ajuda o provedor a construir uma camada operacional de retenção, ativação e diferenciação.”
+          </div>
+        </article>
+        <article class="panel">
+          <h3>Movimento de mercado</h3>
+          <ul class="check-list">
+            <li>Clientes cancelam quando não enxergam motivo suficiente para permanecer.</li>
+            <li>Churn não é apenas falha técnica: é perda de valor percebido.</li>
+            <li>SVA de saúde deve ser tratado como alavanca de retenção, não como item decorativo no plano.</li>
+            <li>O melhor lead não é o mais barato; é a conta com fit, dor, decisor e timing.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="arquitetura" class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Remodelagem do painel</p>
+        <h2>De Painel de Controle para ABM Command Center.</h2>
+        <p>
+          A mesma lógica de centralização da operação agora foi aplicada ao projeto da YouSafer: contas, sinais, canais, LPs, CRM, automação, plays e pipeline.
+        </p>
+      </div>
+      <div class="system-layout">
+        <div class="system-sidebar glass">
+          <div class="system-logo"><img src="assets/yousafer-mark.svg" alt="" /><span>YouSafer ABM</span></div>
+          <button class="sys-item active" data-target="sys-contas">Contas monitoradas</button>
+          <button class="sys-item" data-target="sys-sinais">Sinais de intenção</button>
+          <button class="sys-item" data-target="sys-canais">Canais e LPs</button>
+          <button class="sys-item" data-target="sys-warroom">War Room</button>
+        </div>
+        <div class="system-content panel">
+          <div class="sys-panel active" id="sys-contas">
+            <h3>Contas monitoradas</h3>
+            <p>Tiers por potencial, base recorrente, dor de churn, maturidade para testar SVA e decisores acessíveis.</p>
+            <div class="tier-grid" id="tierGrid"></div>
+          </div>
+          <div class="sys-panel" id="sys-sinais">
+            <h3>Sinais de intenção</h3>
+            <p>Cliques, replies, visitas em LP, consumo de materiais, formulários, simulações, multi-thread e pedido de diagnóstico.</p>
+            <div class="signal-map" id="signalMap"></div>
+          </div>
+          <div class="sys-panel" id="sys-canais">
+            <h3>Canais e LPs</h3>
+            <p>Apollo, LinkedIn, Meta/LinkedIn Ads, e-mail, WhatsApp permitido, remarketing, LPs e CRM.</p>
+            <div class="channel-grid" id="channelGrid"></div>
+          </div>
+          <div class="sys-panel" id="sys-warroom">
+            <h3>War Room comercial</h3>
+            <p>Ritual semanal para revisar contas quentes, objeções, stakeholders faltantes, SLA, próximos passos e pipeline.</p>
+            <div class="war-grid" id="warGrid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="drawflow" class="section reveal draw-section">
+      <div class="section-heading centered">
+        <p class="eyebrow">Drawflow gerado para apresentação</p>
+        <h2>Fluxo ABM completo, da inteligência ao pipeline.</h2>
+        <p>Um mapa visual para Gabriel enxergar o sistema como uma máquina, não como uma campanha isolada.</p>
+      </div>
+      <div class="flow-shell glass">
+        <svg class="flow-svg" viewBox="0 0 1200 620" role="img" aria-label="Fluxo ABM da YouSafer">
+          <defs>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <linearGradient id="lineGrad" x1="0" x2="1">
+              <stop offset="0" stop-color="#0647c9" />
+              <stop offset="1" stop-color="#00e482" />
+            </linearGradient>
+          </defs>
+          <path class="flow-path" d="M130 120 C260 120 270 210 390 210 S520 120 650 120 S790 210 910 210 S1030 120 1090 120" />
+          <path class="flow-path second" d="M130 430 C260 430 270 340 390 340 S520 430 650 430 S790 340 910 340 S1030 430 1090 430" />
+          <path class="flow-path loop" d="M1010 430 C1130 500 1040 575 780 555 C540 538 410 520 220 465" />
+          <g class="flow-nodes" id="flowNodes"></g>
+        </svg>
+      </div>
+    </section>
+
+    <section id="progressao" class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Account Progression Model</p>
+        <h2>Estágios da conta, objetivos, sinais e critérios de saída.</h2>
+      </div>
+      <div class="stage-timeline" id="stageTimeline"></div>
+    </section>
+
+    <section id="plays" class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Playbook completo</p>
+        <h2>24 plays distribuídos por maturidade de conta.</h2>
+        <p>Filtre por estágio para conduzir a conversa de forma executiva ou abrir todos os detalhes quando necessário.</p>
+      </div>
+      <div class="filter-bar" id="playFilters"></div>
+      <div class="plays-grid" id="playsGrid"></div>
+    </section>
+
+    <section id="automacao" class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Automação e CRM</p>
+        <h2>Infraestrutura para transformar sinal em ação comercial.</h2>
+        <p>Make, Apollo, LPs, CRM, UTMs, scoring, dashboards e SLA comercial trabalhando como uma esteira única.</p>
+      </div>
+      <div class="automation-grid">
+        <article class="panel">
+          <h3>Arquitetura de dados</h3>
+          <ol class="number-list">
+            <li>LP recebe lead ou sinal de intenção.</li>
+            <li>Make normaliza dados, UTM, persona, oferta consumida e origem.</li>
+            <li>CRM recebe campos ABM obrigatórios.</li>
+            <li>Score define MQA, SQA ou nutrição.</li>
+            <li>SDR/Closer recebem tarefa com contexto da conta.</li>
+            <li>Dashboard consolida cobertura, engajamento, pipeline e receita.</li>
+          </ol>
+        </article>
+        <article class="panel card-accent">
+          <h3>Campos CRM obrigatórios</h3>
+          <div class="tag-cloud" id="crmFields"></div>
+        </article>
+        <article class="panel wide">
+          <h3>Régua de ativação de 10 dias</h3>
+          <div class="cadence" id="cadenceGrid"></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="conteudo" class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Conteúdo e ativos</p>
+        <h2>Conteúdo não como calendário, mas como captura de intenção.</h2>
+      </div>
+      <div class="content-layout">
+        <div class="panel">
+          <h3>Temas de mensagem</h3>
+          <div id="messageThemes" class="theme-stack"></div>
+        </div>
+        <div class="panel">
+          <h3>Ativos de conversão</h3>
+          <div id="assetList" class="asset-list"></div>
+        </div>
+      </div>
+      <div class="panel mt-lg">
+        <h3>Calendário executivo sugerido</h3>
+        <div class="content-calendar" id="contentCalendar"></div>
+      </div>
+    </section>
+
+    <section id="execucao" class="section reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Plano para apresentar amanhã</p>
+        <h2>Roteiro de execução em 6 semanas.</h2>
+        <p>O objetivo da reunião é vender a visão: sair de campanhas isoladas e construir um sistema ABM mensurável.</p>
+      </div>
+      <div class="roadmap" id="roadmap"></div>
+      <div class="two-col mt-lg">
+        <article class="panel">
+          <h3>Responsabilidades</h3>
+          <div class="role-list" id="roleList"></div>
+        </article>
+        <article class="panel">
+          <h3>Riscos e controles</h3>
+          <div class="risk-list" id="riskList"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal closing">
+      <div class="closing-card glass">
+        <p class="eyebrow">Fechamento</p>
+        <h2>Não é uma campanha. É uma central de comando ABM para a YouSafer.</h2>
+        <p>
+          A proposta é criar previsibilidade comercial: priorizar contas certas, educar decisores, capturar intenção,
+          acionar o comercial no tempo certo e transformar retenção em pipeline.
+        </p>
+        <a class="primary-btn" href="#top">Voltar ao topo</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
