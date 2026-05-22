@@ -32,6 +32,7 @@
     <nav class="sidebar-nav" id="sidebarNav">
       <a href="#visao" class="active">Visão executiva</a>
       <a href="#controle">Painel de controle</a>
+      <a href="#scrap">Scrap + clusters</a>
       <a href="#drawflow">Drawflow</a>
       <a href="#score">Score ABM</a>
       <a href="#emails">Emails por persona</a>
@@ -98,6 +99,84 @@
         <p>O painel está organizado como centro de comando: cada módulo tem objetivo, sinal, ação e próximo passo. Não existe health score antigo aqui; existe progressão de conta.</p>
       </header>
       <div class="control-matrix" id="controlMatrix"></div>
+    </section>
+
+
+
+    <section class="panel scrap-panel" id="scrap" data-section>
+      <header class="section-head wide with-mascot compact-mascot">
+        <div>
+          <p class="eyebrow"><span></span> Scrap, base e clusterização</p>
+          <h2>Da evidência pública para a regra de negócio ABM.</h2>
+          <p>Este módulo mostra como o scrap e a base de mailing deixam de ser uma planilha solta e viram decisão de rota: 1:1, 1:poucos ou 1:muitos. A persona selecionada ativa uma tabela, um exemplo real de lead, o funil ABM e o downflow recomendado.</p>
+        </div>
+        <img src="assets/img/consultant-show-phone.png" alt="Mascote YouSafer demonstrando o fluxo de clusterização" />
+      </header>
+
+      <div class="scrap-source-grid">
+        <article class="laptop-card card-3d">
+          <div class="laptop-caption"><small>Fonte pública / LinkedIn</small><strong>Scrap de decisor e conta</strong></div>
+          <div class="laptop-mockup">
+            <div class="laptop-screen"><img src="assets/img/scrap-linkedin.png" alt="Mockup de perfil LinkedIn usado para enriquecimento ABM" /></div>
+            <div class="laptop-base"></div>
+          </div>
+          <p>O perfil público ajuda a validar cargo, empresa, senioridade, stakeholders e sinais de conta.</p>
+        </article>
+
+        <article class="laptop-card card-3d">
+          <div class="laptop-caption"><small>Mailing / Excel</small><strong>Base bruta para clusterização</strong></div>
+          <div class="laptop-mockup">
+            <div class="laptop-screen"><img src="assets/img/scrap-spreadsheet.png" alt="Mockup de planilha de mailing YouSafer" /></div>
+            <div class="laptop-base"></div>
+          </div>
+          <p>A planilha vira inteligência quando cruza consentimento, cargo, empresa, score e persona.</p>
+        </article>
+      </div>
+
+      <div class="scrap-downlink" aria-hidden="true">
+        <span>base enriquecida</span>
+        <i></i>
+      </div>
+
+      <div class="cluster-stats" id="clusterStats"></div>
+
+      <div class="cluster-control-room">
+        <aside class="cluster-sidebar card-3d">
+          <small>Selecionar persona</small>
+          <div class="cluster-persona-tabs" id="clusterPersonaTabs" role="tablist" aria-label="Selecionar persona da clusterização"></div>
+          <div class="cluster-selected" id="clusterSelectedSummary"></div>
+        </aside>
+
+        <section class="cluster-table-zone">
+          <div class="panel-title-row">
+            <h3>5 tabelas de clusterização por persona</h3>
+            <span id="clusterTableLabel">CEO / Dono</span>
+          </div>
+          <div class="cluster-table-wrap">
+            <table class="cluster-table" id="clusterLeadTable"></table>
+          </div>
+          <p class="cluster-hint">Clique em uma linha para simular a regra de negócio daquele lead e visualizar o funil ABM correspondente.</p>
+        </section>
+      </div>
+
+      <div class="active-lead-simulator">
+        <section class="active-lead-card card-3d" id="activeLeadCard"></section>
+        <section class="funnel-card card-3d">
+          <div class="funnel-header">
+            <small>Classificador ABM</small>
+            <strong id="activeFunnelLabel">1:1</strong>
+          </div>
+          <div class="abm-funnel-visual" id="abmFunnelVisual" aria-label="Funil ABM 1:muitos, 1:poucos e 1:1">
+            <button type="button" data-type="1:Muitos"><span>ABM 1:Muitos</span><em>escala e nutrição</em></button>
+            <button type="button" data-type="1:Poucos"><span>ABM 1:Poucos</span><em>cluster por dor</em></button>
+            <button type="button" data-type="1:1"><span>ABM 1:1</span><em>conta estratégica</em></button>
+          </div>
+          <img class="funnel-reference" src="assets/img/abm-funnel-ref.png" alt="Referência visual do funil ABM" />
+        </section>
+      </div>
+
+      <div class="journey-flow" id="clusterJourneyFlow"></div>
+      <div class="cluster-crm-sequence" id="clusterCrmSequence"></div>
     </section>
 
     <section class="panel" id="drawflow" data-section>

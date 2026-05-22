@@ -273,6 +273,214 @@ function renderDecisions() {
   wrap.innerHTML = DATA.decisions.map(item => `<span>${esc(item)}</span>`).join('');
 }
 
+function renderScrapCluster() {
+  if (!DATA.scrapCluster) return;
+  const personas = DATA.scrapCluster.personas || [];
+  if (!personas.length) return;
+
+  const stats = qs('#clusterStats');
+  if (stats) {
+    const source = DATA.scrapCluster.source;
+    stats.innerHTML = [
+      ['Leads válidos', source.validLeads],
+      ['Empresas únicas', source.uniqueAccounts],
+      ['Personas', source.personas],
+      ['Regra', source.rule]
+    ].map(([label, value]) => `<article><small>${esc(label)}</small><strong>${esc(value)}</strong></article>`).join('');
+  }
+
+  const tabs = qs('#clusterPersonaTabs');
+  if (tabs) {
+    tabs.innerHTML = personas.map((persona, index) => `
+      <button type="button" class="${index === 0 ? 'active' : ''}" data-cluster-persona="${esc(persona.key)}" role="tab" aria-selected="${index === 0}">
+        <span>${String(index + 1).padStart(2, '0')}</span>${esc(persona.label)}
+      </button>
+    `).join('');
+    tabs.addEventListener('click', (event) => {
+      const button = event.target.closest('button[data-cluster-persona]');
+      if (!button) return;
+      qsa('button', tabs).forEach(btn => {
+        btn.classList.toggle('active', btn === button);
+        btn.setAttribute('aria-selected', btn === button ? 'true' : 'false');
+      });
+      renderClusterPersona(button.dataset.clusterPersona);
+    });
+  }
+
+  renderClusterPersona(personas[0].key);
+}
+
+function getClusterPersona(key) {
+  return (DATA.scrapCluster.personas || []).find(persona => persona.key === key) || DATA.scrapCluster.personas[0];
+}
+
+function renderClusterPersona(key) {
+  const persona = getClusterPersona(key);
+  if (!persona) return;
+  const tableLabel = qs('#clusterTableLabel');
+  if (tableLabel) tableLabel.textContent = persona.label;
+
+  const selected = qs('#clusterSelectedSummary');
+  if (selected) {
+    const t1 = persona.leads.filter(lead => lead.abmType === '1:1').length;
+    const tp = persona.leads.filter(lead => lead.abmType === '1:Poucos').length;
+    const tm = persona.leads.filter(lead => lead.abmType === '1:Muitos').length;
+    selected.innerHTML = `
+      <h3>${esc(persona.label)}</h3>
+      <p>${esc(persona.role)}</p>
+      <div class="route-counters">
+        <span><b>${t1}</b> 1:1</span>
+        <span><b>${tp}</b> 1:poucos</span>
+        <span><b>${tm}</b> 1:muitos</span>
+      </div>
+    `;
+  }
+
+  renderClusterTable(persona);
+  const firstLead = persona.leads[0];
+  renderActiveLead(persona, firstLead);
+}
+
+function renderClusterTable(persona) {
+  const table = qs('#clusterLeadTable');
+  if (!table) return;
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>#</th><th>Lead</th><th>Empresa</th><th>Cargo</th><th>Score</th><th>Cluster</th><th>Rota ABM</th><th>Próximo passo</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${persona.leads.map((lead, index) => `
+        <tr class="${index === 0 ? 'active' : ''}" data-lead-index="${index}" tabindex="0">
+          <td>${String(lead.rank || index + 1).padStart(2, '0')}</td>
+          <td><strong>${esc(lead.name)}</strong><small>${esc(lead.city)}</small></td>
+          <td>${esc(lead.company)}</td>
+          <td>${esc(lead.role)}</td>
+          <td><b>${lead.score}</b></td>
+          <td>${esc(lead.tier)}</td>
+          <td><span class="route-badge route-${routeClass(lead.abmType)}">${esc(lead.abmType)}</span></td>
+          <td>${esc(lead.nextStep)}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+  `;
+  qsa('tbody tr', table).forEach(row => {
+    const run = () => {
+      qsa('tbody tr', table).forEach(item => item.classList.toggle('active', item === row));
+      renderActiveLead(persona, persona.leads[Number(row.dataset.leadIndex)]);
+    };
+    row.addEventListener('click', run);
+    row.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        run();
+      }
+    });
+  });
+}
+
+function routeClass(type) {
+  return String(type).toLowerCase().replace(':', '').replace('á', 'a').replace('muitos', 'muitos').replace('poucos', 'poucos');
+}
+
+function renderActiveLead(persona, lead) {
+  if (!lead) return;
+  const active = qs('#activeLeadCard');
+  if (active) {
+    active.innerHTML = `
+      <small>Simulação ativa</small>
+      <h3>${esc(lead.name)}</h3>
+      <p><b>${esc(lead.role)}</b> · ${esc(lead.company)}</p>
+      <div class="active-lead-meta">
+        <span>Persona <b>${esc(persona.label)}</b></span>
+        <span>Score <b>${lead.score}</b></span>
+        <span>Contatos na conta <b>${lead.contacts}</b></span>
+        <span>Personas mapeadas <b>${lead.personas}</b></span>
+      </div>
+      <div class="active-route route-${routeClass(lead.abmType)}">
+        <strong>${esc(lead.abmType)}</strong>
+        <span>${esc(lead.reason)}</span>
+      </div>
+      <p class="next-step"><b>Próximo passo:</b> ${esc(lead.nextStep)}</p>
+      <p class="next-step"><b>Tag CRM:</b> ${esc(lead.tag)}</p>
+    `;
+  }
+
+  const label = qs('#activeFunnelLabel');
+  if (label) label.textContent = lead.abmType;
+  const funnel = qs('#abmFunnelVisual');
+  if (funnel) {
+    qsa('button[data-type]', funnel).forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.type === lead.abmType);
+      btn.classList.toggle('muted-route', btn.dataset.type !== lead.abmType);
+    });
+  }
+
+  renderClusterJourney(lead, persona);
+  renderClusterCrm(persona, lead);
+}
+
+function renderClusterJourney(lead, persona) {
+  const flow = qs('#clusterJourneyFlow');
+  if (!flow) return;
+  const route = DATA.scrapCluster.abmTypes[lead.abmType] || DATA.scrapCluster.abmTypes['1:Poucos'];
+  flow.innerHTML = `
+    <header class="journey-head">
+      <div>
+        <p class="eyebrow"><span></span> Downflow do lead</p>
+        <h3>${esc(route.label)} · ${esc(route.position)}</h3>
+        <p>${esc(route.motion)}</p>
+      </div>
+      <strong>${esc(route.criteria)}</strong>
+    </header>
+    <div class="journey-steps">
+      ${route.steps.map((step, index) => `
+        <article class="journey-step card-3d" style="--delay:${index * .08}s">
+          <span>${String(index + 1).padStart(2, '0')}</span>
+          <h4>${esc(step)}</h4>
+          <p>${journeyCopy(lead, persona, index)}</p>
+        </article>
+      `).join('')}
+    </div>
+  `;
+}
+
+function journeyCopy(lead, persona, index) {
+  const copies = [
+    `Validar ${lead.company}, cargo, site e sinais de SVA antes da primeira abordagem.`,
+    `Usar a dor da persona ${persona.label} como âncora de mensagem.`,
+    `Registrar origem, score, tag ${lead.tag || 'CRM'} e conteúdo consumido.`,
+    `Avançar apenas com sinal: resposta, clique, formulário, conexão ou abertura repetida.`,
+    `Entregar ao comercial com briefing: por que a conta entrou nessa rota e qual CTA usar.`
+  ];
+  return copies[index] || copies[copies.length - 1];
+}
+
+function renderClusterCrm(persona, lead) {
+  const wrap = qs('#clusterCrmSequence');
+  if (!wrap) return;
+  wrap.innerHTML = `
+    <header>
+      <small>Cadência da persona aplicada ao lead</small>
+      <h3>${esc(persona.label)} · ${esc(lead.company)}</h3>
+    </header>
+    <div class="cluster-crm-grid">
+      ${persona.crmSteps.map((step, index) => `
+        <article class="cluster-crm-card card-3d">
+          <div class="step-day">${esc(step.day)}</div>
+          <div>
+            <small>${esc(step.channel)} · ${esc(step.goal)}</small>
+            <p>${esc(step.message).replace(/\{\{Nome\}\}/g, lead.name.split(' ')[0] || lead.name).replace(/\{\{Empresa\}\}/g, lead.company)}</p>
+            <span>${esc(step.cta)}</span>
+          </div>
+          <em>${esc(step.nextStatus)}</em>
+        </article>
+      `).join('')}
+    </div>
+  `;
+}
+
 function setupNavigation() {
   const toggle = qs('#menuToggle');
   const navLinks = qsa('.sidebar-nav a');
@@ -318,6 +526,7 @@ function setupMascotMotion() {
 }
 
 renderControlMatrix();
+renderScrapCluster();
 renderFlow();
 renderScoreChecks();
 renderEmailTabs();
