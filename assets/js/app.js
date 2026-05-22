@@ -82,21 +82,28 @@ function renderEmailPersona(key) {
 
 
 function renderChannelMatrix() {
-  const wrap = qs('#channelMatrix'); if(!wrap || !DATA.channelMatrix) return;
-  wrap.innerHTML = `<div class="matrix-table-scroll" role="region" aria-label="Matriz por canal"><table class="channel-matrix-table">
-    <thead><tr><th>Canal</th><th>Funil</th><th>Papel</th><th>CTA principal</th></tr></thead>
-    <tbody>${DATA.channelMatrix.map(row => `<tr data-channel-row="${esc(row.canal)}">
-      <td><button type="button" data-jump-channel="${esc(row.canal)}">${esc(row.canal)}</button><small>${esc(row.observacao || '')}</small></td>
+  const wrap = qs('#channelMatrix');
+  if(!wrap || !DATA.channelMatrix) return;
+  const rows = DATA.channelMatrix.map(row => `
+    <tr data-channel-row="${esc(row.canal)}">
+      <td class="matrix-channel-cell">
+        <button type="button" data-jump-channel="${esc(row.canal)}">${esc(row.canal)}</button>
+        <small>${esc(row.observacao || '')}</small>
+      </td>
       <td>${esc(row.funil)}</td>
       <td>${esc(row.papel)}</td>
       <td><strong>${esc(row.cta)}</strong></td>
-    </tr>`).join('')}</tbody>
-  </table></div>`;
-  qsa('[data-jump-channel]', wrap).forEach(btn => btn.addEventListener('click', () => {
-    const target = btn.dataset.jumpChannel;
-    const tab = qs(`.channel-capture-tabs button[data-channel="${target}"]`);
-    if(tab) tab.click();
-  }));
+    </tr>`).join('');
+  wrap.innerHTML = `
+    <div class="matrix-table-scroll stable-matrix" role="region" aria-label="Matriz por canal">
+      <table class="channel-matrix-table">
+        <thead>
+          <tr><th>Canal</th><th>Funil</th><th>Papel</th><th>CTA principal</th></tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+  qsa('[data-jump-channel]', wrap).forEach(btn => btn.addEventListener('click', () => activateChannel(btn.dataset.jumpChannel)));
 }
 function renderAcquisitionClusters() {
   const wrap = qs('#channelBaseClusters'); if(!wrap || !DATA.userBaseChannelClusters) return;
@@ -107,23 +114,50 @@ function renderAcquisitionClusters() {
     <blockquote>${esc(row.language)}</blockquote>
   </article>`).join('');
 }
+function renderBlogSchedule() {
+  const wrap = qs('#blogSchedulePanel');
+  if(!wrap) return;
+  const posts = DATA.socialPosts.filter(p => p.channel === 'Blog');
+  wrap.innerHTML = `<div class="blog-schedule-head"><div><small>Blog / SEO</small><h3>Grade fixa de artigos — 3 por semana</h3><p>Conteúdo útil para pessoas, com profundidade, prova e ponte para LP, WhatsApp ou diagnóstico.</p></div><button type="button" data-blog-open>Ver blog na grade</button></div>
+    <div class="blog-schedule-table-wrap"><table class="blog-schedule-table"><thead><tr><th>Dia</th><th>Tema</th><th>Palavra/cluster</th><th>Persona</th><th>Cluster de base</th><th>CTA</th></tr></thead><tbody>${posts.map(p=>`<tr><td>${esc(p.day)}</td><td><strong>${esc(p.title)}</strong><small>${esc(p.objective)}</small></td><td>${esc(p.keyword || '-')}</td><td>${esc(p.persona)}</td><td>${esc(p.cluster)}</td><td><b>${esc(p.cta)}</b></td></tr>`).join('')}</tbody></table></div>`;
+  const btn = qs('[data-blog-open]', wrap);
+  if(btn) btn.addEventListener('click', () => activateChannel('Blog'));
+}
+function normalizeChannel(channel='LinkedIn') {
+  if(channel === 'Blog / Artigos' || channel === 'Artigos / Blog' || channel === 'Blog SEO') return 'Blog';
+  return channel || 'LinkedIn';
+}
+function activateChannel(channel='LinkedIn') {
+  const normalized = normalizeChannel(channel);
+  qsa('.channel-capture-tabs button[data-channel]').forEach(tab => {
+    const active = normalizeChannel(tab.dataset.channel) === normalized;
+    tab.classList.toggle('active', active);
+    tab.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+  renderSocial(normalized);
+  const grid = qs('#socialGrid');
+  if(grid) grid.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
 function renderSocial(channel='LinkedIn') {
-  const normalized = channel === 'Blog / Artigos' ? 'Blog' : channel;
+  const normalized = normalizeChannel(channel);
   const strategy = DATA.socialStrategies[normalized] || DATA.socialStrategies.LinkedIn;
   const strategyWrap = qs('#channelStrategy');
   const channelLabel = normalized === 'Blog' ? 'Blog / Artigos SEO' : normalized;
-  if(strategyWrap && strategy) strategyWrap.innerHTML = `<small>Canal selecionado</small><h3>${esc(channelLabel)}</h3><dl><dt>Funil</dt><dd>${esc(strategy.funil)}</dd><dt>Papel</dt><dd>${esc(strategy.role)}</dd><dt>CTA principal</dt><dd>${esc(strategy.cta)}</dd><dt>Ritmo</dt><dd>${esc(strategy.rhythm)}</dd><dt>Métrica</dt><dd>${esc(strategy.metric)}</dd></dl><p class="channel-note">${esc(strategy.note || '')}</p>`;
+  if(strategyWrap && strategy) {
+    strategyWrap.innerHTML = `<small>Canal selecionado</small><h3>${esc(channelLabel)}</h3><dl><dt>Funil</dt><dd>${esc(strategy.funil)}</dd><dt>Papel</dt><dd>${esc(strategy.role)}</dd><dt>CTA principal</dt><dd>${esc(strategy.cta)}</dd><dt>Ritmo</dt><dd>${esc(strategy.rhythm)}</dd><dt>Métrica</dt><dd>${esc(strategy.metric)}</dd></dl><p class="channel-note">${esc(strategy.note || '')}</p>`;
+  }
   const grid = qs('#socialGrid'); if(!grid) return;
   const items = DATA.socialPosts.filter(p => p.channel === normalized);
   const title = qs('#channelFeedTitle');
   const count = qs('#channelFeedCount');
-  if(title) title.textContent = normalized === 'Blog' ? 'Grade semanal — Blog / Artigos SEO' : `Grade de posts — ${normalized}`;
+  if(title) title.textContent = normalized === 'Blog' ? 'Artigos do blog — grade SEO semanal' : `Posts por canal — ${normalized}`;
   if(count) count.textContent = `${items.length} conteúdo${items.length === 1 ? '' : 's'}`;
+  grid.dataset.activeChannel = normalized;
   if(!items.length) {
     grid.innerHTML = `<article class="social-card acquisition-card empty-state"><h3>Nenhum conteúdo cadastrado para ${esc(channelLabel)}</h3><p>Adicione novos itens em DATA.socialPosts usando channel: "${esc(normalized)}".</p></article>`;
     return;
   }
-  grid.innerHTML = items.map((post,i) => `<article class="social-card acquisition-card card-3d">
+  grid.innerHTML = items.map((post,i) => `<article class="social-card acquisition-card card-3d ${normalized==='Blog'?'blog-card':''}">
     <div class="card-index">${esc(post.day || post.post || String(i+1).padStart(2,'0'))}</div>
     <span class="channel-pill">${esc(post.format)}</span>
     <h3>${esc(post.title)}</h3>
@@ -139,11 +173,9 @@ function renderSocial(channel='LinkedIn') {
 }
 function setupSocialTabs() {
   const tabs = qsa('.channel-capture-tabs button[data-channel]');
-  tabs.forEach(btn => btn.addEventListener('click', () => {
-    tabs.forEach(tab=>{ const active = tab===btn; tab.classList.toggle('active', active); tab.setAttribute('aria-selected', active ? 'true' : 'false'); });
-    renderSocial(btn.dataset.channel);
-  }));
+  tabs.forEach(btn => btn.addEventListener('click', () => activateChannel(btn.dataset.channel)));
 }
+
 function renderLps() {
   const wrap = qs('#personaLps'); if(!wrap) return;
   wrap.innerHTML = DATA.personaLps.map((lp,i)=>`<article class="lp-card card-3d"><div class="card-index">LP ${i+1}</div><span>${esc(lp.persona)}</span><h3>${esc(lp.asset)}</h3><p>${esc(lp.reason)}</p><dl><dt>Gancho</dt><dd>${esc(lp.hook)}</dd><dt>Promessa</dt><dd>${esc(lp.promise)}</dd><dt>CTA</dt><dd>${esc(lp.cta)}</dd><dt>Campos</dt><dd>${lp.fields.map(f=>`<b>${esc(f)}</b>`).join('')}</dd></dl></article>`).join('');
@@ -230,4 +262,4 @@ function setupNavigation() {
 function setupReveal() { const elements=qsa('[data-section], .card-3d'); const obs=new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('is-visible'); }); },{threshold:.05}); elements.forEach(el=>obs.observe(el)); }
 function setupMascotMotion(){ const imgs=qsa('.hero-mascot img, .final-mascot img, .with-mascot img'); window.addEventListener('pointermove', e=>{ if(window.innerWidth<900) return; const x=(e.clientX/window.innerWidth-.5)*8; const y=(e.clientY/window.innerHeight-.5)*8; imgs.forEach((img,i)=>{ img.style.transform=`translate3d(${x*(i?0.25:1)}px, ${y*(i?0.2:1)}px, 0)`; }); }); }
 
-renderControlMatrix(); renderScrapCluster(); renderFlow(); renderChannelMatrix(); renderAcquisitionClusters(); renderScoreChecks(); renderEmailTabs(); setupSocialTabs(); renderSocial('LinkedIn'); renderLps(); renderCrm(); renderContentLibrary(); renderPlayFilters(); renderPlays(); renderRoadmap(); renderDecisions(); setupNavigation(); setupReveal(); setupMascotMotion();
+renderControlMatrix(); renderScrapCluster(); renderFlow(); renderChannelMatrix(); renderAcquisitionClusters(); renderBlogSchedule(); renderScoreChecks(); renderEmailTabs(); setupSocialTabs(); renderSocial('LinkedIn'); renderLps(); renderCrm(); renderContentLibrary(); renderPlayFilters(); renderPlays(); renderRoadmap(); renderDecisions(); setupNavigation(); setupReveal(); setupMascotMotion();
