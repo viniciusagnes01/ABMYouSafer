@@ -268,7 +268,19 @@
           <h3>Matriz por canal</h3>
           <span>funil · papel · CTA</span>
         </div>
-        <div class="capture-matrix" id="channelMatrix"></div>
+        <div class="capture-matrix" id="channelMatrix">
+          <div class="matrix-table-scroll stable-matrix" role="region" aria-label="Matriz por canal">
+            <table class="channel-matrix-table">
+              <thead><tr><th>Canal</th><th>Funil</th><th>Papel</th><th>CTA principal</th></tr></thead>
+              <tbody>
+                <tr><td><button type="button" data-jump-channel="LinkedIn">LinkedIn</button><small>Fundo quando houver ABM, lista de contas, retargeting ou social selling; orgânico amplo também atua em topo/meio.</small></td><td>Fundo do funil</td><td>Decisor, diagnóstico, ROI, comitê de compra</td><td><strong>Diagnóstico, simulação, kit comercial</strong></td></tr>
+                <tr><td><button type="button" data-jump-channel="Instagram">Instagram</button><small>Educação visual rápida e criação de remarketing.</small></td><td>Topo e meio</td><td>Educação rápida, consciência de dor, carrossel e reels</td><td><strong>Blog, checklist, régua</strong></td></tr>
+                <tr><td><button type="button" data-jump-channel="Facebook">Facebook</button><small>Alcance regional, comunidade e dor prática.</small></td><td>Topo e meio</td><td>Educação acessível, regional, comunidade e dor prática</td><td><strong>Blog, WhatsApp, checklist</strong></td></tr>
+                <tr><td><button type="button" data-jump-channel="Blog">Blog</button><small>Autoridade, prova e ponte para LP.</small></td><td>Profundidade</td><td>SEO, autoridade, prova e ponte para LP</td><td><strong>LP, WhatsApp, diagnóstico</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
       <div class="base-channel-wrap">
@@ -277,6 +289,23 @@
           <span>ângulo principal · melhor canal</span>
         </div>
         <div class="base-channel-grid" id="channelBaseClusters"></div>
+      </div>
+
+      <div class="blog-schedule-fixed" id="blogSchedulePanel">
+        <div class="blog-schedule-head">
+          <div><small>Blog / SEO</small><h3>Grade fixa de artigos — 3 por semana</h3><p>Conteúdo útil para pessoas, com profundidade, prova e ponte para LP, WhatsApp ou diagnóstico.</p></div>
+          <button type="button" data-blog-open>Ver blog na grade</button>
+        </div>
+        <div class="blog-schedule-table-wrap">
+          <table class="blog-schedule-table">
+            <thead><tr><th>Dia</th><th>Tema</th><th>Palavra/cluster</th><th>Persona</th><th>Cluster de base</th><th>CTA</th></tr></thead>
+            <tbody>
+              <tr><td>Segunda</td><td><strong>Quanto custa perder 1% da base por mês?</strong><small>Transformar churn em conversa financeira.</small></td><td>custo de churn, churn provedor de internet</td><td>CEO / Financeiro</td><td>Média e grande</td><td><b>Simulação financeira</b></td></tr>
+              <tr><td>Quarta</td><td><strong>Como reduzir churn em provedores sem depender de desconto</strong><small>Reposicionar retenção antes do cancelamento.</small></td><td>retenção de clientes, retenção provedor internet</td><td>CEO / CS</td><td>Média e grande</td><td><b>Diagnóstico de retenção</b></td></tr>
+              <tr><td>Sexta</td><td><strong>Checklist: como escolher um SVA de alto valor percebido</strong><small>Comparar SVA útil vs SVA que só ocupa contrato.</small></td><td>SVA para provedores, serviço de valor agregado</td><td>Produto / Comercial</td><td>Pequena e média</td><td><b>Baixar checklist / WhatsApp</b></td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div class="channel-tabs channel-capture-tabs" role="tablist" aria-label="Selecionar canal de aquisição">
