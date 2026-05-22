@@ -3,204 +3,127 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>YouSafer ABM Control Center | Estratégia completa</title>
-  <meta name="description" content="Painel executivo para apresentar a estratégia ABM completa da YouSafer para provedores de internet." />
+  <title>YouSafer ABM Control Center | Estratégia ABM</title>
+  <meta name="description" content="Painel executivo e operacional para apresentação da estratégia ABM YouSafer para ISPs." />
   <link rel="icon" href="assets/img/yousafer-logo.png" />
   <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body>
-  <div class="ambient-bg" aria-hidden="true">
-    <span class="orb orb-a"></span>
-    <span class="orb orb-b"></span>
-    <span class="mesh"></span>
+  <div class="ambient" aria-hidden="true">
+    <span class="ambient-orb ambient-orb-a"></span>
+    <span class="ambient-orb ambient-orb-b"></span>
+    <span class="ambient-grid"></span>
   </div>
 
-  <aside class="control-sidebar" aria-label="Navegação do painel">
-    <a class="brand-panel" href="#top">
-      <img src="assets/img/yousafer-logo.png" alt="YouSafer" />
-      <span>ABM Control Center</span>
-    </a>
-
-    <nav class="panel-nav">
-      <a href="#visao" class="active">Visão geral</a>
-      <a href="#sistema">Painel de controle</a>
-      <a href="#drawflow">Drawflow</a>
-      <a href="#score">Score ABM</a>
-      <a href="#mapa">Mapa mental</a>
-      <a href="#emails">Emails por persona</a>
-      <a href="#social">Social 9x9x9</a>
-      <a href="#lps">5 LPs</a>
-      <a href="#crm">Régua CRM</a>
-      <a href="#plays">Plays</a>
-      <a href="#roadmap">Roadmap</a>
-      <a href="#gabriel">Decisão</a>
-    </nav>
-
-    <div class="sidebar-card">
-      <small>Status da apresentação</small>
-      <strong>Pronto para Gabriel</strong>
-      <span>Painel responsivo com drawflow, score, canais, LPs, CRM e cadências por persona.</span>
-    </div>
-  </aside>
-
-  <header class="mobile-topbar">
-    <a class="brand-panel" href="#top">
+  <header class="topbar-mobile">
+    <a class="brand-lockup" href="#visao" aria-label="YouSafer ABM Control Center">
       <img src="assets/img/yousafer-logo.png" alt="YouSafer" />
       <span>ABM Control</span>
     </a>
-    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">☰</button>
+    <button id="menuToggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="sidebar">Menu</button>
   </header>
 
-  <main class="app-shell" id="top">
-    <section class="hero-dashboard" id="visao" data-reveal>
-      <div class="hero-content">
-        <p class="eyebrow"><span></span> Painel de controle da estratégia ABM</p>
-        <h1>Uma máquina de progressão de contas para vender SVA de saúde a ISPs.</h1>
-        <p class="hero-lead">
-          Esta apresentação organiza a estratégia completa da YouSafer como um sistema de operação: ICP, canais, conteúdo, emails por persona, LPs, CRM, score, handoff comercial, reuniões e pipeline. O objetivo não é “gerar lead”; é avançar contas certas até diagnóstico, business case e proposta.
+  <aside class="sidebar" id="sidebar" aria-label="Navegação do painel">
+    <a class="brand-lockup sidebar-brand" href="#visao">
+      <img src="assets/img/yousafer-logo.png" alt="YouSafer" />
+      <span>ABM<br />Control Center</span>
+    </a>
+
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#visao" class="active">Visão executiva</a>
+      <a href="#controle">Painel de controle</a>
+      <a href="#drawflow">Drawflow</a>
+      <a href="#score">Score ABM</a>
+      <a href="#emails">Emails por persona</a>
+      <a href="#social">Redes sociais</a>
+      <a href="#lps">LPs por persona</a>
+      <a href="#crm">Régua CRM</a>
+      <a href="#conteudos">Conteúdos e blog</a>
+      <a href="#plays">Plays</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#gabriel">Decisão Gabriel</a>
+    </nav>
+
+    <div class="sidebar-status">
+      <small>Status</small>
+      <strong>Modo apresentação</strong>
+      <span>Estrutura modular para adicionar novos conteúdos sem quebrar layout.</span>
+    </div>
+  </aside>
+
+  <main class="workspace" id="top">
+    <section class="hero panel" id="visao" data-section>
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> YouSafer ABM Control Center</p>
+        <h1>Uma operação ABM para transformar ISPs em pipeline previsível.</h1>
+        <p class="lead">
+          Este painel apresenta a estratégia completa: ICP, lista de contas, progressão por estágio,
+          score, conteúdos por canal, emails por persona, 5 LPs, régua CRM, handoff comercial e
+          roteiro de decisão para o Gabriel.
         </p>
         <div class="hero-actions">
-          <a class="btn primary" href="#sistema">Ver painel de execução</a>
-          <a class="btn secondary" href="#drawflow">Abrir drawflow</a>
+          <a class="btn primary" href="#drawflow">Ver fluxo completo</a>
+          <a class="btn secondary" href="#emails">Abrir emails por persona</a>
+        </div>
+        <div class="thesis-line">
+          <b>Tese:</b> velocidade e preço viraram commodity. A YouSafer entra como SVA de saúde útil,
+          recorrente e percebido para retenção, diferenciação e receita.
         </div>
       </div>
 
-      <div class="hero-stage">
-        <div class="mission-card">
-          <img src="assets/img/consultant-presenting.png" alt="Assistente visual YouSafer apresentando" />
-          <div class="mission-copy">
-            <small>Tese central</small>
-            <strong>Velocidade e preço viraram commodity.</strong>
-            <span>Saúde digital entra como utilidade recorrente para retenção, diferenciação e valor percebido.</span>
-          </div>
-        </div>
+      <div class="hero-mascot card-3d">
+        <div class="mascot-halo"></div>
+        <img src="assets/img/consultant-presenting.png" alt="Mascote YouSafer apresentando a estratégia" />
+        <article class="mascot-note">
+          <small>Como apresentar</small>
+          <strong>Não é uma campanha. É uma máquina de contas.</strong>
+          <span>O objetivo é avançar contas certas até diagnóstico, business case e proposta.</span>
+        </article>
       </div>
     </section>
 
-    <section class="kpi-strip" data-reveal>
+    <section class="metric-strip" aria-label="Resumo do painel" data-section>
       <article><small>Estágios</small><strong>7</strong><span>Awareness → Opportunity</span></article>
-      <article><small>Plays</small><strong>24</strong><span>priorizados por estágio</span></article>
-      <article><small>LPs</small><strong>5</strong><span>uma para cada persona</span></article>
       <article><small>Score</small><strong>0-100</strong><span>Fit + Intent + Progression</span></article>
-      <article><small>Conteúdo</small><strong>27</strong><span>9 LinkedIn + 9 Instagram + 9 Facebook</span></article>
-      <article><small>Cadências</small><strong>5</strong><span>sequência por persona</span></article>
+      <article><small>Personas</small><strong>5</strong><span>email, LP e argumento próprios</span></article>
+      <article><small>Social</small><strong>27</strong><span>9 temas por canal</span></article>
+      <article><small>LPs</small><strong>5</strong><span>uma porta por dor</span></article>
+      <article><small>CRM</small><strong>30d</strong><span>régua com SLA e tarefas</span></article>
     </section>
 
-    <section class="panel-section" id="sistema" data-reveal>
-      <div class="section-head wide">
-        <p class="eyebrow"><span></span> Estrutura de painel de controle</p>
-        <h2>O que Gabriel precisa entender em uma tela.</h2>
-        <p>
-          O painel não mostra health score antigo. Ele mostra uma operação de ABM: quem atacar, com qual mensagem, por qual canal, em qual estágio e quando passar para vendas.
-        </p>
-      </div>
+    <section class="panel" id="controle" data-section>
+      <header class="section-head">
+        <p class="eyebrow"><span></span> Painel de controle</p>
+        <h2>Visão de operação para explicar e executar.</h2>
+        <p>O painel está organizado como centro de comando: cada módulo tem objetivo, sinal, ação e próximo passo. Não existe health score antigo aqui; existe progressão de conta.</p>
+      </header>
+      <div class="control-matrix" id="controlMatrix"></div>
+    </section>
 
-      <div class="dashboard-modules">
-        <article class="module-card primary-module">
-          <small>Módulo 01</small>
-          <h3>Account Progression</h3>
-          <p>Cada conta avança por sinais: fit, consumo de conteúdo, resposta, visita em LP, uso de calculadora, diagnóstico e próximo passo.</p>
-          <div class="mini-meter"><span style="width:76%"></span></div>
-        </article>
-        <article class="module-card">
-          <small>Módulo 02</small>
-          <h3>Conteúdo por canal</h3>
-          <p>LinkedIn para autoridade e comitê; Instagram para clareza visual; Facebook para distribuição e remarketing.</p>
-        </article>
-        <article class="module-card">
-          <small>Módulo 03</small>
-          <h3>LPs por persona</h3>
-          <p>CEO, Comercial, Produto/SVA, CS e Financeiro recebem promessa, CTA e formulário diferentes.</p>
-        </article>
-        <article class="module-card">
-          <small>Módulo 04</small>
-          <h3>Email por convencimento</h3>
-          <p>A cadência muda conforme a dor da persona: receita, argumento comercial, ativação, produto ou ROI.</p>
-        </article>
-        <article class="module-card">
-          <small>Módulo 05</small>
-          <h3>CRM como centro</h3>
-          <p>Make/n8n registra origem, persona, score, conteúdo, dor, tarefa, SLA e próximo passo obrigatório.</p>
-        </article>
-        <article class="module-card">
-          <small>Módulo 06</small>
-          <h3>Handoff comercial</h3>
-          <p>SDR/Closer só entra com contexto: dor, autoridade, timing, score, stakeholders e recomendação de abordagem.</p>
-        </article>
+    <section class="panel" id="drawflow" data-section>
+      <header class="section-head wide">
+        <p class="eyebrow"><span></span> Drawflow da estratégia</p>
+        <h2>Da lista ao pipeline, sem elementos cortados.</h2>
+        <p>Fluxo redesenhado em lanes responsivas. No desktop ele abre como board horizontal dentro do painel; no mobile vira sequência empilhada. Cada card representa uma etapa real do ABM YouSafer.</p>
+      </header>
+      <div class="flow-shell">
+        <div class="flow-legend">
+          <span><i></i> Caminho principal</span>
+          <span><i class="alt"></i> Realimentação / reengajamento</span>
+          <span><i class="hot"></i> Pronto para vendas</span>
+        </div>
+        <div class="flow-board" id="flowBoard" aria-label="Drawflow ABM YouSafer"></div>
       </div>
     </section>
 
-    <section class="panel-section" id="narrativa" data-reveal>
-      <div class="section-head">
-        <p class="eyebrow"><span></span> Roteiro simples para apresentar</p>
-        <h2>Como explicar sem virar uma aula técnica.</h2>
-        <p>Use como fala inicial: a estratégia é uma máquina de progressão, não uma campanha isolada.</p>
-      </div>
-      <div class="control-grid five">
-        <article class="control-card"><b>1</b><h3>Escolher contas</h3><p>Priorizar ISPs com base recorrente, dor de churn, maturidade de SVA e decisor acessível.</p></article>
-        <article class="control-card"><b>2</b><h3>Ativar canais</h3><p>LinkedIn, blog, email, WhatsApp permitido, anúncios por conta, remarketing e social selling.</p></article>
-        <article class="control-card"><b>3</b><h3>Gerar sinais</h3><p>LPs, checklist, calculadora, simulação, respostas, visitas e engajamento por persona.</p></article>
-        <article class="control-card"><b>4</b><h3>Pontuar avanço</h3><p>Fit + Intent + Progression definem se a conta nutre, vira MQA, SQA ou oportunidade.</p></article>
-        <article class="control-card"><b>5</b><h3>Converter</h3><p>Diagnóstico 1:1, business case, kit comercial, piloto e proposta com plano de próximos passos.</p></article>
-      </div>
-    </section>
-
-    <section class="panel-section" id="drawflow" data-reveal>
-      <div class="section-head wide">
-        <p class="eyebrow"><span></span> Drawflow animado da estratégia</p>
-        <h2>Da lista ao pipeline, sem cortar elementos.</h2>
-        <p>
-          Este fluxo foi redesenhado para funcionar como painel: no desktop ele ocupa a largura disponível; no tablet quebra em duas colunas; no mobile vira uma sequência empilhada.
-        </p>
-      </div>
-
-      <div class="flow-board" aria-label="Fluxo ABM completo da YouSafer">
-        <div class="flow-col">
-          <div class="flow-stage">Aquisição</div>
-          <article class="flow-card"><i>🧭</i><h3>Fontes de lista</h3><p>Apollo, CRM, LinkedIn, base fria, listas setoriais, inbound e indicações.</p></article>
-          <article class="flow-card"><i>🏢</i><h3>Conta-alvo</h3><p>ISP regional/médio com base recorrente, dor de churn, maturidade de SVA e decisor acessível.</p></article>
-          <article class="flow-card"><i>👥</i><h3>Comitê</h3><p>CEO, Comercial, Produto/SVA, CS/Retenção e Financeiro mapeados por mensagem.</p></article>
-        </div>
-
-        <div class="flow-col">
-          <div class="flow-stage">Engajamento</div>
-          <article class="flow-card"><i>💼</i><h3>LinkedIn + social</h3><p>Post do Gabriel, conexão consultiva, prova de autoridade e ads por conta.</p></article>
-          <article class="flow-card"><i>📝</i><h3>Blog + conteúdo</h3><p>Churn, SVA, retenção, custo de reconquistar clientes e régua de ativação.</p></article>
-          <article class="flow-card"><i>📩</i><h3>Apollo + email</h3><p>Sequência por persona, com CTA progressivo e sem pedir reunião cedo demais.</p></article>
-        </div>
-
-        <div class="flow-col">
-          <div class="flow-stage">Conversão</div>
-          <article class="flow-card"><i>📄</i><h3>LPs por persona</h3><p>CEO, Comercial, Produto/SVA, CS e Financeiro com dor, CTA e campos específicos.</p></article>
-          <article class="flow-card"><i>🧮</i><h3>Calculadora</h3><p>Churn x SVA transforma dor em impacto financeiro, urgência e score de intenção.</p></article>
-          <article class="flow-card"><i>🎙️</i><h3>Webinar / mesa</h3><p>Retenção em provedores e multi-thread para contas estratégicas.</p></article>
-        </div>
-
-        <div class="flow-col">
-          <div class="flow-stage">Comercial</div>
-          <article class="flow-card"><i>🎯</i><h3>LP Diagnóstico</h3><p>CTA principal para mão levantada, briefing e geração de MQA.</p></article>
-          <article class="flow-card"><i>⚙️</i><h3>Make + CRM</h3><p>UTM, persona, score, campo ABM, tarefa, SLA e briefing automático.</p></article>
-          <article class="flow-card"><i>📲</i><h3>WhatsApp permitido</h3><p>Follow-up consultivo, recuperação de formulário e roteamento para SDR/Closer.</p></article>
-        </div>
-
-        <div class="flow-col">
-          <div class="flow-stage">Pipeline</div>
-          <article class="flow-card highlight"><i>🤝</i><h3>Diagnóstico 1:1</h3><p>Reunião com dor, autoridade, timing, stakeholders e próximo passo.</p></article>
-          <article class="flow-card highlight"><i>📊</i><h3>Business case</h3><p>Simulação, kit comercial, piloto e proposta para decisão.</p></article>
-          <article class="flow-card highlight"><i>🚀</i><h3>Oportunidade</h3><p>Plano de 30 dias, valor de pipeline, previsão de fechamento e responsável.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="panel-section" id="score" data-reveal>
-      <div class="section-head">
-        <p class="eyebrow"><span></span> Score ABM — preservado</p>
-        <h2>Sistema de pontuação mantido sem alteração.</h2>
-        <p>Fit 40, Intent 40 e Progression 20. Ele segue exatamente como estava e define nutrição, MQA, SQA e oportunidade.</p>
-      </div>
-
+    <section class="panel" id="score" data-section>
+      <header class="section-head">
+        <p class="eyebrow"><span></span> Score ABM</p>
+        <h2>Sistema de pontuação preservado.</h2>
+        <p>Fit 40 + Intent 40 + Progression 20. As regras foram mantidas sem alteração para preservar a lógica aprovada.</p>
+      </header>
       <div class="score-layout">
-        <div class="score-console">
+        <aside class="score-console card-3d">
           <div class="score-ring" style="--score:0">
             <strong id="scoreValue">0</strong>
             <span>ABM Score</span>
@@ -215,153 +138,128 @@
             <div><span>Intent <em id="intentOut">0/40</em></span><b><i id="intentBar"></i></b></div>
             <div><span>Progression <em id="progOut">0/20</em></span><b><i id="progBar"></i></b></div>
           </div>
-        </div>
-        <div class="score-checklist" id="scoreChecks" aria-label="Checklist de pontuação"></div>
+        </aside>
+        <div class="score-checklist" id="scoreChecks"></div>
       </div>
     </section>
 
-    <section class="panel-section" id="mapa" data-reveal>
-      <div class="section-head wide">
-        <p class="eyebrow"><span></span> Mapa mental de canais e ativos</p>
-        <h2>O ABM não é uma linha reta: é um ecossistema coordenado.</h2>
-        <p>Use esse mapa para explicar que redes sociais, blog, LP, CRM e reuniões trabalham juntos para avançar a conta.</p>
-      </div>
-
-      <div class="mind-dashboard">
-        <div class="mind-center">
-          <img src="assets/img/yousafer-logo.png" alt="YouSafer" />
-          <strong>Conta ISP</strong>
-          <span>progressão orientada por sinais</span>
-        </div>
-        <div class="mind-card a"><i>🔎</i><b>ICP + Lista</b><span>Tiers, decisores, dor de churn, base mínima e maturidade de SVA.</span></div>
-        <div class="mind-card b"><i>💼</i><b>LinkedIn</b><span>Autoridade executiva, post do Gabriel, conexão e anúncios por conta.</span></div>
-        <div class="mind-card c"><i>📱</i><b>Instagram/Facebook</b><span>Recortes educativos, provas, bastidores, objeções e remarketing.</span></div>
-        <div class="mind-card d"><i>📝</i><b>Blog</b><span>Churn, SVA, retenção, CFO, CS, ativação e custo de reconquista.</span></div>
-        <div class="mind-card e"><i>📄</i><b>LPs</b><span>Uma página para cada persona, com dor, CTA e campo de qualificação.</span></div>
-        <div class="mind-card f"><i>⚙️</i><b>CRM</b><span>Make/n8n, score, SLA, tarefa, tags, origem, próxima ação e status.</span></div>
-        <div class="mind-card g"><i>🤝</i><b>Reuniões</b><span>Diagnóstico, simulação financeira, business case e proposta.</span></div>
-        <div class="mind-card h"><i>🔁</i><b>Reengajamento</b><span>No-show, closed-lost, visitante sem conversão e MQA sem reunião.</span></div>
-      </div>
-    </section>
-
-    <section class="panel-section" id="emails" data-reveal>
-      <div class="section-head wide">
-        <p class="eyebrow"><span></span> Email, Apollo e nutrição por persona</p>
-        <h2>A sequência muda conforme a forma de convencimento.</h2>
-        <p>
-          Esta é a parte mais sensível do painel: cada persona tem uma dor, uma promessa, um CTA e um tempo de abordagem diferente. Selecione uma persona para ver a régua de disparos.
-        </p>
-      </div>
-
-      <div class="persona-email-tabs" id="emailPersonaTabs" role="tablist" aria-label="Selecionar persona de email"></div>
-
-      <div class="email-persona-layout">
-        <aside class="persona-summary" id="personaSummary"></aside>
+    <section class="panel important" id="emails" data-section>
+      <header class="section-head wide with-mascot">
         <div>
-          <h3 class="subhead">Sequência de disparo</h3>
-          <div class="timeline-list" id="emailSequence"></div>
+          <p class="eyebrow"><span></span> Email por persona</p>
+          <h2>A cadência muda pela forma de convencimento.</h2>
+          <p>Selecione a persona para ver promessa, objeção principal, sequência de disparos, CTA e critério de passagem para SDR. Esta é a área principal para ajustar no futuro.</p>
         </div>
-      </div>
+        <img src="assets/img/consultant-phone.png" alt="Mascote YouSafer com celular" />
+      </header>
 
-      <div class="email-theme-panel">
-        <h3 class="subhead">Temas transversais que podem virar assunto de email</h3>
-        <div class="mini-list compact" id="emailThemes"></div>
+      <div class="persona-tabs" id="emailPersonaTabs" role="tablist" aria-label="Selecionar persona"></div>
+      <div class="email-control-room">
+        <aside class="persona-brief card-3d" id="personaSummary"></aside>
+        <section class="email-sequence-panel">
+          <div class="panel-title-row">
+            <h3>Sequência de disparo</h3>
+            <span id="personaSequenceLabel">CEO / Dono</span>
+          </div>
+          <div class="email-sequence" id="emailSequence"></div>
+        </section>
       </div>
     </section>
 
-    <section class="panel-section" id="social" data-reveal>
-      <div class="section-head wide">
-        <p class="eyebrow"><span></span> Social separado por canal</p>
-        <h2>9 temas para cada canal: LinkedIn, Instagram e Facebook.</h2>
-        <p>LinkedIn gera autoridade e multi-thread; Instagram cria entendimento visual; Facebook apoia distribuição, prova e remarketing.</p>
-      </div>
-      <div class="channel-tabs" role="tablist" aria-label="Canais sociais">
+    <section class="panel" id="social" data-section>
+      <header class="section-head wide">
+        <p class="eyebrow"><span></span> Redes sociais por canal</p>
+        <h2>9 temas para LinkedIn, Instagram e Facebook.</h2>
+        <p>Os temas estão separados por função: LinkedIn para autoridade e multi-thread; Instagram para entendimento rápido; Facebook para distribuição, prova e remarketing.</p>
+      </header>
+      <div class="channel-tabs" role="tablist" aria-label="Selecionar canal social">
         <button class="active" data-channel="LinkedIn">LinkedIn</button>
         <button data-channel="Instagram">Instagram</button>
         <button data-channel="Facebook">Facebook</button>
       </div>
-      <div class="social-grid" id="socialGrid"></div>
+      <div class="social-dashboard">
+        <aside class="channel-strategy" id="channelStrategy"></aside>
+        <div class="social-grid" id="socialGrid"></div>
+      </div>
     </section>
 
-    <section class="panel-section" id="lps" data-reveal>
-      <div class="section-head wide">
-        <p class="eyebrow"><span></span> 5 landing pages por persona</p>
-        <h2>Cada persona recebe uma porta de entrada diferente.</h2>
-        <p>As LPs têm a mesma tese, mas mudam a dor, a promessa, o CTA, o formulário e o argumento de atenção.</p>
-      </div>
-      <div class="persona-lp-grid" id="personaLps"></div>
+    <section class="panel" id="lps" data-section>
+      <header class="section-head wide">
+        <p class="eyebrow"><span></span> 5 LPs por persona</p>
+        <h2>Cada decisor entra por uma dor diferente.</h2>
+        <p>As páginas usam a mesma tese, mas mudam gancho, promessa, CTA, campos e argumento de qualificação.</p>
+      </header>
+      <div class="lp-grid" id="personaLps"></div>
     </section>
 
-    <section class="panel-section" id="crm" data-reveal>
-      <div class="section-head wide">
-        <p class="eyebrow"><span></span> Régua de CRM e disparos</p>
-        <h2>O CRM vira o centro de comando da execução.</h2>
-        <p>Todo sinal precisa gerar campo, tag, score, tarefa, SLA e próximo passo. A régua abaixo organiza a operação em 30 dias.</p>
-      </div>
-      <div class="crm-layout">
+    <section class="panel" id="crm" data-section>
+      <header class="section-head wide">
+        <p class="eyebrow"><span></span> Régua CRM e automações</p>
+        <h2>Do primeiro sinal ao handoff comercial.</h2>
+        <p>Todo clique, resposta ou visita precisa virar campo, tag, score, tarefa, SLA e próximo passo. A régua abaixo está preparada para Make/n8n + CRM + Apollo.</p>
+      </header>
+      <div class="crm-control">
         <div class="crm-timeline" id="crmCadence"></div>
-        <aside class="crm-fields">
-          <h3>Campos obrigatórios no CRM</h3>
-          <ul>
-            <li>Tier da conta</li>
-            <li>Persona principal</li>
-            <li>Origem/canal/UTM</li>
-            <li>Conteúdo consumido</li>
-            <li>Dor declarada</li>
-            <li>ABM score atual</li>
-            <li>Próximo passo</li>
-            <li>Status MQA/SQA/SQL</li>
-            <li>Responsável e SLA</li>
-          </ul>
+        <aside class="crm-sidebar card-3d">
+          <h3>Campos obrigatórios</h3>
+          <ul id="crmFields"></ul>
+          <div class="sla-box">
+            <small>SLA recomendado</small>
+            <strong>MQA em até 24h · SQA em até 4h</strong>
+            <p>Todo repasse comercial precisa sair com briefing de dor, autoridade, timing, score, origem e próximo CTA.</p>
+          </div>
         </aside>
       </div>
     </section>
 
-    <section class="panel-section" id="plays" data-reveal>
-      <div class="section-head wide">
+    <section class="panel" id="conteudos" data-section>
+      <header class="section-head wide">
+        <p class="eyebrow"><span></span> Conteúdo, blog e ativos</p>
+        <h2>Biblioteca para alimentar todos os canais.</h2>
+        <p>Os temas abaixo podem virar blog, email, carrossel, reels, webinar, argumento comercial e LP. Essa estrutura facilita adicionar novos conteúdos sem refazer o painel.</p>
+      </header>
+      <div class="content-library" id="contentLibrary"></div>
+    </section>
+
+    <section class="panel" id="plays" data-section>
+      <header class="section-head wide">
         <p class="eyebrow"><span></span> Biblioteca de plays</p>
-        <h2>24 plays organizados por estágio de Account Progression.</h2>
-        <p>Essa área funciona como inventário completo do plano, com prioridade e responsáveis.</p>
-      </div>
-      <div class="play-filters" aria-label="Filtrar plays">
-        <button class="active" data-filter="all">Todos</button>
-        <button data-filter="Reconhecimento">Reconhecimento</button>
-        <button data-filter="Engajamento Inicial">Engajamento Inicial</button>
-        <button data-filter="Engajamento Significativo">Significativo</button>
-        <button data-filter="Conversão">Conversão</button>
-        <button data-filter="Reengajamento">Reengajamento</button>
-      </div>
+        <h2>Plays por estágio de progressão.</h2>
+        <p>Inventário operacional do plano para priorizar execução, responsáveis e próximos módulos.</p>
+      </header>
+      <div class="play-filters" id="playFilters"></div>
       <div class="plays-grid" id="playsGrid"></div>
     </section>
 
-    <section class="panel-section" id="roadmap" data-reveal>
-      <div class="section-head">
-        <p class="eyebrow"><span></span> Roadmap operacional</p>
-        <h2>6 semanas para sair do desenho para o piloto.</h2>
-      </div>
+    <section class="panel" id="roadmap" data-section>
+      <header class="section-head">
+        <p class="eyebrow"><span></span> Roadmap</p>
+        <h2>6 semanas para tirar do desenho e colocar em piloto.</h2>
+      </header>
       <div class="roadmap-grid" id="roadmapGrid"></div>
     </section>
 
-    <section class="panel-section final-panel" id="gabriel" data-reveal>
-      <div>
-        <p class="eyebrow"><span></span> Decisão executiva</p>
-        <h2>Gabriel, o sinal verde aqui não é para “subir campanha”. É para operar uma máquina de contas.</h2>
+    <section class="panel final-panel" id="gabriel" data-section>
+      <div class="final-copy">
+        <p class="eyebrow"><span></span> Decisão para o Gabriel</p>
+        <h2>O que precisamos aprovar para operar a estratégia sem travar.</h2>
         <p>
-          A proposta é transformar a YouSafer em uma tese recorrente dentro dos ISPs: retenção, valor percebido e SVA útil. Para iniciar, precisamos validar lista Tier 1/2, oferta principal, SLAs, materiais comerciais, cadências por persona e responsáveis pelo handoff.
+          Gabriel, este painel não é uma proposta de “subir campanha”. É uma arquitetura de receita para fazer contas certas reconhecerem dor, gerarem sinais, entrarem em diagnóstico e avançarem para business case. A decisão de amanhã é validar o piloto: lista, oferta, cadências, SLAs, LPs e materiais comerciais.
         </p>
-        <div class="decision-grid">
-          <span>Validar ICP e lista</span>
-          <span>Aprovar 5 LPs</span>
-          <span>Aprovar cadências por persona</span>
-          <span>Definir SLA MQA → SQA</span>
-          <span>Separar prova/case</span>
-          <span>Iniciar piloto de 30 dias</span>
+        <div class="decision-grid" id="decisionGrid"></div>
+      </div>
+      <div class="final-mascot card-3d">
+        <img src="assets/img/consultant-wave.png" alt="Mascote YouSafer acenando" />
+        <div>
+          <small>Mensagem final</small>
+          <strong>Com sinal verde, o próximo passo é piloto ABM de 30 dias.</strong>
+          <span>Foco em contas Tier 1/2, diagnóstico, simulação e geração de pipeline com contexto.</span>
         </div>
       </div>
-      <img src="assets/img/consultant-wave.png" alt="Assistente YouSafer acenando" />
     </section>
   </main>
 
+  <script src="assets/js/data.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>
