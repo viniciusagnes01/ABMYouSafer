@@ -56,10 +56,10 @@
     <section class="hero panel" id="visao" data-section>
       <div class="hero-copy">
         <p class="eyebrow"><span></span> YouSafer ABM Control Center</p>
-        <h1>Uma operação ABM para transformar ISPs em pipeline previsível.</h1>
+        <h1>ABM YouSafer para transformar ISPs em pipeline previsível.</h1>
         <p class="lead">
           Este painel apresenta a estratégia completa: ICP, lista de contas, progressão por estágio,
-          score, conteúdos por canal, emails por persona, 5 LPs, régua CRM, handoff comercial e
+          score, scrap, clusterização por cargo, conteúdos por canal, emails por persona, LPs, régua CRM, handoff comercial e
           roteiro de decisão para o Gabriel.
         </p>
         <div class="hero-actions">
@@ -86,8 +86,8 @@
     <section class="metric-strip" aria-label="Resumo do painel" data-section>
       <article><small>Estágios</small><strong>7</strong><span>Awareness → Opportunity</span></article>
       <article><small>Score</small><strong>0-100</strong><span>Fit + Intent + Progression</span></article>
-      <article><small>Personas</small><strong>5</strong><span>email, LP e argumento próprios</span></article>
-      <article><small>Social</small><strong>27</strong><span>9 temas por canal</span></article>
+      <article><small>Personas</small><strong>6</strong><span>email, cluster e argumento próprios</span></article>
+      <article><small>Social + SEO</small><strong>36</strong><span>9 temas por canal + blog</span></article>
       <article><small>LPs</small><strong>5</strong><span>uma porta por dor</span></article>
       <article><small>CRM</small><strong>30d</strong><span>régua com SLA e tarefas</span></article>
     </section>
@@ -107,14 +107,14 @@
       <header class="section-head wide with-mascot compact-mascot">
         <div>
           <p class="eyebrow"><span></span> Scrap, base e clusterização</p>
-          <h2>Da evidência pública para a regra de negócio ABM.</h2>
+          <h2>Do scrap público à rota ABM da conta.</h2>
           <p>Este módulo mostra como o scrap e a base de mailing deixam de ser uma planilha solta e viram decisão de rota: 1:1, 1:poucos ou 1:muitos. A persona selecionada ativa uma tabela, um exemplo real de lead, o funil ABM e o downflow recomendado.</p>
         </div>
         <img src="assets/img/consultant-show-phone.png" alt="Mascote YouSafer demonstrando o fluxo de clusterização" />
       </header>
 
-      <div class="scrap-source-grid">
-        <article class="laptop-card card-3d">
+      <div class="scrap-source-stack">
+        <article class="laptop-card laptop-card-large card-3d">
           <div class="laptop-caption"><small>Fonte pública / LinkedIn</small><strong>Scrap de decisor e conta</strong></div>
           <div class="laptop-mockup">
             <div class="laptop-screen"><img src="assets/img/scrap-linkedin.png" alt="Mockup de perfil LinkedIn usado para enriquecimento ABM" /></div>
@@ -123,7 +123,7 @@
           <p>O perfil público ajuda a validar cargo, empresa, senioridade, stakeholders e sinais de conta.</p>
         </article>
 
-        <article class="laptop-card card-3d">
+        <article class="laptop-card laptop-card-large card-3d">
           <div class="laptop-caption"><small>Mailing / Excel</small><strong>Base bruta para clusterização</strong></div>
           <div class="laptop-mockup">
             <div class="laptop-screen"><img src="assets/img/scrap-spreadsheet.png" alt="Mockup de planilha de mailing YouSafer" /></div>
@@ -149,7 +149,7 @@
 
         <section class="cluster-table-zone">
           <div class="panel-title-row">
-            <h3>5 tabelas de clusterização por persona</h3>
+            <h3>Tabelas de clusterização por cargo/persona</h3>
             <span id="clusterTableLabel">CEO / Dono</span>
           </div>
           <div class="cluster-table-wrap">
@@ -248,13 +248,14 @@
     <section class="panel" id="social" data-section>
       <header class="section-head wide">
         <p class="eyebrow"><span></span> Redes sociais por canal</p>
-        <h2>9 temas para LinkedIn, Instagram e Facebook.</h2>
-        <p>Os temas estão separados por função: LinkedIn para autoridade e multi-thread; Instagram para entendimento rápido; Facebook para distribuição, prova e remarketing.</p>
+        <h2>9 temas para cada canal e uma aba de artigos/SEO.</h2>
+        <p>Os temas estão separados por função: LinkedIn para autoridade e multi-thread; Instagram para entendimento rápido; Facebook para distribuição/remarketing; Blog para SEO e intenção de médio prazo.</p>
       </header>
       <div class="channel-tabs" role="tablist" aria-label="Selecionar canal social">
         <button class="active" data-channel="LinkedIn">LinkedIn</button>
         <button data-channel="Instagram">Instagram</button>
         <button data-channel="Facebook">Facebook</button>
+        <button data-channel="Artigos / Blog">Artigos / Blog</button>
       </div>
       <div class="social-dashboard">
         <aside class="channel-strategy" id="channelStrategy"></aside>
@@ -264,8 +265,8 @@
 
     <section class="panel" id="lps" data-section>
       <header class="section-head wide">
-        <p class="eyebrow"><span></span> 5 LPs por persona</p>
-        <h2>Cada decisor entra por uma dor diferente.</h2>
+        <p class="eyebrow"><span></span> LPs por persona</p>
+        <h2>Cada persona entra por uma dor e um ativo diferente.</h2>
         <p>As páginas usam a mesma tese, mas mudam gancho, promessa, CTA, campos e argumento de qualificação.</p>
       </header>
       <div class="lp-grid" id="personaLps"></div>
@@ -321,9 +322,9 @@
     <section class="panel final-panel" id="gabriel" data-section>
       <div class="final-copy">
         <p class="eyebrow"><span></span> Decisão para o Gabriel</p>
-        <h2>O que precisamos aprovar para operar a estratégia sem travar.</h2>
+        <h2>Decisão executiva: transformar a estratégia em piloto ABM de 30 dias.</h2>
         <p>
-          Gabriel, este painel não é uma proposta de “subir campanha”. É uma arquitetura de receita para fazer contas certas reconhecerem dor, gerarem sinais, entrarem em diagnóstico e avançarem para business case. A decisão de amanhã é validar o piloto: lista, oferta, cadências, SLAs, LPs e materiais comerciais.
+          Gabriel, o objetivo aqui é aprovar uma máquina de progressão de contas, não uma campanha isolada. A estrutura conecta fonte pública, clusterização por cargo, conteúdo, LP, score, cadência e handoff para que vendas receba contexto — não apenas leads.
         </p>
         <div class="decision-grid" id="decisionGrid"></div>
       </div>

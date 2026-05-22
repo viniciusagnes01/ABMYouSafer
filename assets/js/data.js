@@ -1,1533 +1,2759 @@
-/*
-  YouSafer ABM Control Center - Data layer
-  Para adicionar conteúdo: edite apenas os arrays abaixo. A interface renderiza tudo automaticamente.
-  IMPORTANTE: scoreRules foi preservado sem alterar regras nem pontos.
-*/
-
+/* YouSafer ABM Control Center v7 - camada de dados modular */
 window.ABM_DATA = {
-  scoreRules: [
-    { label: 'Conta pertence ao ICP primário de provedores regionais/médios', bucket: 'fit', points: 10 },
-    { label: 'Base recorrente relevante ou potencial de contrato maior', bucket: 'fit', points: 12 },
-    { label: 'Decisor acessível ou sponsor identificado', bucket: 'fit', points: 8 },
-    { label: 'Dor de churn, retenção ou diferenciação declarada', bucket: 'fit', points: 10 },
-    { label: 'Aceitou conexão ou interagiu no LinkedIn', bucket: 'intent', points: 5 },
-    { label: 'Visitou LP do Diagnóstico de Retenção', bucket: 'intent', points: 12 },
-    { label: 'Baixou checklist ou consumiu conteúdo-chave', bucket: 'intent', points: 8 },
-    { label: 'Usou a calculadora churn x SVA ou pediu simulação', bucket: 'intent', points: 15 },
-    { label: 'Respondeu email, LinkedIn ou WhatsApp permitido', bucket: 'intent', points: 15 },
-    { label: 'Há pelo menos 2 stakeholders mapeados', bucket: 'progression', points: 7 },
-    { label: 'Reunião/diagnóstico solicitado ou aceito', bucket: 'progression', points: 8 },
-    { label: 'Próximo passo com data, responsável e contexto comercial', bucket: 'progression', points: 5 }
+  "scoreRules": [
+    {
+      "label": "Conta pertence ao ICP primário de provedores regionais/médios",
+      "bucket": "fit",
+      "points": 10
+    },
+    {
+      "label": "Base recorrente relevante ou potencial de contrato maior",
+      "bucket": "fit",
+      "points": 12
+    },
+    {
+      "label": "Decisor acessível ou sponsor identificado",
+      "bucket": "fit",
+      "points": 8
+    },
+    {
+      "label": "Dor de churn, retenção ou diferenciação declarada",
+      "bucket": "fit",
+      "points": 10
+    },
+    {
+      "label": "Aceitou conexão ou interagiu no LinkedIn",
+      "bucket": "intent",
+      "points": 5
+    },
+    {
+      "label": "Visitou LP do Diagnóstico de Retenção",
+      "bucket": "intent",
+      "points": 12
+    },
+    {
+      "label": "Baixou checklist ou consumiu conteúdo-chave",
+      "bucket": "intent",
+      "points": 8
+    },
+    {
+      "label": "Usou a calculadora churn x SVA ou pediu simulação",
+      "bucket": "intent",
+      "points": 15
+    },
+    {
+      "label": "Respondeu email, LinkedIn ou WhatsApp permitido",
+      "bucket": "intent",
+      "points": 15
+    },
+    {
+      "label": "Há pelo menos 2 stakeholders mapeados",
+      "bucket": "progression",
+      "points": 7
+    },
+    {
+      "label": "Reunião/diagnóstico solicitado ou aceito",
+      "bucket": "progression",
+      "points": 8
+    },
+    {
+      "label": "Próximo passo com data, responsável e contexto comercial",
+      "bucket": "progression",
+      "points": 5
+    }
   ],
-
-  controlModules: [
-    { icon: '🎯', title: 'ICP e conta-alvo', objective: 'Definir quem entra no ABM.', signal: 'ISP regional/médio, base recorrente, dor de churn, SVA ativo ou intenção de diferenciação.', action: 'Classificar Tier 1/2/3 e excluir contas sem base mínima, decisor ou maturidade comercial.' },
-    { icon: '🧠', title: 'Narrativa de mercado', objective: 'Fazer o problema ficar óbvio.', signal: 'Conta engaja com temas de preço, churn, retenção, valor percebido ou SVA útil.', action: 'Distribuir tese em LinkedIn, blog, email e social ads antes de pedir reunião.' },
-    { icon: '📣', title: 'Canais de ativação', objective: 'Cercar o comitê de compra.', signal: 'Decisores e influenciadores interagem em canais diferentes.', action: 'LinkedIn para autoridade, Instagram para explicação visual, Facebook para remarketing e email para cadência consultiva.' },
-    { icon: '📄', title: 'LPs por persona', objective: 'Converter cada dor em sinal.', signal: 'Persona chega com problema diferente.', action: 'CEO vai para diagnóstico; Comercial para kit; Produto para checklist; CS para régua; Financeiro para calculadora.' },
-    { icon: '⚙️', title: 'CRM e automação', objective: 'Não perder nenhum sinal.', signal: 'Clique, visita, formulário parcial, resposta ou conexão aceita.', action: 'Make/n8n cria tags, score, tarefa, SLA, próximo passo e briefing comercial.' },
-    { icon: '📊', title: 'Score ABM', objective: 'Priorizar abordagem comercial.', signal: 'Fit + Intent + Progression passam de 50/70/85 pontos.', action: '50 vira MQA, 70 vira SQA, 85 entra em proposta, piloto ou business case.' },
-    { icon: '🤝', title: 'Handoff comercial', objective: 'Chegar em vendas com contexto.', signal: 'Conta tem dor, autoridade, timing ou diagnóstico solicitado.', action: 'SDR/Closer recebe resumo com persona, dor, conteúdo consumido, score, objeção e próximo CTA.' },
-    { icon: '🔁', title: 'Reengajamento', objective: 'Recuperar contas mornas.', signal: 'No-show, formulário parcial, clique sem reunião ou closed-lost.', action: 'Nova oferta com simulação, atualização de mercado, conteúdo de prova ou convite para mesa/webinar.' }
+  "controlModules": [
+    {
+      "icon": "target",
+      "title": "ICP e conta-alvo",
+      "objective": "Definir quem entra no ABM.",
+      "signal": "ISP regional/médio, base recorrente, dor de churn, SVA ativo ou intenção de diferenciação.",
+      "action": "Classificar Tier 1/2/3 e excluir contas sem base mínima, decisor ou maturidade comercial."
+    },
+    {
+      "icon": "brain",
+      "title": "Narrativa de mercado",
+      "objective": "Fazer o problema ficar óbvio.",
+      "signal": "Conta engaja com temas de preço, churn, retenção, valor percebido ou SVA útil.",
+      "action": "Distribuir tese em LinkedIn, blog, email e social ads antes de pedir reunião."
+    },
+    {
+      "icon": "megaphone",
+      "title": "Canais de ativação",
+      "objective": "Cercar o comitê de compra.",
+      "signal": "Decisores e influenciadores interagem em canais diferentes.",
+      "action": "LinkedIn para autoridade, Instagram para explicação visual, Facebook para remarketing e email para cadência consultiva."
+    },
+    {
+      "icon": "layout",
+      "title": "LPs por persona",
+      "objective": "Converter cada dor em sinal.",
+      "signal": "Persona chega com problema diferente.",
+      "action": "CEO vai para diagnóstico; Comercial para kit; CS para régua; Financeiro para calculadora; TI para checklist."
+    },
+    {
+      "icon": "automation",
+      "title": "CRM e automação",
+      "objective": "Não perder nenhum sinal.",
+      "signal": "Clique, visita, formulário parcial, resposta ou conexão aceita.",
+      "action": "Make/n8n cria tags, score, tarefa, SLA, próximo passo e briefing comercial."
+    },
+    {
+      "icon": "score",
+      "title": "Score ABM",
+      "objective": "Priorizar abordagem comercial.",
+      "signal": "Fit + Intent + Progression passam de 50/70/85 pontos.",
+      "action": "50 vira MQA, 70 vira SQA, 85 entra em proposta, piloto ou business case."
+    },
+    {
+      "icon": "handshake",
+      "title": "Handoff comercial",
+      "objective": "Chegar em vendas com contexto.",
+      "signal": "Conta tem dor, autoridade, timing ou diagnóstico solicitado.",
+      "action": "SDR/Closer recebe resumo com persona, dor, conteúdo consumido, score, objeção e próximo CTA."
+    },
+    {
+      "icon": "refresh",
+      "title": "Reengajamento",
+      "objective": "Recuperar contas mornas.",
+      "signal": "No-show, formulário parcial, clique sem reunião ou closed-lost.",
+      "action": "Nova oferta com simulação, atualização de mercado, conteúdo de prova ou convite para mesa/webinar."
+    }
   ],
-
-  flowLanes: [
+  "flowLanes": [
     {
-      stage: 'Aquisição',
-      summary: 'Montar e limpar lista com fit real.',
-      cards: [
-        { icon: '🧭', title: 'Fontes de lista', text: 'Apollo, CRM, LinkedIn, inbound, base fria, listas setoriais e indicações.' },
-        { icon: '🏢', title: 'Conta-alvo', text: 'Provedor regional/médio com base recorrente, dor de churn e maturidade para SVA.' },
-        { icon: '👥', title: 'Comitê', text: 'CEO, Comercial, Produto/SVA, CS/Retenção e Financeiro mapeados por influência.' }
+      "stage": "Aquisição",
+      "summary": "Lista, ICP e enriquecimento.",
+      "cards": [
+        {
+          "icon": "target",
+          "title": "Fontes de lista",
+          "text": "LinkedIn, Apollo, CRM, inbound, base fria e listas setoriais."
+        },
+        {
+          "icon": "building",
+          "title": "Conta-alvo",
+          "text": "ISP regional/médio com base recorrente, dor de churn e maturidade para SVA."
+        },
+        {
+          "icon": "users",
+          "title": "Comitê",
+          "text": "CEO, Comercial, CS, Financeiro, TI e Marketing mapeados por influência."
+        }
       ]
     },
     {
-      stage: 'Engajamento',
-      summary: 'Criar consciência e autoridade.',
-      cards: [
-        { icon: '💼', title: 'LinkedIn + social', text: 'Post do Gabriel, conexão consultiva, prova de autoridade e ads por conta.' },
-        { icon: '📝', title: 'Blog + conteúdo', text: 'Churn, SVA, retenção, custo de reconquista e régua de ativação.' },
-        { icon: '📩', title: 'Apollo + email', text: 'Sequência por persona com CTA progressivo, sem pedir reunião cedo demais.' }
+      "stage": "Engajamento",
+      "summary": "Consciência, autoridade e sinal.",
+      "cards": [
+        {
+          "icon": "linkedin",
+          "title": "LinkedIn + social",
+          "text": "Posts do Gabriel, conexão consultiva e anúncios por conta."
+        },
+        {
+          "icon": "article",
+          "title": "Blog + conteúdo",
+          "text": "Churn, SVA, retenção, custo de reconquista e régua de ativação."
+        },
+        {
+          "icon": "mail",
+          "title": "Apollo + email",
+          "text": "Sequência por persona com CTA progressivo e sem pedir reunião cedo demais."
+        }
       ]
     },
     {
-      stage: 'Conversão',
-      summary: 'Transformar interesse em sinal.',
-      cards: [
-        { icon: '📄', title: '5 LPs por persona', text: 'Cada persona recebe dor, promessa, CTA e formulário próprios.' },
-        { icon: '🧮', title: 'Calculadora', text: 'Churn x SVA transforma dor em impacto financeiro e urgência.' },
-        { icon: '🎙️', title: 'Webinar / mesa', text: 'Retenção em provedores para multi-thread e contas estratégicas.' }
+      "stage": "Conversão",
+      "summary": "LPs, calculadora e diagnóstico.",
+      "cards": [
+        {
+          "icon": "layout",
+          "title": "5 LPs por persona",
+          "text": "Cada persona recebe dor, promessa, CTA e formulário próprios."
+        },
+        {
+          "icon": "calculator",
+          "title": "Calculadora",
+          "text": "Churn x SVA transforma dor em impacto financeiro e urgência."
+        },
+        {
+          "icon": "webinar",
+          "title": "Webinar / mesa",
+          "text": "Retenção em provedores para multi-thread e contas estratégicas."
+        }
       ]
     },
     {
-      stage: 'Comercial',
-      summary: 'Roteamento com contexto.',
-      cards: [
-        { icon: '🎯', title: 'LP Diagnóstico', text: 'CTA principal para mão levantada, briefing e geração de MQA.' },
-        { icon: '⚙️', title: 'Make + CRM', text: 'UTM, persona, score, campo ABM, tarefa, SLA e briefing automático.' },
-        { icon: '📲', title: 'WhatsApp permitido', text: 'Follow-up consultivo e recuperação de formulário para SDR/Closer.' }
+      "stage": "Comercial",
+      "summary": "Roteamento com contexto.",
+      "cards": [
+        {
+          "icon": "bullseye",
+          "title": "LP Diagnóstico",
+          "text": "CTA principal para mão levantada, briefing e geração de MQA."
+        },
+        {
+          "icon": "automation",
+          "title": "Make + CRM",
+          "text": "UTM, persona, score, campo ABM, tarefa, SLA e briefing automático."
+        },
+        {
+          "icon": "phone",
+          "title": "WhatsApp permitido",
+          "text": "Follow-up consultivo e recuperação de formulário para SDR/Closer."
+        }
       ]
     },
     {
-      stage: 'Pipeline',
-      summary: 'Converter em oportunidade.',
-      hot: true,
-      cards: [
-        { icon: '🤝', title: 'Diagnóstico 1:1', text: 'Reunião com dor, autoridade, timing, stakeholders e próximo passo.' },
-        { icon: '📊', title: 'Business case', text: 'Simulação, kit comercial, piloto e proposta para decisão.' },
-        { icon: '🚀', title: 'Oportunidade', text: 'Plano de 30 dias, valor de pipeline, previsão de fechamento e responsável.' }
+      "stage": "Pipeline",
+      "summary": "Oportunidade com próximo passo.",
+      "hot": true,
+      "cards": [
+        {
+          "icon": "handshake",
+          "title": "Diagnóstico 1:1",
+          "text": "Reunião com dor, autoridade, timing, stakeholders e próximo passo."
+        },
+        {
+          "icon": "chart",
+          "title": "Business case",
+          "text": "Simulação, kit comercial, piloto e proposta para decisão."
+        },
+        {
+          "icon": "rocket",
+          "title": "Oportunidade",
+          "text": "Plano de 30 dias, valor de pipeline, previsão de fechamento e responsável."
+        }
       ]
     }
   ],
-
-  emailPersonas: {
-    ceo: {
-      label: 'CEO / Dono',
-      pain: 'Churn, crescimento previsível e diferenciação estratégica.',
-      promise: 'Mostrar como saúde digital protege receita e cria uma tese de retenção.',
-      objection: '“Já tenho SVA e minha prioridade é vender internet.”',
-      pass: 'Vai para SDR quando pedir diagnóstico, simulação ou responder sobre churn/base ativa.',
-      sequence: [
-        { day: 'D0', trigger: 'Conta entra por lista ou pesquisa', subject: 'Enriquecimento e hipótese de dor', angle: 'Validar base, cidades, presença digital, oferta atual e decisor.', cta: 'Sem contato ainda' },
-        { day: 'D1', trigger: 'Fit confirmado', subject: 'O custo invisível de reconquistar clientes todos os meses', angle: 'Abrir a conversa mostrando que churn não é só preço; é percepção de valor.', cta: 'Ver diagnóstico de retenção' },
-        { day: 'D3', trigger: 'Abriu ou não respondeu', subject: 'Velocidade virou requisito. O que fica como diferencial?', angle: 'Reposicionar saúde digital como ativo estratégico de retenção.', cta: 'Receber checklist executivo' },
-        { day: 'D5', trigger: 'Clique leve ou conexão aceita', subject: 'LinkedIn do Gabriel + comentário consultivo', angle: 'Abordagem curta citando retenção, base e diferenciação sem forçar reunião.', cta: 'Responder com prioridade atual' },
-        { day: 'D7', trigger: 'Engajou com conteúdo', subject: 'Quanto 1% de churn custa na margem do provedor?', angle: 'Levar para impacto financeiro e simulação conservadora.', cta: 'Pedir simulação' },
-        { day: 'D10', trigger: 'Score >= 50', subject: 'Uma conversa para mapear retenção e SVA útil', angle: 'Convite objetivo para diagnóstico, com expectativa clara de 30 minutos.', cta: 'Agendar diagnóstico' },
-        { day: 'D14', trigger: 'Sem reunião marcada', subject: 'Fecho aqui ou faz sentido retomar depois?', angle: 'Break-up educado, abrindo espaço para timing futuro.', cta: 'Responder com melhor momento' }
-      ]
-    },
-    comercial: {
-      label: 'Diretor Comercial',
-      pain: 'Guerra de preço, objeção de velocidade e falta de argumento de valor.',
-      promise: 'Dar um argumento vendável para defender preço e aumentar percepção do pacote.',
-      objection: '“Meu time já vende com desconto e campanha.”',
-      pass: 'Vai para SDR quando pedir kit comercial, script ou demonstrar dor de conversão/margem.',
-      sequence: [
-        { day: 'D0', trigger: 'Conta mapeada', subject: 'Mapear time comercial e oferta atual', angle: 'Checar planos, combos, canais de venda e se já usam SVA como argumento.', cta: 'Sem contato ainda' },
-        { day: 'D1', trigger: 'Comercial identificado', subject: 'Um argumento além da velocidade', angle: 'Mostrar que vender internet por velocidade força desconto; saúde cria conversa de valor.', cta: 'Baixar kit comercial' },
-        { day: 'D3', trigger: 'Não respondeu', subject: '3 objeções que o vendedor pode quebrar com um SVA útil', angle: 'Conteúdo prático para SDR/vendedor: valor, família, recorrência e diferenciação.', cta: 'Ver scripts de abordagem' },
-        { day: 'D5', trigger: 'Clicou no kit', subject: 'Como transformar benefício em argumento de fechamento', angle: 'Exemplo de script para proposta e follow-up comercial.', cta: 'Pedir modelo de script' },
-        { day: 'D7', trigger: 'Interesse comercial', subject: 'O kit precisa caber no playbook do seu time', angle: 'Oferecer conversa sobre adaptação para canal de venda do provedor.', cta: 'Agendar conversa comercial' },
-        { day: 'D10', trigger: 'Score >= 50', subject: 'Diagnóstico rápido do discurso comercial', angle: 'Analisar onde o time perde margem por falta de argumento.', cta: 'Agendar diagnóstico' },
-        { day: 'D14', trigger: 'Sem avanço', subject: 'Deixo o kit com você para usar quando fizer sentido', angle: 'Reengajamento leve com material útil.', cta: 'Receber kit por email' }
-      ]
-    },
-    produto: {
-      label: 'Produto / SVA',
-      pain: 'SVA genérico, baixa ativação e pouca percepção de utilidade.',
-      promise: 'Comparar SVA de saúde com benefícios de baixo uso para qualificar portfólio.',
-      objection: '“Já temos SVAs suficientes.”',
-      pass: 'Vai para SDR quando baixar checklist, citar SVA atual ou pedir comparação.',
-      sequence: [
-        { day: 'D0', trigger: 'Responsável por produto encontrado', subject: 'Inventário de SVA e hipótese de maturidade', angle: 'Mapear benefícios atuais, ativação e como a oferta entra no pacote.', cta: 'Sem contato ainda' },
-        { day: 'D1', trigger: 'Fit de SVA', subject: 'Seu SVA gera uso ou só ocupa contrato?', angle: 'Provocar a diferença entre benefício listado e benefício lembrado pelo cliente.', cta: 'Receber checklist SVA útil' },
-        { day: 'D3', trigger: 'Sem resposta', subject: 'O que diferencia um SVA utilitário de um SVA de entretenimento', angle: 'Comparativo simples para educar produto e marketing.', cta: 'Ver comparativo' },
-        { day: 'D5', trigger: 'Baixou checklist', subject: 'Como ativar o benefício nos primeiros 30 dias', angle: 'Conectar produto com ativação e recorrência de uso.', cta: 'Receber régua de ativação' },
-        { day: 'D7', trigger: 'Engajou com ativação', subject: 'Critérios para testar saúde digital como SVA', angle: 'Propor piloto com critérios de sucesso e baixa fricção.', cta: 'Desenhar piloto' },
-        { day: 'D10', trigger: 'Score >= 50', subject: 'Conversa sobre portfólio de SVA e percepção de valor', angle: 'Diagnóstico de portfólio e aderência da YouSafer.', cta: 'Agendar diagnóstico de SVA' },
-        { day: 'D14', trigger: 'Sem avanço', subject: 'Checklist para revisar quando forem mexer no portfólio', angle: 'Manter top of mind para momento de revisão.', cta: 'Salvar checklist' }
-      ]
-    },
-    cs: {
-      label: 'CS / Retenção',
-      pain: 'Cancelamento silencioso, baixa ativação e cliente que não percebe valor.',
-      promise: 'Mostrar como ativação do benefício pode virar rotina de retenção.',
-      objection: '“Retenção é atendimento e suporte, não SVA.”',
-      pass: 'Vai para SDR quando pedir régua 30 dias, citar churn ou pedir rotina de ativação.',
-      sequence: [
-        { day: 'D0', trigger: 'CS/Retenção mapeado', subject: 'Mapear pontos de churn e canais de relacionamento', angle: 'Entender onboarding, inadimplência, suporte, cancelamento e comunicação de base.', cta: 'Sem contato ainda' },
-        { day: 'D1', trigger: 'Persona validada', subject: 'Benefício só fideliza quando o cliente lembra que ele existe', angle: 'Mostrar que SVA sem ativação não protege retenção.', cta: 'Baixar régua 30 dias' },
-        { day: 'D3', trigger: 'Sem resposta', subject: 'Os 7 primeiros dias definem se o benefício será usado', angle: 'Explicar ativação inicial e pontos de contato com a base.', cta: 'Ver rotina de ativação' },
-        { day: 'D5', trigger: 'Clicou na régua', subject: 'Como usar saúde digital em comunicação de retenção', angle: 'Exemplos de mensagens para base, WhatsApp e email.', cta: 'Receber modelos' },
-        { day: 'D7', trigger: 'Engajou com modelos', subject: 'Quando acionar o benefício antes do cancelamento', angle: 'Gatilhos de relacionamento: onboarding, NPS, inadimplência e churn risk.', cta: 'Mapear gatilhos' },
-        { day: 'D10', trigger: 'Score >= 50', subject: 'Diagnóstico de ativação e retenção', angle: 'Conversar sobre rotina, base e como encaixar YouSafer.', cta: 'Agendar diagnóstico' },
-        { day: 'D14', trigger: 'Sem avanço', subject: 'Deixo a régua para sua próxima campanha de base', angle: 'Reengajamento útil para momento de operação.', cta: 'Guardar régua' }
-      ]
-    },
-    financeiro: {
-      label: 'Financeiro / Controller',
-      pain: 'ROI, margem, payback, custo de churn e segurança da decisão.',
-      promise: 'Traduzir SVA de saúde em simulação conservadora de proteção de receita.',
-      objection: '“Qual o retorno e qual o risco de custo?”',
-      pass: 'Vai para SDR quando pedir simulação, informar base/ticket/churn ou questionar ROI.',
-      sequence: [
-        { day: 'D0', trigger: 'Financeiro identificado', subject: 'Preparar hipótese de impacto financeiro', angle: 'Levantar base, ticket, churn, margem e CAC estimado do provedor.', cta: 'Sem contato ainda' },
-        { day: 'D1', trigger: 'Fit confirmado', subject: 'O custo de churn raramente aparece inteiro no DRE', angle: 'Apresentar lógica conservadora de churn x retenção.', cta: 'Ver calculadora' },
-        { day: 'D3', trigger: 'Sem resposta', subject: 'Como comparar custo de SVA com custo de reconquista', angle: 'Conectar CAC, payback, perda de margem e proteção da base.', cta: 'Pedir simulação' },
-        { day: 'D5', trigger: 'Clicou na calculadora', subject: 'Quais dados precisamos para estimar impacto sem inflar promessa', angle: 'Pedir dados mínimos para simulação conservadora.', cta: 'Enviar base/ticket/churn' },
-        { day: 'D7', trigger: 'Dados parciais', subject: 'Cenário conservador para aprovar piloto', angle: 'Mostrar faixa de impacto, premissas e riscos mitigados.', cta: 'Receber cenário' },
-        { day: 'D10', trigger: 'Score >= 50', subject: 'Conversa financeira de 30 minutos', angle: 'Discutir viabilidade e critérios de piloto.', cta: 'Agendar conversa de ROI' },
-        { day: 'D14', trigger: 'Sem avanço', subject: 'Deixo a calculadora para quando forem revisar churn/margem', angle: 'Break-up com ativo prático.', cta: 'Salvar calculadora' }
-      ]
-    }
-  },
-
-  socialStrategies: {
-    LinkedIn: { role: 'Autoridade, multi-thread e influência no comitê.', rhythm: '3 posts semanais + social selling do Gabriel + ads por conta.', metric: 'Conexões aceitas, comentários de decisores, cliques em LP e stakeholders mapeados.' },
-    Instagram: { role: 'Explicação visual, prova, recortes educativos e remarketing.', rhythm: '3 reels/carrosséis semanais + stories de CTA + bastidores.', metric: 'Salvamentos, respostas, cliques, visitantes de LP e remarketing.' },
-    Facebook: { role: 'Distribuição, captura, remarketing e reengajamento de contas mornas.', rhythm: 'Campanhas por ativo + públicos de engajamento + formulários.', metric: 'Leads de conteúdo, custo por sinal, retorno de visitantes e MQA.' }
-  },
-
-  socialPosts: [
-    { channel: 'LinkedIn', title: 'Internet virou commodity. Retenção virou estratégia.', objective: 'Abrir a tese para CEO e decisores.', format: 'Post executivo do Gabriel', cta: 'Comentar “retenção” ou visitar diagnóstico' },
-    { channel: 'LinkedIn', title: 'O custo de reconquistar clientes todo mês', objective: 'Conectar churn com margem e previsibilidade.', format: 'Artigo curto + gráfico', cta: 'Pedir simulação' },
-    { channel: 'LinkedIn', title: 'SVA útil vs SVA que só ocupa contrato', objective: 'Educar Produto/SVA e Comercial.', format: 'Carrossel comparativo', cta: 'Baixar checklist' },
-    { channel: 'LinkedIn', title: 'Quem precisa comprar a tese dentro do provedor?', objective: 'Introduzir multi-thread e comitê.', format: 'Post framework', cta: 'Ver mapa de stakeholders' },
-    { channel: 'LinkedIn', title: 'Benefício só fideliza quando vira uso', objective: 'Trazer CS/Retenção para a conversa.', format: 'Post de ativação', cta: 'Receber régua 30 dias' },
-    { channel: 'LinkedIn', title: 'Como vender internet sem entrar em guerra de preço', objective: 'Falar com Comercial sobre argumento de valor.', format: 'Post com script', cta: 'Baixar kit comercial' },
-    { channel: 'LinkedIn', title: 'Quando uma conta está quente o suficiente para vendas?', objective: 'Explicar score e progressão ABM.', format: 'Conteúdo educativo', cta: 'Ver Score ABM' },
-    { channel: 'LinkedIn', title: 'Retenção para provedores: como sair da guerra de preço', objective: 'Chamar para webinar/mesa.', format: 'Evento LinkedIn', cta: 'Inscrever-se' },
-    { channel: 'LinkedIn', title: 'Plano de 30 dias para validar SVA de saúde', objective: 'Levar contas quentes para piloto.', format: 'Post plano de ação', cta: 'Agendar diagnóstico' },
-
-    { channel: 'Instagram', title: '3 sinais de que seu provedor virou commodity', objective: 'Educar rápido com linguagem visual.', format: 'Reels 30s', cta: 'Ir para diagnóstico' },
-    { channel: 'Instagram', title: 'SVA útil ou SVA esquecido?', objective: 'Comparar benefícios de forma simples.', format: 'Carrossel', cta: 'Baixar checklist' },
-    { channel: 'Instagram', title: 'Quanto custa perder um cliente?', objective: 'Levar dor financeira para tela simples.', format: 'Reels cálculo rápido', cta: 'Pedir simulação' },
-    { channel: 'Instagram', title: 'Os primeiros 7 dias de ativação do benefício', objective: 'Mostrar processo para CS.', format: 'Carrossel timeline', cta: 'Receber régua' },
-    { channel: 'Instagram', title: 'Como explicar saúde digital no pacote de internet', objective: 'Ajudar Comercial a vender.', format: 'Reels com roteiro', cta: 'Baixar kit' },
-    { channel: 'Instagram', title: 'O que o cliente percebe além da velocidade?', objective: 'Reforçar valor percebido.', format: 'Stories + enquete', cta: 'Responder enquete' },
-    { channel: 'Instagram', title: 'Bastidores de uma estratégia de retenção', objective: 'Humanizar e aproximar marca.', format: 'Stories bastidores', cta: 'Enviar dúvida' },
-    { channel: 'Instagram', title: 'Mitos sobre SVA de saúde', objective: 'Quebrar objeções de forma leve.', format: 'Carrossel mito/verdade', cta: 'Ver FAQ' },
-    { channel: 'Instagram', title: 'Checklist visual do provedor pronto para SVA', objective: 'Qualificar fit com conteúdo.', format: 'Carrossel checklist', cta: 'Salvar e baixar completo' },
-
-    { channel: 'Facebook', title: 'Diagnóstico de Retenção para Provedores', objective: 'Capturar contas com dor explícita.', format: 'Anúncio de conversão', cta: 'Agendar diagnóstico' },
-    { channel: 'Facebook', title: 'Checklist de SVA de alto valor percebido', objective: 'Gerar leads de Produto/SVA e Comercial.', format: 'Lead ad / LP', cta: 'Baixar checklist' },
-    { channel: 'Facebook', title: 'Calculadora churn x SVA', objective: 'Atrair Financeiro e CEO.', format: 'Anúncio com número', cta: 'Pedir simulação' },
-    { channel: 'Facebook', title: 'Kit comercial para vender sem desconto', objective: 'Gerar interesse comercial.', format: 'Criativo estático + prova', cta: 'Baixar kit' },
-    { channel: 'Facebook', title: 'Régua de ativação em 30 dias', objective: 'Atrair CS/Retenção.', format: 'Anúncio carrossel', cta: 'Receber régua' },
-    { channel: 'Facebook', title: 'Retargeting: visitou LP e não converteu', objective: 'Recuperar interesse sem pressão.', format: 'Remarketing', cta: 'Continuar diagnóstico' },
-    { channel: 'Facebook', title: 'Retargeting: abriu formulário e abandonou', objective: 'Transformar abandono em MQA.', format: 'Anúncio + WhatsApp permitido', cta: 'Retomar preenchimento' },
-    { channel: 'Facebook', title: 'Convite para mesa sobre retenção em ISPs', objective: 'Aquecer contas e criar autoridade.', format: 'Evento / inscrições', cta: 'Inscrever-se' },
-    { channel: 'Facebook', title: 'Reengajamento de contas closed-lost/no-show', objective: 'Reabrir conversa com nova oferta.', format: 'Campanha de reativação', cta: 'Pedir cenário atualizado' }
-  ],
-
-  personaLps: [
-    { persona: 'CEO / Dono', asset: 'Diagnóstico de Retenção para Provedores', reason: 'Decide prioridade estratégica e precisa enxergar proteção de receita.', hook: 'Quanto custa perder 1% da sua base todos os meses?', promise: 'Mapear risco de churn, valor percebido e potencial de SVA útil.', cta: 'Agendar diagnóstico', fields: ['base ativa', 'churn estimado', 'ticket médio', 'região', 'timing'] },
-    { persona: 'Diretor Comercial', asset: 'Kit para vender internet sem desconto', reason: 'Precisa de argumento para defender preço e margem.', hook: 'Um argumento além da velocidade para o seu time vender melhor.', promise: 'Scripts e argumentos para vender saúde digital dentro do pacote.', cta: 'Baixar kit comercial', fields: ['time comercial', 'oferta atual', 'objeções', 'canais de venda'] },
-    { persona: 'Produto / SVA', asset: 'Checklist de SVA de alto valor percebido', reason: 'Compara benefício genérico com utilidade real.', hook: 'Seu SVA gera uso ou só ocupa espaço no contrato?', promise: 'Critérios para avaliar se o benefício gera percepção e recorrência.', cta: 'Receber checklist', fields: ['SVAs atuais', 'adesão', 'uso percebido', 'ativação'] },
-    { persona: 'CS / Retenção', asset: 'Régua de ativação do benefício em 30 dias', reason: 'Precisa transformar benefício contratado em uso lembrado.', hook: 'SVA sem ativação não gera retenção.', promise: 'Roteiro de contatos para fazer o cliente lembrar e usar o benefício.', cta: 'Baixar régua 30 dias', fields: ['onboarding', 'canais', 'base', 'gatilhos de cancelamento'] },
-    { persona: 'Financeiro / Controller', asset: 'Calculadora churn x SVA de saúde', reason: 'Precisa validar ROI, payback e risco financeiro.', hook: 'Compare o custo do churn com o custo de proteger a base.', promise: 'Simulação conservadora para apoiar decisão e piloto.', cta: 'Pedir simulação', fields: ['ticket médio', 'churn', 'margem', 'CAC', 'base ativa'] }
-  ],
-
-  crmCadence: [
-    { day: 'D0', title: 'Conta entra no CRM', trigger: 'Apollo, social, LP, inbound, evento, base fria ou indicação', action: 'Criar/atualizar conta, contato, origem, tier, persona e responsável.' },
-    { day: 'D1', title: 'Primeiro toque educativo', trigger: 'Fit mínimo validado', action: 'Disparo da sequência da persona + task de social selling para Tier 1/2.' },
-    { day: 'D3', title: 'Segundo toque por dor', trigger: 'Sem resposta ou clique leve', action: 'Enviar email específico da persona com ativo de meio de funil.' },
-    { day: 'D5', title: 'Multicanal', trigger: 'Abertura, clique, conexão aceita ou visita em LP', action: 'LinkedIn do Gabriel + remarketing + atualização do Intent Score.' },
-    { day: 'D7', title: 'Oferta de conversão', trigger: 'Conta engajada sem mão levantada', action: 'Enviar checklist, calculadora, régua ou kit conforme persona.' },
-    { day: 'D10', title: 'MQA', trigger: 'Score >= 50 ou formulário parcial relevante', action: 'Criar tarefa SDR em até 24h com contexto, dor e CTA sugerido.' },
-    { day: 'D14', title: 'SQA', trigger: 'Score >= 70, resposta direta ou diagnóstico aceito', action: 'Briefing para Gabriel/Closer com autoridade, timing e próximos passos.' },
-    { day: 'D21', title: 'Reengajamento', trigger: 'No-show, MQA sem reunião, visitante sem conversão ou closed-lost', action: 'Nova oferta: simulação, benchmark, atualização de mercado ou mesa/webinar.' },
-    { day: 'D30', title: 'War room mensal', trigger: 'Fechamento do ciclo', action: 'Revisar contas quentes, objeções, stakeholders faltantes, pipeline e aprendizados.' }
-  ],
-
-  crmFields: ['tier da conta', 'persona principal', 'origem/canal/UTM', 'conteúdo consumido', 'dor declarada', 'ABM score atual', 'status MQA/SQA/SQL', 'próximo passo', 'responsável', 'SLA', 'stakeholders mapeados', 'data da última interação'],
-
-  contentLibrary: [
-    { type: 'Blog', title: 'Por que provedores perdem clientes mesmo entregando qualidade', use: 'Topo de funil para CEO e CS.', next: 'Diagnóstico de Retenção' },
-    { type: 'Blog', title: 'Como vender plano de internet sem entrar em guerra de preço', use: 'Comercial e social selling.', next: 'Kit comercial' },
-    { type: 'Planilha', title: 'Custo de churn: impacto real na margem do provedor', use: 'Financeiro e CEO.', next: 'Calculadora / simulação' },
-    { type: 'Checklist', title: 'SVA de alto valor percebido', use: 'Produto/SVA e Comercial.', next: 'Checklist LP' },
-    { type: 'Template', title: 'Régua de relacionamento para provedores', use: 'CS e Retenção.', next: 'Régua 30 dias' },
-    { type: 'Webinar', title: 'Retenção para provedores: como sair da guerra de preço', use: 'Multi-thread e autoridade.', next: 'Diagnóstico 1:1' },
-    { type: 'Carrossel', title: 'Score de intenção: quando a conta está pronta para vendas', use: 'Alinhar Marketing e Vendas.', next: 'Score ABM' },
-    { type: 'PDF', title: 'Kit comercial: saúde digital no pacote de internet', use: 'Apoiar vendedor e SDR.', next: 'Reunião comercial' },
-    { type: 'Case/Prova', title: 'Uso do benefício e prova de valor percebido', use: 'Reduzir risco e objeção.', next: 'Business case' }
-  ],
-
-  plays: [
-    { stage: 'Reconhecimento', code: 'R1', name: 'Lista setorial/Apollo | Dor de churn', priority: 'Alta', owners: ['Vinicius / Conteúdo', 'Giullio / Operações'], desc: 'Construir lista de contas com hipótese de dor, clusterizar por tier e iniciar tese de retenção.' },
-    { stage: 'Reconhecimento', code: 'R2', name: 'LinkedIn Ads por contas-alvo', priority: 'Alta', owners: ['Vinicius', 'Tráfego / Giullio'], desc: 'Distribuir tese para empresas e cargos prioritários com foco em reconhecimento de problema.' },
-    { stage: 'Reconhecimento', code: 'R3', name: 'Social selling Gabriel + decisores', priority: 'Alta', owners: ['Gabriel / Vinicius', 'SDR / Operações'], desc: 'Conectar decisores e influenciadores com abordagem consultiva, sem pedir reunião cedo demais.' },
-    { stage: 'Reconhecimento', code: 'R4', name: 'Conteúdo “internet virou commodity”', priority: 'Média', owners: ['Conteúdo', 'Social Media'], desc: 'Abrir a conversa sobre preço, velocidade, valor percebido e diferencial utilitário.' },
-    { stage: 'Reconhecimento', code: 'R5', name: 'Podcast/entrevista com líderes ISP', priority: 'Média', owners: ['Vinicius / Gabriel', 'Operações'], desc: 'Gerar autoridade e prova de categoria para nutrir contas frias e mornas.' },
-    { stage: 'Engajamento Inicial', code: 'E1', name: 'Diagnóstico de Retenção para Provedores', priority: 'Alta', owners: ['Vinicius', 'LP / Make / CRM'], desc: 'Oferta central para converter interesse em sinal qualificado de dor e abertura comercial.' },
-    { stage: 'Engajamento Inicial', code: 'E2', name: 'Checklist de SVA de alto valor percebido', priority: 'Alta', owners: ['Conteúdo', 'Design / LP'], desc: 'Ativo de meio de funil para mostrar diferença entre benefício genérico e SVA útil.' },
-    { stage: 'Engajamento Inicial', code: 'E3', name: 'Sequência Apollo educativa por persona', priority: 'Alta', owners: ['Vinicius', 'Giullio / Apollo'], desc: 'Cadência CEO, Comercial, Produto/SVA, CS e Financeiro com CTAs progressivos.' },
-    { stage: 'Engajamento Inicial', code: 'E4', name: 'Newsletter/email “churn vs valor percebido”', priority: 'Média', owners: ['Conteúdo', 'CRM'], desc: 'Nutrição recorrente para contas que ainda não estão prontas para reunião.' },
-    { stage: 'Engajamento Inicial', code: 'E5', name: 'Remarketing visitantes/formulários abertos', priority: 'Alta', owners: ['Tráfego', 'CRM'], desc: 'Recuperar intenção sem depender de novo lead.' },
-    { stage: 'Engajamento Significativo', code: 'M1', name: 'Simulação financeira churn vs SVA', priority: 'Alta', owners: ['Vinicius', 'LP / Planilha'], desc: 'Traduzir dor em impacto financeiro para CEO e Financeiro.' },
-    { stage: 'Engajamento Significativo', code: 'M2', name: 'Webinar/mesa “retenção em provedores”', priority: 'Alta', owners: ['Gabriel / Vinicius', 'Eventos / CRM'], desc: 'Criar autoridade e multi-thread com contas estratégicas.' },
-    { stage: 'Engajamento Significativo', code: 'M3', name: 'Comparativo SVA utilitário vs entretenimento', priority: 'Média', owners: ['Conteúdo', 'Design'], desc: 'Educar Produto/SVA e Comercial sobre valor percebido.' },
-    { stage: 'Engajamento Significativo', code: 'M4', name: 'Multi-thread por comitê de compra', priority: 'Alta', owners: ['Vinicius', 'SDR / Apollo'], desc: 'Cercar decisor, influenciadores e financeiro com mensagens diferentes.' },
-    { stage: 'Engajamento Significativo', code: 'M5', name: 'Caso/prova de uso do benefício', priority: 'Alta', owners: ['YouSafer', 'Conteúdo'], desc: 'Reduzir risco percebido e facilitar decisão.' },
-    { stage: 'Conversão', code: 'C1', name: 'Oferta de Diagnóstico 1:1', priority: 'Alta', owners: ['Vinicius', 'SDR / Gabriel'], desc: 'Transformar MQA em conversa real com contexto e próximo passo.' },
-    { stage: 'Conversão', code: 'C2', name: 'Play SQA com decisor + proposta', priority: 'Alta', owners: ['Gabriel', 'Closer'], desc: 'Levar conta com dor e timing para proposta, piloto ou business case.' },
-    { stage: 'Conversão', code: 'C3', name: 'Kit comercial para vender SVA na base', priority: 'Alta', owners: ['Conteúdo', 'Comercial'], desc: 'Apoiar adoção interna e argumento comercial do provedor.' },
-    { stage: 'Conversão', code: 'C4', name: 'Retargeting de MQA sem reunião', priority: 'Média', owners: ['Tráfego', 'CRM'], desc: 'Reativar contas com intenção mas sem agenda marcada.' },
-    { stage: 'Reengajamento', code: 'G1', name: 'Closed-lost/no-show 6+ meses', priority: 'Média', owners: ['CRM', 'SDR'], desc: 'Retomar contas com nova tese e oferta de simulação.' },
-    { stage: 'Reengajamento', code: 'G2', name: 'Reengajar leads antigos e listas setoriais', priority: 'Alta', owners: ['Vinicius', 'CRM'], desc: 'Transformar bases antigas em novas conversas sem depender de evento.' },
-    { stage: 'Reengajamento', code: 'G3', name: 'Conteúdo “o que mudou no mercado ISP”', priority: 'Média', owners: ['Conteúdo', 'Social'], desc: 'Criar motivo legítimo para retomar contas frias.' },
-    { stage: 'Reengajamento', code: 'G4', name: 'Nova oferta de simulação de impacto', priority: 'Alta', owners: ['Financeiro / Comercial', 'CRM'], desc: 'Dar argumento concreto para reabrir conversa.' },
-    { stage: 'Pipeline', code: 'P1', name: 'Plano de próximos passos em 30 dias', priority: 'Alta', owners: ['Gabriel / Closer', 'Operações'], desc: 'Fechar a reunião com plano, responsáveis, critérios de sucesso e forecast.' }
-  ],
-
-  roadmap: [
-    { week: 'S1', title: 'Base e ICP', desc: 'Confirmar contas, tiers, critérios de exclusão, personas e campos obrigatórios.' },
-    { week: 'S2', title: 'LPs e tracking', desc: 'Publicar 5 LPs, UTMs, pixels, formulários e integração Make/CRM.' },
-    { week: 'S3', title: 'Conteúdo e social', desc: 'Subir calendário LinkedIn, Instagram, Facebook, blog e remarketing por estágio.' },
-    { week: 'S4', title: 'Cadência Apollo/CRM', desc: 'Ativar sequência por persona, gatilhos de score e SLA MQA/SQA.' },
-    { week: 'S5', title: 'War room comercial', desc: 'Revisar contas quentes, objeções, respostas, stakeholders e próximos passos.' },
-    { week: 'S6', title: 'Revisão executiva', desc: 'Apresentar evolução: contas engajadas, MQAs, SQAs, reuniões, pipeline e aprendizados.' }
-  ],
-
-  decisions: ['Aprovar ICP e lista Tier 1/2', 'Validar oferta principal: Diagnóstico de Retenção', 'Aprovar 5 LPs por persona', 'Aprovar cadências por persona', 'Definir SLA MQA → SQA → Closer', 'Separar provas/cases e números', 'Publicar tracking e campos CRM', 'Iniciar piloto ABM de 30 dias']
-,
-
-  scrapCluster: {
-  "source": {
-    "validLeads": "179",
-    "uniqueAccounts": "90",
-    "personas": "5 principais + marketing opcional",
-    "baseName": "YouSafer_ABM_Clusterizacao_Leads_Personas.xlsx",
-    "rule": "Score ABM: fit ISP + profundidade da conta + senioridade + comitê + domínio corporativo",
-    "lgpd": "Usar apenas contatos com consentimento SIM e respeitar opt-out."
-  },
-  "abmTypes": {
-    "1:1": {
-      "label": "ABM 1:1",
-      "short": "1:1",
-      "position": "Conta estratégica individual",
-      "criteria": "Score muito alto, decisor ou conta Tier 1 com poder de compra claro.",
-      "motion": "Pesquisa individual → email consultivo → LinkedIn Gabriel → diagnóstico executivo → business case.",
-      "steps": [
-        "Pesquisa individual no LinkedIn/site",
-        "Email 1:1 com tese de retenção",
-        "Conexão Gabriel + comentário contextual",
-        "Diagnóstico executivo e simulação",
-        "Proposta, piloto ou plano 30 dias"
-      ]
-    },
-    "1:Poucos": {
-      "label": "ABM 1:poucos",
-      "short": "1:Poucos",
-      "position": "Cluster de contas/personas semelhantes",
-      "criteria": "Conta com múltiplos contatos, score bom ou dor clara por persona.",
-      "motion": "Cluster por dor → LP/persona → cadência Apollo/CRM → remarketing → SQA.",
-      "steps": [
-        "Agrupar por persona e dor",
-        "Enviar LP/ativo específico",
-        "Cadência Apollo + CRM por cargo",
-        "Retargeting e prova social",
-        "SDR/Closer com contexto da conta"
-      ]
-    },
-    "1:Muitos": {
-      "label": "ABM 1:muitos",
-      "short": "1:Muitos",
-      "position": "Base ampla / educação em escala",
-      "criteria": "Fit ou interesse inicial, mas sem sinal forte para abordagem direta.",
-      "motion": "Conteúdo → social → blog → score → aquecimento até virar 1:poucos.",
-      "steps": [
-        "Conteúdo LinkedIn/Instagram/Facebook",
-        "Blog e newsletter por dor",
-        "Remarketing por visitantes e cliques",
-        "Score de intenção no CRM",
-        "Migração para cluster 1:poucos"
-      ]
-    }
-  },
-  "personas": [
-    {
-      "key": "decisor",
-      "label": "CEO / Dono",
-      "sourceLabel": "01 Decisor Final / Dono",
-      "role": "Decide prioridade estratégica, orçamento e tese de retenção.",
-      "crmSteps": [
+  "emailPersonas": {
+    "decisor": {
+      "label": "Decisor final / Dono",
+      "pain": "Churn, margem, diferenciação e decisão estratégica de produto/benefício.",
+      "promise": "Mostrar que saúde digital pode proteger a base, criar valor percebido e reduzir dependência de preço.",
+      "objection": "“Já temos SVA” ou “não quero mais um fornecedor”.",
+      "pass": "Passa para SDR quando responder sobre churn, pedir diagnóstico, aceitar simulação ou envolver outro decisor.",
+      "sequence": [
         {
           "day": "D0",
-          "channel": "E-mail 1:1",
-          "goal": "Abrir dor executiva",
-          "message": "{{Nome}}, olhando para provedores como {{Empresa}}, a discussão não é mais “ter mais um SVA”, é proteger margem e reduzir churn sem entrar em guerra de preço. Fizemos um diagnóstico rápido para medir onde a base pode estar perdendo valor percebido.",
-          "cta": "Responder “quero diagnóstico”",
-          "condition": "Abriu/clicou/respondeu",
-          "tag": "DECISOR_D0",
-          "nextStatus": "Engajamento inicial"
+          "trigger": "Fit confirmado",
+          "subject": "Diagnóstico executivo de retenção",
+          "angle": "Abrir dor de margem e churn sem vender produto cedo demais. A mensagem deve parecer consultiva e exclusiva.",
+          "cta": "Responder “quero diagnóstico”"
         },
         {
           "day": "D2",
-          "channel": "LinkedIn conexão",
-          "goal": "Criar familiaridade",
-          "message": "{{Nome}}, vi que você está à frente da {{Empresa}}. Estou conectando com donos de provedores que estão olhando retenção e diferenciação com mais profundidade.",
-          "cta": "Aceitar conexão",
-          "condition": "Conectou",
-          "tag": "DECISOR_D2",
-          "nextStatus": "Initial engagement"
+          "trigger": "Abertura ou visita",
+          "subject": "Velocidade virou requisito. O que fica como diferencial?",
+          "angle": "Mostrar que velocidade/preço são copiáveis, mas valor percebido na base cria defesa competitiva.",
+          "cta": "Ver tese em 2 minutos"
         },
         {
           "day": "D5",
-          "channel": "E-mail prova/insight",
-          "goal": "Gerar MQA",
-          "message": "Trouxe uma simulação simples: quanto custa perder 1% da base por mês versus criar um argumento de valor percebido com saúde e assistência. Vale eu te mandar a conta?",
-          "cta": "Receber simulação",
-          "condition": "Resposta positiva",
-          "tag": "DECISOR_D5",
-          "nextStatus": "MQA"
-        }
-      ],
-      "leads": [
-        {
-          "rank": 1,
-          "name": "RAPHAEL ANTONIO NOGUEIRA",
-          "role": "PROPRIETARIO",
-          "company": "NEWNET",
-          "city": "MATEUS LEME/MG",
-          "email": "newnetml@gmail.com",
-          "phone": "31971895508",
-          "score": 156,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 4,
-          "personas": 3,
-          "seniority": "C-level / Dono",
-          "abmType": "1:1",
-          "reason": "Score 156 com senioridade C-level / Dono e fit ICP Provedor/Telecom; abordagem individual para gerar diagnóstico executivo.",
-          "clusterReason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-          "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
-          "tag": "ABM_YouSafer_01_T1",
-          "source": ""
+          "trigger": "Clique ou conexão",
+          "subject": "Quanto custa perder 1% da base por mês?",
+          "angle": "Levar a discussão para impacto financeiro e simulação conservadora de churn x SVA.",
+          "cta": "Receber simulação"
         },
         {
-          "rank": 2,
-          "name": "ROMULO DA SILVA TEIXEIRA",
-          "role": "PROPRIETÁRIO",
-          "company": "ALFA TELECOM",
-          "city": "PARACATU/MG",
-          "email": "teixeiraromulo@hotmail.com",
-          "phone": "38998428938",
-          "score": 156,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 4,
-          "personas": 3,
-          "seniority": "C-level / Dono",
-          "abmType": "1:1",
-          "reason": "Score 156 com senioridade C-level / Dono e fit ICP Provedor/Telecom; abordagem individual para gerar diagnóstico executivo.",
-          "clusterReason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-          "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
-          "tag": "ABM_YouSafer_01_T1",
-          "source": ""
+          "day": "D7",
+          "trigger": "Interação social",
+          "subject": "Comentário do Gabriel + prova de autoridade",
+          "angle": "Aproximação executiva pelo LinkedIn, conectando retenção e diferenciação em ISPs.",
+          "cta": "Aceitar conexão"
         },
         {
-          "rank": 3,
-          "name": "LUÍS GUSTAVO BALDIM",
-          "role": "DIRETOR",
-          "company": "VBTELECOM",
-          "city": "MONSENHOR PAULO/MG",
-          "email": "luis.gustavo@vbtelecom.net.br",
-          "phone": "35999432682",
-          "score": 156,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 2,
-          "personas": 3,
-          "seniority": "C-level / Dono",
-          "abmType": "1:1",
-          "reason": "Score 156 com senioridade C-level / Dono e fit ICP Provedor/Telecom; abordagem individual para gerar diagnóstico executivo.",
-          "clusterReason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-          "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
-          "tag": "ABM_YouSafer_01_T1",
-          "source": "https://vbtelecom.net.br"
+          "day": "D10",
+          "trigger": "Score >= 50",
+          "subject": "Conversa de 20 minutos para validar fit",
+          "angle": "Convite claro para diagnóstico com contexto da conta, sem chamada genérica.",
+          "cta": "Agendar diagnóstico"
         },
         {
-          "rank": 4,
-          "name": "RODOLFO PERNA FERREIRA",
-          "role": "DIRETOR EXECUTIVO",
-          "company": "VBTELECOM",
-          "city": "MONSENHOR PAULO/MG",
-          "email": "rodolfo@vbtelecom.net.br",
-          "phone": "35999520045",
-          "score": 156,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 2,
-          "personas": 3,
-          "seniority": "C-level / Dono",
-          "abmType": "1:1",
-          "reason": "Score 156 com senioridade C-level / Dono e fit ICP Provedor/Telecom; abordagem individual para gerar diagnóstico executivo.",
-          "clusterReason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-          "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
-          "tag": "ABM_YouSafer_01_T1",
-          "source": "https://vbtelecom.net.br"
-        },
-        {
-          "rank": 5,
-          "name": "HUMBERTO MANSUR RODRIGUES DA SILVA",
-          "role": "SÓCIO PROPRIETÁRIO",
-          "company": "ITD INTERNET",
-          "city": "SIMONÉSIA/MG",
-          "email": "betomansur3@hotmaip.com",
-          "phone": "33984253595",
-          "score": 141,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 3,
-          "personas": 2,
-          "seniority": "C-level / Dono",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 3 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-          "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
-          "tag": "ABM_YouSafer_01_T2",
-          "source": ""
-        },
-        {
-          "rank": 6,
-          "name": "SAMIR MANSUR RODRIGUES DA SILVA",
-          "role": "CEO",
-          "company": "ITD INTERNET",
-          "city": "SIMONÉSIA/MG",
-          "email": "samirmansur2@gmail.com",
-          "phone": "33999118361",
-          "score": 141,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 3,
-          "personas": 2,
-          "seniority": "C-level / Dono",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 3 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-          "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
-          "tag": "ABM_YouSafer_01_T2",
-          "source": ""
-        },
-        {
-          "rank": 7,
-          "name": "FABIO BRUNO NUNES SANTOS",
-          "role": "DIRETOR COMERCIAL",
-          "company": "ITANET",
-          "city": "ITABIRA/MG",
-          "email": "fabio@itanel.com.br",
-          "phone": "31987720208",
-          "score": 141,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 1,
-          "personas": 2,
-          "seniority": "C-level / Dono",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 1 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-          "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
-          "tag": "ABM_YouSafer_01_T2",
-          "source": "https://itanel.com.br"
-        },
-        {
-          "rank": 8,
-          "name": "FELIPE DE ASSIS BODEVAN",
-          "role": "SÓCIO ADM",
-          "company": "RAIMAX",
-          "city": "SAO LOURENCO/MG",
-          "email": "felipe@raimaxfibra.com.br",
-          "phone": "35999057810",
-          "score": 141,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 1,
-          "personas": 2,
-          "seniority": "C-level / Dono",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 1 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-          "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
-          "tag": "ABM_YouSafer_01_T2",
-          "source": "https://raimaxfibra.com.br"
-        },
-        {
-          "rank": 9,
-          "name": "PAULO JOSÉ MARTINS SANTOS",
-          "role": "DIRETOR",
-          "company": "JETNETWORKS",
-          "city": "BELO HORIZONTE/MG",
-          "email": "paulo@jetnetworks.com.br",
-          "phone": "31988020936",
-          "score": 134,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 1,
-          "personas": 1,
-          "seniority": "C-level / Dono",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 1 contato(s) e 1 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-          "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
-          "tag": "ABM_YouSafer_01_T2",
-          "source": "https://jetnetworks.com.br"
-        },
-        {
-          "rank": 10,
-          "name": "HUMBERTO SOUZA BRANDAO",
-          "role": "DIRETOR",
-          "company": "GDNET",
-          "city": "BELO HORIZONTE/MG",
-          "email": "beto.cetec@gmail.com",
-          "phone": "31992762843",
-          "score": 133,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 2,
-          "personas": 2,
-          "seniority": "C-level / Dono",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 2 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-          "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
-          "tag": "ABM_YouSafer_01_T2",
-          "source": ""
+          "day": "D14",
+          "trigger": "Sem resposta",
+          "subject": "Fecho aqui ou retomo no próximo ciclo?",
+          "angle": "Break-up educado, preservando relacionamento e timing futuro.",
+          "cta": "Indicar melhor momento"
         }
       ]
     },
-    {
-      "key": "comercial",
+    "comercial": {
       "label": "Comercial / Vendas",
-      "sourceLabel": "02 Comercial / Vendas",
-      "role": "Sente a dor de vender valor sem depender de desconto.",
-      "crmSteps": [
+      "pain": "Time preso em desconto, velocidade e comparação direta com concorrentes.",
+      "promise": "Dar ao comercial um argumento de valor para vender plano melhor e defender preço.",
+      "objection": "“Meu time vende com campanha e desconto”.",
+      "pass": "Passa quando pedir kit, script, exemplo de pitch ou reunião para adaptar discurso comercial.",
+      "sequence": [
         {
           "day": "D0",
-          "channel": "E-mail",
-          "goal": "Dor comercial",
-          "message": "{{Nome}}, quando o comercial vende só velocidade/preço, o concorrente sempre consegue copiar. O ponto é transformar benefício de saúde em argumento para vender plano de maior valor.",
-          "cta": "Receber kit comercial",
-          "condition": "Clique/abertura",
-          "tag": "COMERCIAL_D0",
-          "nextStatus": "Initial engagement"
+          "trigger": "Cargo comercial",
+          "subject": "Um argumento além da velocidade",
+          "angle": "Mostrar que saúde vira argumento de valor para planos premium e redução de desconto.",
+          "cta": "Receber kit comercial"
         },
         {
           "day": "D3",
-          "channel": "LinkedIn",
-          "goal": "Pitch individual",
-          "message": "Montei um pitch de abordagem para time comercial de provedor vender valor sem depender de desconto. Posso te enviar?",
-          "cta": "Pedir kit",
-          "condition": "Resposta",
-          "tag": "COMERCIAL_D3",
-          "nextStatus": "Meaningful engagement"
+          "trigger": "Sem resposta",
+          "subject": "3 objeções que o vendedor pode quebrar com SVA útil",
+          "angle": "Conteúdo prático para time de vendas usar em proposta, WhatsApp e follow-up.",
+          "cta": "Ver scripts"
+        },
+        {
+          "day": "D5",
+          "trigger": "Clique no kit",
+          "subject": "Pitch pronto para vender valor percebido",
+          "angle": "Enviar modelo de abordagem e como inserir o benefício no pacote comercial.",
+          "cta": "Pedir modelo"
         },
         {
           "day": "D7",
-          "channel": "WhatsApp/e-mail",
-          "goal": "Converter reunião",
-          "message": "Dá para adaptar esse pitch para a realidade da {{Empresa}} em 20 min e deixar pronto para o time usar.",
-          "cta": "Agendar conversa",
-          "condition": "Aceite reunião",
-          "tag": "COMERCIAL_D7",
-          "nextStatus": "SQA"
-        }
-      ],
-      "leads": [
-        {
-          "rank": 1,
-          "name": "JULIO CESAR DE BRITO",
-          "role": "GERENTE COMERCIAL",
-          "company": "NET VALE LTDA",
-          "city": "CORONEL FABRICIANO/MG",
-          "email": "julio@netvale.psi.br",
-          "phone": "31985852034",
-          "score": 156,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 4,
-          "personas": 3,
-          "seniority": "Gerência",
-          "abmType": "1:1",
-          "reason": "Score 156 com senioridade Gerência e fit ICP Provedor/Telecom; abordagem individual para gerar diagnóstico executivo.",
-          "clusterReason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-          "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
-          "tag": "ABM_YouSafer_02_T1",
-          "source": "https://netvale.psi.br"
+          "trigger": "Interesse comercial",
+          "subject": "Adaptar para a realidade da sua operação",
+          "angle": "Conectar com rotina do time e playbook do provedor.",
+          "cta": "Agendar conversa comercial"
         },
         {
-          "rank": 2,
-          "name": "RODOLFO PERNA FERREIRA",
-          "role": "DIRETOR EXECUTIVO",
-          "company": "VBTELECOM",
-          "city": "MONSENHOR PAULO/MG",
-          "email": "rodolfo@vbtelecom.net.br",
-          "phone": "35999520045",
-          "score": 156,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 2,
-          "personas": 3,
-          "seniority": "C-level / Dono",
-          "abmType": "1:1",
-          "reason": "Score 156 com senioridade C-level / Dono e fit ICP Provedor/Telecom; abordagem individual para gerar diagnóstico executivo.",
-          "clusterReason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-          "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
-          "tag": "ABM_YouSafer_02_T1",
-          "source": "https://vbtelecom.net.br"
+          "day": "D10",
+          "trigger": "Score >= 50",
+          "subject": "Diagnóstico do discurso comercial",
+          "angle": "Analisar onde o time perde margem por falta de diferencial percebido.",
+          "cta": "Agendar diagnóstico"
         },
         {
-          "rank": 3,
-          "name": "BERNARDO MESQUITA PELLUCCI BARRETO",
-          "role": "GERENTE DE VENDAS",
-          "company": "OMNITEL",
-          "city": "BELO HORIZONTE/MG",
-          "email": "bernardopellucci@gmail.com",
-          "phone": "31971832779",
-          "score": 147,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 4,
-          "personas": 4,
-          "seniority": "Gerência",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 4 contato(s) e 4 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-          "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
-          "tag": "ABM_YouSafer_02_T1",
-          "source": ""
-        },
-        {
-          "rank": 4,
-          "name": "GABRIELLE MIRANDA FERREIRA",
-          "role": "COMERCIAL",
-          "company": "NETWISE EMPRESAS",
-          "city": "LAGOA DA PRATA/MG",
-          "email": "gabrielle.miranda@netwiseempresas.com.br",
-          "phone": "37999964138",
-          "score": 141,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 5,
-          "personas": 4,
-          "seniority": "Analista/Especialista",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 5 contato(s) e 4 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-          "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
-          "tag": "ABM_YouSafer_02_T1",
-          "source": "https://netwise.com.br"
-        },
-        {
-          "rank": 5,
-          "name": "FABIO BRUNO NUNES SANTOS",
-          "role": "DIRETOR COMERCIAL",
-          "company": "ITANET",
-          "city": "ITABIRA/MG",
-          "email": "fabio@itanel.com.br",
-          "phone": "31987720208",
-          "score": 141,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 1,
-          "personas": 2,
-          "seniority": "C-level / Dono",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 1 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-          "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
-          "tag": "ABM_YouSafer_02_T2",
-          "source": "https://itanel.com.br"
-        },
-        {
-          "rank": 6,
-          "name": "LUÍS FELIPE FONSECA TEIXEIRA",
-          "role": "CLOSER",
-          "company": "OMNITEL",
-          "city": "BELO HORIZONTE/MG",
-          "email": "luisfelipefonseca0071@gmail.com",
-          "phone": "31995270968",
-          "score": 139,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 4,
-          "personas": 4,
-          "seniority": "Coord/Supervisão",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 4 contato(s) e 4 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-          "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
-          "tag": "ABM_YouSafer_02_T1",
-          "source": ""
-        },
-        {
-          "rank": 7,
-          "name": "CASSIANA DA SILVA RODRIGUES",
-          "role": "VENDEDORA EXTERNA",
-          "company": "IMPLANTAR TELECOM",
-          "city": "BELO HORIZONTE/MG",
-          "email": "kassybhz@gmail.com",
-          "phone": "31993823060",
-          "score": 135,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 8,
-          "personas": 2,
-          "seniority": "Analista/Especialista",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 8 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-          "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
-          "tag": "ABM_YouSafer_02_T1",
-          "source": ""
-        },
-        {
-          "rank": 8,
-          "name": "EMILY VITORIA DE ALMEIDA CUNHA",
-          "role": "CONSULTORA DE VENDAS",
-          "company": "IMPLANTAR TELECOM",
-          "city": "BELO HORIZONTE/MG",
-          "email": "emilyvac14@gmail.com",
-          "phone": "31985960918",
-          "score": 135,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 8,
-          "personas": 2,
-          "seniority": "Analista/Especialista",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 8 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-          "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
-          "tag": "ABM_YouSafer_02_T1",
-          "source": ""
-        },
-        {
-          "rank": 9,
-          "name": "GLAUCIENE GONÇALVES BIZERRA",
-          "role": "VENDEDORA",
-          "company": "IMPLANTAR TELECOM",
-          "city": "BELO HORIZONTE/MG",
-          "email": "glauciene.dpc@gmail.com",
-          "phone": "31975226990",
-          "score": 135,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 8,
-          "personas": 2,
-          "seniority": "Analista/Especialista",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 8 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-          "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
-          "tag": "ABM_YouSafer_02_T1",
-          "source": ""
-        },
-        {
-          "rank": 10,
-          "name": "LORENA SANTOS NASCIMENTO SOARES",
-          "role": "VENDEDOR EXTERNO",
-          "company": "IMPLANTAR TELECOM",
-          "city": "CONTAGEM/MG",
-          "email": "lorenalolo958@gmail.com",
-          "phone": "31997994342",
-          "score": 135,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 8,
-          "personas": 2,
-          "seniority": "Analista/Especialista",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 8 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-          "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
-          "tag": "ABM_YouSafer_02_T1",
-          "source": ""
+          "day": "D14",
+          "trigger": "Sem avanço",
+          "subject": "Deixo o kit para quando fizer sentido?",
+          "angle": "Reengajamento leve com valor entregue.",
+          "cta": "Receber por email"
         }
       ]
     },
-    {
-      "key": "cs",
-      "label": "CS / Retenção",
-      "sourceLabel": "03 CS / Retenção / Operações",
-      "role": "Opera ativação, SAC, retenção e reversão de cancelamento.",
-      "crmSteps": [
+    "cs": {
+      "label": "CS / Retenção / Operações",
+      "pain": "Cancelamento, baixa ativação de benefício e retenção baseada só em desconto.",
+      "promise": "Criar uma régua de ativação e recuperação que aumenta lembrança e uso do benefício.",
+      "objection": "“Isso pode gerar mais demanda para atendimento”.",
+      "pass": "Passa quando pedir régua, checklist operacional ou validação do fluxo de ativação.",
+      "sequence": [
         {
           "day": "D0",
-          "channel": "E-mail",
-          "goal": "Dor de retenção",
-          "message": "{{Nome}}, quando o cliente pede cancelamento, o atendimento precisa de algo melhor que desconto. A régua mostra como usar SVA de saúde nos 30 primeiros dias e na reversão.",
-          "cta": "Ver régua 30 dias",
-          "condition": "Clique",
-          "tag": "CS_D0",
-          "nextStatus": "Initial engagement"
-        },
-        {
-          "day": "D4",
-          "channel": "E-mail",
-          "goal": "Prova operacional",
-          "message": "A ideia é simples: ativar, lembrar, educar e usar o benefício como argumento antes do cliente pensar em sair.",
-          "cta": "Receber checklist",
-          "condition": "Download",
-          "tag": "CS_D4",
-          "nextStatus": "Meaningful engagement"
-        },
-        {
-          "day": "D8",
-          "channel": "LinkedIn/WhatsApp",
-          "goal": "Converter validação",
-          "message": "Posso te mostrar como isso entraria no SAC/CS da {{Empresa}} sem aumentar carga operacional.",
-          "cta": "Validar fluxo",
-          "condition": "Resposta",
-          "tag": "CS_D8",
-          "nextStatus": "SQA"
-        }
-      ],
-      "leads": [
-        {
-          "rank": 1,
-          "name": "YAN DE CASTRO",
-          "role": "GERENTE OPERACIONAL",
-          "company": "OMNITEL",
-          "city": "BELO HORIZONTE/MG",
-          "email": "yancastroprofissional@gmail.com",
-          "phone": "31990623700",
-          "score": 147,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 4,
-          "personas": 4,
-          "seniority": "Gerência",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 4 contato(s) e 4 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-          "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
-          "tag": "ABM_YouSafer_03_T1",
-          "source": ""
-        },
-        {
-          "rank": 2,
-          "name": "LUIS GUSTAVO RIBEIRO CARVALHO",
-          "role": "SUPORTE",
-          "company": "NETWISE EMPRESAS",
-          "city": "LAGOA DA PRATA/MG",
-          "email": "luisgcarvalho@netwise.com.br",
-          "phone": "37998592740",
-          "score": 135,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 5,
-          "personas": 4,
-          "seniority": "Operacional",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 5 contato(s) e 4 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-          "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
-          "tag": "ABM_YouSafer_03_T1",
-          "source": "https://netwise.com.br"
-        },
-        {
-          "rank": 3,
-          "name": "ANA FLAVIA MOREIRA DO SANTOS",
-          "role": "SAC",
-          "company": "IMPLANTAR TELECOM",
-          "city": "BELO HORIZONTE/MG",
-          "email": "ana.flavia.86241@gmail.com",
-          "phone": "31992991471",
-          "score": 129,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 8,
-          "personas": 2,
-          "seniority": "Operacional",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 8 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-          "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
-          "tag": "ABM_YouSafer_03_T1",
-          "source": ""
-        },
-        {
-          "rank": 4,
-          "name": "MARCOS VINÍCIUS FERREIRA",
-          "role": "SAC",
-          "company": "IMPLANTAR TELECOM",
-          "city": "BELO HORIZONTE/MG",
-          "email": "marcosvfs13@gmail.com",
-          "phone": "31988689925",
-          "score": 129,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 8,
-          "personas": 2,
-          "seniority": "Operacional",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 8 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-          "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
-          "tag": "ABM_YouSafer_03_T1",
-          "source": ""
-        },
-        {
-          "rank": 5,
-          "name": "MARCOS VINICIUS RODRIGUES DOS SANTOS",
-          "role": "SAC",
-          "company": "IMPLANTAR TELECOM",
-          "city": "BELO HORIZONTE/MG",
-          "email": "yudimarcos25@gmail.com",
-          "phone": "31988740243",
-          "score": 129,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 8,
-          "personas": 2,
-          "seniority": "Operacional",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 8 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-          "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
-          "tag": "ABM_YouSafer_03_T1",
-          "source": ""
-        },
-        {
-          "rank": 6,
-          "name": "GABRIEL FRANCISCO CORDEIRO GARCIA",
-          "role": "GESTOR OPERCIONAL",
-          "company": "GDNET",
-          "city": "ESMERALDAS/MG",
-          "email": "gabrielspd45@gmail.com",
-          "phone": "31994336357",
-          "score": 125,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 2,
-          "personas": 2,
-          "seniority": "Gerência",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 2 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-          "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
-          "tag": "ABM_YouSafer_03_T2",
-          "source": ""
-        },
-        {
-          "rank": 7,
-          "name": "EPOLIANE REGINA CUSTÓDIA FERREIRA",
-          "role": "BACKOFFICE B2B",
-          "company": "GOX",
-          "city": "ITAÚNA/MG",
-          "email": "epoliane.ferreira@goxinternet.com.br",
-          "phone": "31996365161",
-          "score": 117,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 4,
-          "personas": 2,
-          "seniority": "Não identificado",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 4 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-          "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
-          "tag": "ABM_YouSafer_03_T2",
-          "source": "https://goxdatacenter.com.br"
-        },
-        {
-          "rank": 8,
-          "name": "PEDRO HENRIQUE CARDOSO BRANDÃO",
-          "role": "SUPERVISOR DE ATENDIMENTO AO CLIENTE",
-          "company": "FIBINET SOLUÇÕES",
-          "city": "CONTAGEM/MG",
-          "email": "pedrohcb002@gmail.com",
-          "phone": "31973453777",
-          "score": 116,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 3,
-          "personas": 3,
-          "seniority": "Coord/Supervisão",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 3 contato(s) e 3 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-          "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
-          "tag": "ABM_YouSafer_03_T2",
-          "source": ""
-        },
-        {
-          "rank": 9,
-          "name": "LUCAS HENRIQUE SOUZA ARAUJO",
-          "role": "ATENTENDE DE SUPORTE TECNICO",
-          "company": "VIP TECNOLOGIA LTDA",
-          "city": "ITAPECERICA/MG",
-          "email": "lucas.araujo@viptecnologia.com.br",
-          "phone": "37998691185",
-          "score": 115,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 5,
-          "personas": 2,
-          "seniority": "Operacional",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 5 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-          "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
-          "tag": "ABM_YouSafer_03_T2",
-          "source": "https://viptecnologia.com.br"
-        },
-        {
-          "rank": 10,
-          "name": "CLARA OLINTO EUZEBIO",
-          "role": "OPERADOR DE SUPORTE",
-          "company": "GOX",
-          "city": "ITAÚNA/MG",
-          "email": "claraolinto3@gmail.com",
-          "phone": "37998730507",
-          "score": 112,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 4,
-          "personas": 2,
-          "seniority": "Operacional",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 4 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-          "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
-          "tag": "ABM_YouSafer_03_T2",
-          "source": "https://goxdatacenter.com.br"
-        }
-      ]
-    },
-    {
-      "key": "financeiro",
-      "label": "Financeiro / Admin",
-      "sourceLabel": "04 Financeiro / Administrativo",
-      "role": "Valida custo, margem, ROI, payback e impacto de churn.",
-      "crmSteps": [
-        {
-          "day": "D0",
-          "channel": "E-mail",
-          "goal": "Business case",
-          "message": "{{Nome}}, a conta que importa não é só custo do SVA. É custo do churn, desconto concedido e perda de LTV. Montei uma calculadora simples para isso.",
-          "cta": "Receber calculadora",
-          "condition": "Clique",
-          "tag": "FIN_D0",
-          "nextStatus": "Initial engagement"
+          "trigger": "Operação/CS identificado",
+          "subject": "Retenção antes do cancelamento",
+          "angle": "Apresentar a ideia de usar SVA como argumento antes do cliente pedir para sair.",
+          "cta": "Ver régua 30 dias"
         },
         {
           "day": "D3",
-          "channel": "E-mail",
-          "goal": "ROI",
-          "message": "Com poucos dados — base ativa, churn médio e desconto médio — já dá para estimar se o SVA faz sentido como proteção de margem.",
-          "cta": "Simular cenário",
-          "condition": "Resposta",
-          "tag": "FIN_D3",
-          "nextStatus": "Meaningful engagement"
+          "trigger": "Abertura",
+          "subject": "Benefício só fideliza quando o cliente lembra que ele existe",
+          "angle": "Falar de ativação, educação da base e uso recorrente.",
+          "cta": "Receber checklist"
         },
         {
-          "day": "D7",
-          "channel": "E-mail",
-          "goal": "Levar para decisão",
-          "message": "Se fizer sentido, validamos junto com comercial/gestão o impacto esperado e montamos um business case.",
-          "cta": "Agendar validação",
-          "condition": "Aceite reunião",
-          "tag": "FIN_D7",
-          "nextStatus": "SQA"
-        }
-      ],
-      "leads": [
-        {
-          "rank": 1,
-          "name": "GIOVANNA SOUSA VALADÃO",
-          "role": "FINANCEIRO",
-          "company": "NETWISE EMPRESAS",
-          "city": "LAGOA DA PRATA/MG",
-          "email": "giovannavaladao@netwise.com.br",
-          "phone": "37998461582",
-          "score": 141,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 5,
-          "personas": 4,
-          "seniority": "Analista/Especialista",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 5 contato(s) e 4 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-          "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
-          "tag": "ABM_YouSafer_04_T1",
-          "source": "https://netwise.com.br"
-        },
-        {
-          "rank": 2,
-          "name": "THIAGO AUGUSTO SILVA",
-          "role": "SUPERVISOR DE COMPRAS",
-          "company": "MAXX CONECTADO",
-          "city": "BELO HORIZONTE/MG",
-          "email": "thiago.augusto@maxxnettelecom.com",
-          "phone": "31994667475",
-          "score": 141,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 5,
-          "personas": 2,
-          "seniority": "Coord/Supervisão",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 5 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-          "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
-          "tag": "ABM_YouSafer_04_T1",
-          "source": "https://maxxnettelecom.com"
-        },
-        {
-          "rank": 3,
-          "name": "LUIZ GUSTAVO PAIVA MARQUES PEREIRA",
-          "role": "SETOR DE COMPRAS",
-          "company": "NET VALE LTDA",
-          "city": "CORONEL FABRICIANO/MG",
-          "email": "luizgustavo@netvale.psi.br",
-          "phone": "31971458272",
-          "score": 141,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 4,
-          "personas": 3,
-          "seniority": "Analista/Especialista",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 4 contato(s) e 3 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-          "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
-          "tag": "ABM_YouSafer_04_T1",
-          "source": "https://netvale.psi.br"
-        },
-        {
-          "rank": 4,
-          "name": "FELIPE DE ASSIS BODEVAN",
-          "role": "SÓCIO ADM",
-          "company": "RAIMAX",
-          "city": "SAO LOURENCO/MG",
-          "email": "felipe@raimaxfibra.com.br",
-          "phone": "35999057810",
-          "score": 141,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 1,
-          "personas": 2,
-          "seniority": "C-level / Dono",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 1 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-          "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
-          "tag": "ABM_YouSafer_04_T2",
-          "source": "https://raimaxfibra.com.br"
-        },
-        {
-          "rank": 5,
-          "name": "LAYS FERREIRA DIANA ROCHA",
-          "role": "FINANCEIRO",
-          "company": "ALFA TELECOM",
-          "city": "PARACATU/MG",
-          "email": "laysdiana@hotmail.con",
-          "phone": "38998185662",
-          "score": 133,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 4,
-          "personas": 3,
-          "seniority": "Analista/Especialista",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 4 contato(s) e 3 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-          "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
-          "tag": "ABM_YouSafer_04_T1",
-          "source": ""
-        },
-        {
-          "rank": 6,
-          "name": "TIAGO DOS REIS RAMOS",
-          "role": "FINANCEIRO",
-          "company": "NEWNET",
-          "city": "MATEUS LEME/MG",
-          "email": "ti_designer@hotmail.com",
-          "phone": "31990722326",
-          "score": 133,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 4,
-          "personas": 3,
-          "seniority": "Analista/Especialista",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 4 contato(s) e 3 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-          "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
-          "tag": "ABM_YouSafer_04_T1",
-          "source": ""
-        },
-        {
-          "rank": 7,
-          "name": "ALEXANDRE HENRIQUE DIAS",
-          "role": "RH",
-          "company": "NETWISE EMPRESAS",
-          "city": "LAGOA DA PRATA/MG",
-          "email": "alexandrehdias@netwise.com.br",
-          "phone": "37991362674",
-          "score": 132,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 5,
-          "personas": 4,
-          "seniority": "Não identificado",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 5 contato(s) e 4 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-          "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
-          "tag": "ABM_YouSafer_04_T1",
-          "source": "https://netwise.com.br"
-        },
-        {
-          "rank": 8,
-          "name": "LARISSA CATARINA RAMOS",
-          "role": "GERENTE ADMINISTRATIVO",
-          "company": "TOP37 INTERNET",
-          "city": "FORMIGA/MG",
-          "email": "larissa.ramos@conexao10.com.br",
-          "phone": "37998388495",
-          "score": 125,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 1,
-          "personas": 2,
-          "seniority": "Gerência",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 1 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-          "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
-          "tag": "ABM_YouSafer_04_T2",
-          "source": "https://conexao10.com.br"
-        },
-        {
-          "rank": 9,
-          "name": "KÁTIA FAUSTINO DE CAMPOS",
-          "role": "ANALISTA DE RECURSOS HUMANOS",
-          "company": "INTERNET SUPER LTDA",
-          "city": "JOÃO MONLEVADE/MG",
-          "email": "rh@internetsuper.com.br",
-          "phone": "31992115723",
-          "score": 118,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 3,
-          "personas": 3,
-          "seniority": "Analista/Especialista",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 3 contato(s) e 3 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-          "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
-          "tag": "ABM_YouSafer_04_T2",
-          "source": "https://internetsuper.com.br"
-        },
-        {
-          "rank": 10,
-          "name": "EMERSON DE SOUZA SANTOS",
-          "role": "DIR. ADMINISTRATIVO",
-          "company": "HEXA TELECOM",
-          "city": "BELO HORIZONTE/MG",
-          "email": "emerson@hexatelecom.com.br",
-          "phone": "31987997411",
-          "score": 112,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 5,
-          "personas": 2,
-          "seniority": "Não identificado",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 5 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-          "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
-          "tag": "ABM_YouSafer_04_T2",
-          "source": "https://hexatelecom.com.br"
-        }
-      ]
-    },
-    {
-      "key": "ti",
-      "label": "TI / Operação",
-      "sourceLabel": "05 TI / Técnico / Redes",
-      "role": "Remove objeção técnica e valida implantação operacional.",
-      "crmSteps": [
-        {
-          "day": "D0",
-          "channel": "E-mail",
-          "goal": "Reduzir objeção técnica",
-          "message": "{{Nome}}, antes de vender qualquer benefício para a base, o provedor precisa saber se a implantação vai gerar retrabalho. Separei um checklist técnico para validar isso.",
-          "cta": "Receber checklist",
-          "condition": "Clique",
-          "tag": "TI_D0",
-          "nextStatus": "Initial engagement"
-        },
-        {
-          "day": "D4",
-          "channel": "E-mail",
-          "goal": "Operação",
-          "message": "O checklist cobre ativação, comunicação, atendimento, dúvidas frequentes e pontos de integração/CRM.",
-          "cta": "Validar checklist",
-          "condition": "Download",
-          "tag": "TI_D4",
-          "nextStatus": "Meaningful engagement"
+          "day": "D5",
+          "trigger": "Clique",
+          "subject": "Onde a régua entra no SAC/CS",
+          "angle": "Mostrar que o fluxo pode reduzir atrito ao invés de aumentar carga operacional.",
+          "cta": "Validar fluxo"
         },
         {
           "day": "D8",
-          "channel": "E-mail/WhatsApp",
-          "goal": "SQA técnico",
-          "message": "Posso revisar com você onde isso entraria no fluxo atual da {{Empresa}} e o que precisa ser automatizado.",
-          "cta": "Marcar validação técnica",
-          "condition": "Resposta",
-          "tag": "TI_D8",
-          "nextStatus": "SQA"
+          "trigger": "Resposta ou download",
+          "subject": "Aplicar no onboarding e reversão de churn",
+          "angle": "Conectar 30 dias iniciais, base ativa e reengajamento de usuários.",
+          "cta": "Marcar validação"
+        },
+        {
+          "day": "D12",
+          "trigger": "Score >= 50",
+          "subject": "Briefing operacional para piloto",
+          "angle": "Preparar handoff com tarefas, gatilhos e SLA.",
+          "cta": "Agendar piloto"
+        },
+        {
+          "day": "D16",
+          "trigger": "Sem avanço",
+          "subject": "Posso deixar a régua como referência?",
+          "angle": "Reengajamento com utilidade prática.",
+          "cta": "Receber régua"
         }
-      ],
-      "leads": [
+      ]
+    },
+    "financeiro": {
+      "label": "Financeiro / Administrativo",
+      "pain": "Margem, custo do churn, desconto concedido e viabilidade do SVA.",
+      "promise": "Transformar a tese em números simples para apoiar decisão e business case.",
+      "objection": "“Qual é o ROI disso?”",
+      "pass": "Passa quando pedir calculadora, simulação ou envolver gestão/comercial na validação.",
+      "sequence": [
         {
-          "rank": 1,
-          "name": "RODOLFO PERNA FERREIRA",
-          "role": "DIRETOR EXECUTIVO",
-          "company": "VBTELECOM",
-          "city": "MONSENHOR PAULO/MG",
-          "email": "rodolfo@vbtelecom.net.br",
-          "phone": "35999520045",
-          "score": 156,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 2,
-          "personas": 3,
-          "seniority": "C-level / Dono",
-          "abmType": "1:1",
-          "reason": "Score 156 com senioridade C-level / Dono e fit ICP Provedor/Telecom; abordagem individual para gerar diagnóstico executivo.",
-          "clusterReason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-          "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
-          "tag": "ABM_YouSafer_05_T1",
-          "source": "https://vbtelecom.net.br"
+          "day": "D0",
+          "trigger": "Financeiro identificado",
+          "subject": "Custo de churn vs custo de SVA",
+          "angle": "Tirar a discussão de “mais custo” e levar para proteção de margem.",
+          "cta": "Receber calculadora"
         },
         {
-          "rank": 2,
-          "name": "PEDRO HENRIQUE PEREIRA",
-          "role": "SUPERVISOR NOC",
-          "company": "NET VALE LTDA",
-          "city": "CORONEL FABRICIANO/MG",
-          "email": "pedro.pereira@netvale.psi.br",
-          "phone": "31936180622",
-          "score": 148,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 4,
-          "personas": 3,
-          "seniority": "Coord/Supervisão",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 4 contato(s) e 3 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-          "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
-          "tag": "ABM_YouSafer_05_T1",
-          "source": "https://netvale.psi.br"
+          "day": "D3",
+          "trigger": "Abertura ou clique",
+          "subject": "Simulação conservadora com poucos dados",
+          "angle": "Base ativa, churn médio e desconto já indicam se faz sentido avançar.",
+          "cta": "Simular cenário"
         },
         {
-          "rank": 3,
-          "name": "VITOR GANDRA ROCHA",
-          "role": "COORDENADOR TÉCNICO",
-          "company": "NET VALE LTDA",
-          "city": "CORONEL FABRICIANO/MG",
-          "email": "vitorg.rocha@hotmail.com",
-          "phone": "31975239145",
-          "score": 140,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 4,
-          "personas": 3,
-          "seniority": "Coord/Supervisão",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 4 contato(s) e 3 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-          "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
-          "tag": "ABM_YouSafer_05_T1",
-          "source": "https://netvale.psi.br"
+          "day": "D5",
+          "trigger": "Baixou planilha",
+          "subject": "Onde o benefício paga a conta",
+          "angle": "Mostrar ponto de equilíbrio sem prometer ganho não validado.",
+          "cta": "Validar premissas"
         },
         {
-          "rank": 4,
-          "name": "IGOR VINICIUS SANTOS SILVA",
-          "role": "TÉCNICO",
-          "company": "NETWISE EMPRESAS",
-          "city": "LAGOA DA PRATA/MG",
-          "email": "igorvinicius@netwise.com.br",
-          "phone": "37998436380",
-          "score": 135,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 5,
-          "personas": 4,
-          "seniority": "Operacional",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 5 contato(s) e 4 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-          "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
-          "tag": "ABM_YouSafer_05_T1",
-          "source": "https://netwise.com.br"
+          "day": "D7",
+          "trigger": "Resposta",
+          "subject": "Levar para decisão com comercial/gestão",
+          "angle": "Conectar número com proposta e pacote comercial.",
+          "cta": "Agendar validação"
         },
         {
-          "rank": 5,
-          "name": "GABRIEL LUCAS MELO FERREIRA",
-          "role": "ANALISTA DE SISTEMAS",
-          "company": "MAXX CONECTADO",
-          "city": "BELO HORIZONTE/MG",
-          "email": "gabriel.lucas@maxxnettelecom.com",
-          "phone": "31997561572",
-          "score": 134,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 5,
-          "personas": 2,
-          "seniority": "Analista/Especialista",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 5 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-          "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
-          "tag": "ABM_YouSafer_05_T1",
-          "source": "https://maxxnettelecom.com"
+          "day": "D10",
+          "trigger": "Score >= 50",
+          "subject": "Business case para reunião executiva",
+          "angle": "Preparar material para decisor com risco, impacto e próximos passos.",
+          "cta": "Montar business case"
         },
         {
-          "rank": 6,
-          "name": "WANDERSON ALVES SANTANA",
-          "role": "ANALISTA DE REDES",
-          "company": "MAXX CONECTADO",
-          "city": "BELO HORIZONTE/MG",
-          "email": "wanderson.alves@maxxnettelecom.com",
-          "phone": "31993078476",
-          "score": 134,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 5,
-          "personas": 2,
-          "seniority": "Analista/Especialista",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 5 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-          "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
-          "tag": "ABM_YouSafer_05_T1",
-          "source": "https://maxxnettelecom.com"
+          "day": "D14",
+          "trigger": "Sem avanço",
+          "subject": "Deixo a calculadora para próximo ciclo?",
+          "angle": "Manter abertura para timing financeiro.",
+          "cta": "Responder melhor data"
+        }
+      ]
+    },
+    "ti": {
+      "label": "TI / Técnico / Redes",
+      "pain": "Risco de implantação, suporte, integração e aumento de retrabalho.",
+      "promise": "Reduzir objeções técnicas antes de envolver decisão comercial.",
+      "objection": "“Isso vai virar problema para minha equipe”.",
+      "pass": "Passa quando pedir checklist técnico, validar fluxo ou envolver operação/CS.",
+      "sequence": [
+        {
+          "day": "D0",
+          "trigger": "TI identificado",
+          "subject": "Checklist técnico antes de vender SVA",
+          "angle": "Mostrar que a implantação precisa ser simples, clara e sem retrabalho desnecessário.",
+          "cta": "Receber checklist"
         },
         {
-          "rank": 7,
-          "name": "DELEON PARREIRAS",
-          "role": "SUPERVISOR DE TI",
-          "company": "GOX",
-          "city": "ITAÚNA/MG",
-          "email": "deleon.parreiras@goxdatacenter.com.br",
-          "phone": "37988403020",
-          "score": 133,
-          "tier": "Tier 2 - Boa prioridade",
-          "contacts": 4,
-          "personas": 2,
-          "seniority": "Coord/Supervisão",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 4 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-          "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
-          "tag": "ABM_YouSafer_05_T2",
-          "source": "https://goxdatacenter.com.br"
+          "day": "D3",
+          "trigger": "Abertura",
+          "subject": "O que precisa estar pronto antes do piloto",
+          "angle": "Ativação, comunicação, atendimento, dúvidas frequentes e CRM.",
+          "cta": "Validar checklist"
         },
         {
-          "rank": 8,
-          "name": "GABRIEL MEIRELES CARDOSO",
-          "role": "MARKETING",
-          "company": "OMNITEL",
-          "city": "CONTAGEM/MG",
-          "email": "delzzin.meireles0609@gmail.com",
-          "phone": "31987626884",
-          "score": 132,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 4,
-          "personas": 4,
-          "seniority": "Analista/Especialista",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 4 contato(s) e 4 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-          "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
-          "tag": "ABM_YouSafer_05_T1",
-          "source": ""
+          "day": "D5",
+          "trigger": "Clique",
+          "subject": "Como não sobrecarregar suporte",
+          "angle": "Separar papel da YouSafer, provedor, CRM e atendimento.",
+          "cta": "Ver fluxo técnico"
         },
         {
-          "rank": 9,
-          "name": "LUAN ALMEIDA E SILVA",
-          "role": "TÉCNICO",
-          "company": "ALFA TELECOM",
-          "city": "PARACATU/MG",
-          "email": "luan.almeida744@gmail.com",
-          "phone": "38997411891",
-          "score": 127,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 4,
-          "personas": 3,
-          "seniority": "Operacional",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 4 contato(s) e 3 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-          "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
-          "tag": "ABM_YouSafer_05_T1",
-          "source": ""
+          "day": "D8",
+          "trigger": "Download",
+          "subject": "Validação técnica em 20 minutos",
+          "angle": "Revisar pontos de implantação e riscos antes de escalar.",
+          "cta": "Marcar validação"
         },
         {
-          "rank": 10,
-          "name": "MATEUS PEREIRA SOUZA",
-          "role": "DESENVOLVEDOR",
-          "company": "MAXX CONECTADO",
-          "city": "BELO HORIZONTE/MG",
-          "email": "mateus.souza@maxxnettelecom.com",
-          "phone": "31988444021",
-          "score": 125,
-          "tier": "Tier 1 - Prioridade máxima",
-          "contacts": 5,
-          "personas": 2,
-          "seniority": "Não identificado",
-          "abmType": "1:Poucos",
-          "reason": "Conta com 5 contato(s) e 2 persona(s); ativar cluster por dor e multi-thread.",
-          "clusterReason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-          "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
-          "tag": "ABM_YouSafer_05_T1",
-          "source": "https://maxxnettelecom.com"
+          "day": "D12",
+          "trigger": "Score >= 50",
+          "subject": "Checklist de piloto aprovado",
+          "angle": "Passar para operação com premissas claras.",
+          "cta": "Enviar para operação"
+        },
+        {
+          "day": "D16",
+          "trigger": "Sem avanço",
+          "subject": "Deixo o checklist como referência?",
+          "angle": "Reengajamento técnico sem pressão.",
+          "cta": "Responder dúvida técnica"
+        }
+      ]
+    },
+    "marketing": {
+      "label": "Marketing / Conteúdo",
+      "pain": "SVA existe no contrato, mas não vira percepção de valor na base.",
+      "promise": "Transformar o benefício em narrativa, conteúdo e campanha de ativação.",
+      "objection": "“Não temos pauta ou tempo para comunicar isso”.",
+      "pass": "Passa quando pedir pauta, calendário ou briefing para adaptar comunicação.",
+      "sequence": [
+        {
+          "day": "D0",
+          "trigger": "Marketing identificado",
+          "subject": "Pauta para transformar SVA em valor percebido",
+          "angle": "Mostrar que benefício sem comunicação não gera lembrança nem retenção.",
+          "cta": "Receber pauta"
+        },
+        {
+          "day": "D3",
+          "trigger": "Abertura",
+          "subject": "4 conteúdos para ativar benefício na base",
+          "angle": "Posts, e-mails, vídeos curtos e FAQ comercial para aumentar uso.",
+          "cta": "Ver ideias"
+        },
+        {
+          "day": "D5",
+          "trigger": "Clique",
+          "subject": "Campanha de ativação para 30 dias",
+          "angle": "Roteiro de comunicação para assinante entender e usar o benefício.",
+          "cta": "Receber calendário"
+        },
+        {
+          "day": "D7",
+          "trigger": "Resposta",
+          "subject": "Adaptar para a marca da sua operação",
+          "angle": "Levar para comunicação white label sem parecer genérico.",
+          "cta": "Agendar briefing"
+        },
+        {
+          "day": "D10",
+          "trigger": "Score >= 50",
+          "subject": "Conteúdo + LP + CRM no mesmo fluxo",
+          "angle": "Conectar mídia, LP, email, WhatsApp e CRM.",
+          "cta": "Montar campanha"
+        },
+        {
+          "day": "D14",
+          "trigger": "Sem avanço",
+          "subject": "Quer que eu envie a pauta base?",
+          "angle": "Reengajamento com ativo útil.",
+          "cta": "Receber pauta base"
         }
       ]
     }
-  ]
-}
+  },
+  "socialStrategies": {
+    "LinkedIn": {
+      "role": "Autoridade executiva, multi-thread por conta e prova para decisores.",
+      "rhythm": "3 posts semanais + comentários do Gabriel + conexão consultiva.",
+      "metric": "Conexões aceitas, comentários de decisores, visitas em LP e score por conta."
+    },
+    "Instagram": {
+      "role": "Tradução visual da tese para entendimento rápido e remarketing.",
+      "rhythm": "3 Reels/carrosséis por semana + stories de bastidor + prova social.",
+      "metric": "Retenção de vídeo, salvamentos, respostas, cliques e público de remarketing."
+    },
+    "Facebook": {
+      "role": "Distribuição regional, reforço de prova e remarketing para contas/visitantes.",
+      "rhythm": "2 posts por semana + campanhas de engajamento + remarketing de LP.",
+      "metric": "Alcance em praças, engajamento, custo por visita qualificada e retorno de MQA."
+    },
+    "Artigos / Blog": {
+      "role": "SEO, educação e captura de intenção de médio prazo.",
+      "rhythm": "1 artigo por semana + reaproveitamento em email e social.",
+      "metric": "Tráfego orgânico, tempo de leitura, cliques em LP e downloads de ativos."
+    }
+  },
+  "socialPosts": [
+    {
+      "channel": "LinkedIn",
+      "format": "Post executivo",
+      "title": "Velocidade e preço viraram requisito, não diferencial",
+      "objective": "Abrir a tese de mercado para donos e diretores de ISPs.",
+      "cta": "Comentar “retenção”"
+    },
+    {
+      "channel": "LinkedIn",
+      "format": "Carrossel",
+      "title": "O custo oculto de reconquistar clientes todo mês",
+      "objective": "Conectar churn com margem e previsibilidade.",
+      "cta": "Pedir simulação"
+    },
+    {
+      "channel": "LinkedIn",
+      "format": "Post do Gabriel",
+      "title": "Por que SVA precisa ser útil, não só listado no contrato",
+      "objective": "Criar autoridade e provocar decisores.",
+      "cta": "Receber checklist"
+    },
+    {
+      "channel": "LinkedIn",
+      "format": "Documento",
+      "title": "Framework: Fit + Intent + Progression para ISPs",
+      "objective": "Educar sobre ABM e mostrar método.",
+      "cta": "Ver score ABM"
+    },
+    {
+      "channel": "LinkedIn",
+      "format": "Case conceitual",
+      "title": "Como um benefício de saúde pode defender preço",
+      "objective": "Falar com Comercial e CEO.",
+      "cta": "Receber kit"
+    },
+    {
+      "channel": "LinkedIn",
+      "format": "Enquete",
+      "title": "Seu SVA gera uso ou só ocupa espaço no plano?",
+      "objective": "Gerar comentários e sinais de dor.",
+      "cta": "Votar"
+    },
+    {
+      "channel": "LinkedIn",
+      "format": "Post CFO",
+      "title": "Quanto 1% de churn impacta sua margem?",
+      "objective": "Acionar Financeiro com dor numérica.",
+      "cta": "Calcular impacto"
+    },
+    {
+      "channel": "LinkedIn",
+      "format": "Post CS",
+      "title": "Retenção começa antes do pedido de cancelamento",
+      "objective": "Acionar Operações/CS.",
+      "cta": "Ver régua"
+    },
+    {
+      "channel": "LinkedIn",
+      "format": "Convite",
+      "title": "Mesa: retenção em provedores além da velocidade",
+      "objective": "Criar evento de autoridade para multi-thread.",
+      "cta": "Inscrever-se"
+    },
+    {
+      "channel": "Instagram",
+      "format": "Reels",
+      "title": "3 sinais de que seu provedor está competindo só por preço",
+      "objective": "Gerar compreensão rápida da dor.",
+      "cta": "Salvar"
+    },
+    {
+      "channel": "Instagram",
+      "format": "Carrossel",
+      "title": "SVA útil vs SVA esquecido no contrato",
+      "objective": "Comparar valor percebido de forma visual.",
+      "cta": "Ver checklist"
+    },
+    {
+      "channel": "Instagram",
+      "format": "Stories",
+      "title": "Quiz: seu cliente lembra dos benefícios do plano?",
+      "objective": "Criar interação e público de remarketing.",
+      "cta": "Responder quiz"
+    },
+    {
+      "channel": "Instagram",
+      "format": "Reels",
+      "title": "Como explicar saúde digital em 30 segundos",
+      "objective": "Ajudar comercial/marketing a simplificar a oferta.",
+      "cta": "Compartilhar"
+    },
+    {
+      "channel": "Instagram",
+      "format": "Carrossel",
+      "title": "A régua de 30 dias para ativar o benefício",
+      "objective": "Mostrar operação de CS.",
+      "cta": "Receber régua"
+    },
+    {
+      "channel": "Instagram",
+      "format": "Prova social",
+      "title": "O que um benefício recorrente muda na relação com a base",
+      "objective": "Reforçar utilidade real.",
+      "cta": "Ver exemplo"
+    },
+    {
+      "channel": "Instagram",
+      "format": "Bastidor",
+      "title": "Como uma conta vira MQA no ABM",
+      "objective": "Mostrar o método de forma leve.",
+      "cta": "Ver score"
+    },
+    {
+      "channel": "Instagram",
+      "format": "Reels",
+      "title": "O erro de vender internet só por velocidade",
+      "objective": "Educar topo de funil.",
+      "cta": "Enviar para alguém"
+    },
+    {
+      "channel": "Instagram",
+      "format": "Stories",
+      "title": "Caixa de perguntas: SVA, retenção e saúde digital",
+      "objective": "Capturar objeções para conteúdo futuro.",
+      "cta": "Perguntar"
+    },
+    {
+      "channel": "Facebook",
+      "format": "Post regional",
+      "title": "Provedores regionais precisam de diferenciação que a base entende",
+      "objective": "Falar com donos e gerentes em praças regionais.",
+      "cta": "Saiba mais"
+    },
+    {
+      "channel": "Facebook",
+      "format": "Vídeo curto",
+      "title": "Por que desconto não resolve churn para sempre",
+      "objective": "Educar e aquecer público frio.",
+      "cta": "Assistir"
+    },
+    {
+      "channel": "Facebook",
+      "format": "Post prova",
+      "title": "Benefício que entra na rotina tem mais chance de ser lembrado",
+      "objective": "Construir percepção de valor.",
+      "cta": "Ver benefícios"
+    },
+    {
+      "channel": "Facebook",
+      "format": "Remarketing",
+      "title": "Você viu o checklist de SVA? Agora veja a calculadora",
+      "objective": "Reengajar visitantes de LP.",
+      "cta": "Calcular impacto"
+    },
+    {
+      "channel": "Facebook",
+      "format": "Post comercial",
+      "title": "Como vender plano de maior valor sem depender só de velocidade",
+      "objective": "Ativar gestores comerciais.",
+      "cta": "Receber kit"
+    },
+    {
+      "channel": "Facebook",
+      "format": "Post CS",
+      "title": "Régua de ativação para cliente não esquecer o benefício",
+      "objective": "Ativar operação e retenção.",
+      "cta": "Ver régua"
+    },
+    {
+      "channel": "Facebook",
+      "format": "Post financeiro",
+      "title": "O custo de churn aparece antes do cancelamento",
+      "objective": "Acionar financeiro com narrativa simples.",
+      "cta": "Simular"
+    },
+    {
+      "channel": "Facebook",
+      "format": "Evento",
+      "title": "Conversa sobre retenção em provedores",
+      "objective": "Gerar inscrição e audiência.",
+      "cta": "Participar"
+    },
+    {
+      "channel": "Facebook",
+      "format": "Depoimento/FAQ",
+      "title": "Assistência de saúde não é plano de saúde: como comunicar certo",
+      "objective": "Reduzir objeção e confusão.",
+      "cta": "Entender diferença"
+    },
+    {
+      "channel": "Artigos / Blog",
+      "format": "SEO",
+      "title": "Como reduzir churn em provedores de internet sem depender só de desconto",
+      "objective": "Capturar demanda de retenção e churn.",
+      "cta": "Ver diagnóstico"
+    },
+    {
+      "channel": "Artigos / Blog",
+      "format": "SEO",
+      "title": "SVA para provedor de internet: o que gera valor percebido de verdade",
+      "objective": "Educar Produto/SVA e Comercial.",
+      "cta": "Baixar checklist"
+    },
+    {
+      "channel": "Artigos / Blog",
+      "format": "SEO",
+      "title": "Custo de churn: como calcular impacto real na margem do provedor",
+      "objective": "Falar com Financeiro e CEO.",
+      "cta": "Pedir calculadora"
+    },
+    {
+      "channel": "Artigos / Blog",
+      "format": "SEO",
+      "title": "Régua de ativação de benefício: 30 dias para aumentar lembrança e uso",
+      "objective": "Apoiar CS/Retenção.",
+      "cta": "Receber régua"
+    },
+    {
+      "channel": "Artigos / Blog",
+      "format": "SEO",
+      "title": "Como vender internet com saúde digital no pacote sem parecer benefício genérico",
+      "objective": "Apoiar Comercial.",
+      "cta": "Receber kit"
+    },
+    {
+      "channel": "Artigos / Blog",
+      "format": "SEO",
+      "title": "ABM para provedores: como priorizar contas, cargos e sinais de intenção",
+      "objective": "Mostrar método e autoridade.",
+      "cta": "Ver score ABM"
+    },
+    {
+      "channel": "Artigos / Blog",
+      "format": "SEO",
+      "title": "Retenção em ISPs: por que velocidade deixou de ser diferencial",
+      "objective": "Aprofundar tese executiva.",
+      "cta": "Agendar diagnóstico"
+    },
+    {
+      "channel": "Artigos / Blog",
+      "format": "SEO",
+      "title": "Checklist técnico para implantar SVA de saúde em provedor de internet",
+      "objective": "Reduzir objeção técnica.",
+      "cta": "Validar implantação"
+    },
+    {
+      "channel": "Artigos / Blog",
+      "format": "SEO",
+      "title": "Como comunicar SVA de saúde para a base de assinantes",
+      "objective": "Apoiar Marketing/Conteúdo.",
+      "cta": "Receber pauta"
+    }
+  ],
+  "personaLps": [
+    {
+      "persona": "Decisor final / Dono",
+      "asset": "LP Diagnóstico executivo de retenção",
+      "reason": "Dono precisa entender impacto na estratégia, margem e diferenciação.",
+      "hook": "“Quanto churn ainda está sendo tratado como preço?”",
+      "promise": "Mapa rápido de risco, oportunidade e tese de retenção.",
+      "cta": "Agendar diagnóstico executivo",
+      "fields": [
+        "Empresa",
+        "Base aproximada",
+        "Churn percebido",
+        "Decisor",
+        "WhatsApp"
+      ]
+    },
+    {
+      "persona": "Comercial / Vendas",
+      "asset": "LP Kit comercial SVA saúde",
+      "reason": "Comercial precisa vender valor e defender preço no pacote.",
+      "hook": "“Seu time tem argumento além da velocidade?”",
+      "promise": "Script, pitch e proposta de valor para plano premium.",
+      "cta": "Receber kit comercial",
+      "fields": [
+        "Empresa",
+        "Cargo",
+        "Canal de vendas",
+        "Volume de vendedores",
+        "Email"
+      ]
+    },
+    {
+      "persona": "CS / Retenção",
+      "asset": "LP Régua 30 dias de ativação",
+      "reason": "CS precisa ativar benefício antes do cancelamento.",
+      "hook": "“Benefício só retém quando o cliente lembra que ele existe.”",
+      "promise": "Régua de onboarding, lembrete, uso e reversão.",
+      "cta": "Ver régua de retenção",
+      "fields": [
+        "Empresa",
+        "Responsável CS",
+        "Base ativa",
+        "Canal atendimento",
+        "WhatsApp"
+      ]
+    },
+    {
+      "persona": "Financeiro",
+      "asset": "LP Calculadora churn x SVA",
+      "reason": "Financeiro precisa enxergar custo, margem e viabilidade.",
+      "hook": "“Quanto custa perder 1% da base todo mês?”",
+      "promise": "Simulação conservadora para validar business case.",
+      "cta": "Calcular impacto",
+      "fields": [
+        "Empresa",
+        "Base ativa",
+        "Churn médio",
+        "Ticket médio",
+        "Email"
+      ]
+    },
+    {
+      "persona": "TI / Operação",
+      "asset": "LP Checklist técnico de implantação",
+      "reason": "TI precisa reduzir risco de suporte, integração e retrabalho.",
+      "hook": "“Antes de vender benefício, valide se a operação aguenta.”",
+      "promise": "Checklist de implantação, atendimento e pontos de CRM.",
+      "cta": "Validar implantação",
+      "fields": [
+        "Empresa",
+        "Cargo técnico",
+        "CRM atual",
+        "Canal atendimento",
+        "Email"
+      ]
+    }
+  ],
+  "crmCadence": [
+    {
+      "day": "D0",
+      "trigger": "Entrada na base ou enriquecimento",
+      "title": "Criar conta + contato + origem",
+      "action": "Aplicar persona, tier, score inicial, fonte, tag e tarefa de revisão."
+    },
+    {
+      "day": "D1",
+      "trigger": "ICP confirmado",
+      "title": "Primeiro disparo por persona",
+      "action": "Email/Apollo com dor da persona e CTA de conteúdo leve."
+    },
+    {
+      "day": "D3",
+      "trigger": "Abertura ou sem resposta",
+      "title": "Segundo toque consultivo",
+      "action": "Novo ângulo: objeção principal, argumento de valor e CTA progressivo."
+    },
+    {
+      "day": "D5",
+      "trigger": "Clique, visita ou conexão",
+      "title": "LinkedIn + social selling",
+      "action": "Comentário contextual do Gabriel e registro de sinal no CRM."
+    },
+    {
+      "day": "D7",
+      "trigger": "Conteúdo de dor consumido",
+      "title": "Ativo de conversão",
+      "action": "Enviar LP, calculadora, checklist, kit ou régua conforme persona."
+    },
+    {
+      "day": "D10",
+      "trigger": "Score >= 50 ou formulário parcial",
+      "title": "WhatsApp permitido / SDR",
+      "action": "Abordagem com contexto e tentativa de diagnóstico."
+    },
+    {
+      "day": "D14",
+      "trigger": "Sem reunião",
+      "title": "Reengajamento leve",
+      "action": "Enviar prova, framework ou atualização de mercado sem pressão."
+    },
+    {
+      "day": "D21-30",
+      "trigger": "MQA/SQA ou no-show",
+      "title": "War room de contas quentes",
+      "action": "Revisar contas, stakeholders faltantes, objeções e próximo passo."
+    }
+  ],
+  "crmFields": [
+    "Conta",
+    "CNPJ",
+    "Site",
+    "Pessoa",
+    "Cargo",
+    "Persona ABM",
+    "Tier",
+    "Score ABM",
+    "Fonte",
+    "Canal inicial",
+    "Último conteúdo consumido",
+    "LP visitada",
+    "CTA acionado",
+    "Status MQA/SQA",
+    "Próxima ação",
+    "Responsável",
+    "SLA",
+    "Motivo da rota",
+    "Tag CRM",
+    "Observação de LGPD/opt-out"
+  ],
+  "contentLibrary": [
+    {
+      "type": "Artigo SEO",
+      "title": "Como reduzir churn em provedores de internet sem depender só de desconto",
+      "use": "Pilar de autoridade para CEO, CS e Comercial.",
+      "next": "CTA: Diagnóstico executivo"
+    },
+    {
+      "type": "Artigo SEO",
+      "title": "SVA útil vs SVA genérico: como gerar valor percebido na base",
+      "use": "Nutrir Produto/SVA e Marketing com argumento de diferenciação.",
+      "next": "CTA: Checklist SVA"
+    },
+    {
+      "type": "Planilha",
+      "title": "Calculadora churn x SVA",
+      "use": "Converter Financeiro e CEO com impacto de margem.",
+      "next": "CTA: Pedir simulação"
+    },
+    {
+      "type": "Template",
+      "title": "Régua 30 dias de ativação de benefício",
+      "use": "Ativar CS e operação para uso recorrente.",
+      "next": "CTA: Receber régua"
+    },
+    {
+      "type": "Kit comercial",
+      "title": "Scripts para vender saúde digital no pacote de internet",
+      "use": "Apoiar gerentes e vendedores.",
+      "next": "CTA: Baixar kit"
+    },
+    {
+      "type": "Checklist técnico",
+      "title": "Implantação sem atrito: CRM, atendimento e comunicação",
+      "use": "Reduzir objeção de TI e operação.",
+      "next": "CTA: Validar fluxo"
+    },
+    {
+      "type": "Webinar",
+      "title": "Retenção para provedores: sair da guerra de preço",
+      "use": "Gerar multi-thread e sinal de intenção.",
+      "next": "CTA: Inscrever-se"
+    },
+    {
+      "type": "Case conceitual",
+      "title": "Como transformar benefício em argumento de permanência",
+      "use": "Prova e narrativa para decisores.",
+      "next": "CTA: Ver business case"
+    },
+    {
+      "type": "Framework ABM",
+      "title": "Fit + Intent + Progression para ISPs",
+      "use": "Mostrar método e justificar score.",
+      "next": "CTA: Ver score ABM"
+    }
+  ],
+  "plays": [
+    {
+      "code": "P01",
+      "stage": "Reconhecimento",
+      "priority": "Alta",
+      "name": "Tese “internet virou commodity”",
+      "desc": "Conteúdo de autoridade para abrir problema de diferenciação.",
+      "owners": [
+        "Marketing",
+        "Gabriel"
+      ]
+    },
+    {
+      "code": "P02",
+      "stage": "Reconhecimento",
+      "priority": "Alta",
+      "name": "Lista ICP + enriquecimento",
+      "desc": "Montar conta, cargo, site, score e rotas ABM.",
+      "owners": [
+        "Operação",
+        "SDR"
+      ]
+    },
+    {
+      "code": "P03",
+      "stage": "Engajamento inicial",
+      "priority": "Alta",
+      "name": "Sequência Apollo por persona",
+      "desc": "Cada cargo recebe narrativa e CTA próprio.",
+      "owners": [
+        "Marketing",
+        "SDR"
+      ]
+    },
+    {
+      "code": "P04",
+      "stage": "Engajamento inicial",
+      "priority": "Média",
+      "name": "Social selling Gabriel",
+      "desc": "Conexão e comentário contextual em decisores estratégicos.",
+      "owners": [
+        "Gabriel",
+        "SDR"
+      ]
+    },
+    {
+      "code": "P05",
+      "stage": "Engajamento significativo",
+      "priority": "Alta",
+      "name": "Checklist SVA útil",
+      "desc": "Ativo para Produto/SVA e Comercial qualificarem interesse.",
+      "owners": [
+        "Conteúdo",
+        "Design"
+      ]
+    },
+    {
+      "code": "P06",
+      "stage": "Engajamento significativo",
+      "priority": "Alta",
+      "name": "Calculadora churn x SVA",
+      "desc": "Transformar dor em impacto financeiro e urgência.",
+      "owners": [
+        "Financeiro",
+        "Marketing"
+      ]
+    },
+    {
+      "code": "P07",
+      "stage": "Conversão",
+      "priority": "Alta",
+      "name": "Diagnóstico de Retenção",
+      "desc": "CTA principal para mão levantada e MQA.",
+      "owners": [
+        "Marketing",
+        "Comercial"
+      ]
+    },
+    {
+      "code": "P08",
+      "stage": "Conversão",
+      "priority": "Média",
+      "name": "Webinar/mesa de retenção",
+      "desc": "Multi-thread para contas estratégicas e geração de prova.",
+      "owners": [
+        "Gabriel",
+        "Conteúdo"
+      ]
+    },
+    {
+      "code": "P09",
+      "stage": "SQA/SQL",
+      "priority": "Alta",
+      "name": "Handoff com briefing",
+      "desc": "SDR/Closer recebe contexto completo antes da abordagem.",
+      "owners": [
+        "SDR",
+        "Closer"
+      ]
+    },
+    {
+      "code": "P10",
+      "stage": "Opportunity",
+      "priority": "Alta",
+      "name": "Business case e piloto",
+      "desc": "Proposta com simulação, próximos passos e plano de 30 dias.",
+      "owners": [
+        "Closer",
+        "Gabriel"
+      ]
+    },
+    {
+      "code": "P11",
+      "stage": "Reengajamento",
+      "priority": "Média",
+      "name": "No-show e formulário parcial",
+      "desc": "Recuperar contas mornas com ativo de valor.",
+      "owners": [
+        "SDR",
+        "CRM"
+      ]
+    },
+    {
+      "code": "P12",
+      "stage": "Reengajamento",
+      "priority": "Média",
+      "name": "Closed-lost / timing futuro",
+      "desc": "Retomar com atualização de mercado e nova simulação.",
+      "owners": [
+        "CRM",
+        "Comercial"
+      ]
+    }
+  ],
+  "roadmap": [
+    {
+      "week": "Semana 1",
+      "title": "Base, ICP e clusterização",
+      "desc": "Validar planilha, personas, critérios de tier e campos CRM."
+    },
+    {
+      "week": "Semana 2",
+      "title": "LPs e ativos",
+      "desc": "Publicar diagnóstico, kit comercial, checklist, régua e calculadora."
+    },
+    {
+      "week": "Semana 3",
+      "title": "Cadências e social selling",
+      "desc": "Ativar Apollo/CRM, LinkedIn do Gabriel e primeiras mensagens por persona."
+    },
+    {
+      "week": "Semana 4",
+      "title": "Score, MQA e SLA",
+      "desc": "Medir intent, formular handoff e criar war room de contas quentes."
+    },
+    {
+      "week": "Semana 5",
+      "title": "Diagnósticos e business cases",
+      "desc": "Converter contas com score alto em reuniões e simulações."
+    },
+    {
+      "week": "Semana 6",
+      "title": "Revisão executiva",
+      "desc": "Apresentar aprendizados, pipeline, contas prioritárias e próximos ciclos."
+    }
+  ],
+  "decisions": [
+    "Aprovar piloto ABM de 30 dias",
+    "Validar lista Tier 1/2",
+    "Escolher responsável comercial por SLA",
+    "Publicar 5 LPs por persona",
+    "Ativar cadências Apollo/CRM",
+    "Rodar social selling do Gabriel",
+    "Medir MQA/SQA semanalmente",
+    "Revisar pipeline em war room"
+  ],
+  "scrapCluster": {
+    "source": {
+      "validLeads": 179,
+      "uniqueAccounts": 90,
+      "personas": 6,
+      "rule": "Score ABM por fit ISP, profundidade da conta, senioridade, comitê e domínio corporativo"
+    },
+    "personas": [
+      {
+        "key": "decisor",
+        "label": "Decisor final / Dono",
+        "role": "CEO, dono, diretor executivo ou sócio com decisão sobre margem, retenção e posicionamento.",
+        "short": "Decisor",
+        "tone": "Executivo, financeiro e estratégico",
+        "asset": "Diagnóstico executivo de retenção",
+        "leads": [
+          {
+            "rank": 1,
+            "name": "RAPHAEL ANTONIO NOGUEIRA",
+            "role": "PROPRIETARIO",
+            "company": "NEWNET",
+            "cnpj": "09.128.236/0001-82",
+            "city": "MATEUS LEME/MG",
+            "email": "newnetml@gmail.com",
+            "phone": "31971895508",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 156,
+            "contacts": 4,
+            "personas": 3,
+            "seniority": "C-level / Dono",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
+            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "tag": "ABM_YouSafer_01_T1",
+            "source": null,
+            "abmType": "1:1"
+          },
+          {
+            "rank": 2,
+            "name": "ROMULO DA SILVA TEIXEIRA",
+            "role": "PROPRIETÁRIO",
+            "company": "ALFA TELECOM",
+            "cnpj": "37.197.428/0001-86",
+            "city": "PARACATU/MG",
+            "email": "teixeiraromulo@hotmail.com",
+            "phone": "38998428938",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 156,
+            "contacts": 4,
+            "personas": 3,
+            "seniority": "C-level / Dono",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
+            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "tag": "ABM_YouSafer_01_T1",
+            "source": null,
+            "abmType": "1:1"
+          },
+          {
+            "rank": 3,
+            "name": "LUÍS GUSTAVO BALDIM",
+            "role": "DIRETOR",
+            "company": "VBTELECOM",
+            "cnpj": "08.709.153/0001-14",
+            "city": "MONSENHOR PAULO/MG",
+            "email": "luis.gustavo@vbtelecom.net.br",
+            "phone": "35999432682",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 156,
+            "contacts": 2,
+            "personas": 3,
+            "seniority": "C-level / Dono",
+            "reason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
+            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "tag": "ABM_YouSafer_01_T1",
+            "source": "https://vbtelecom.net.br",
+            "abmType": "1:1"
+          },
+          {
+            "rank": 4,
+            "name": "RODOLFO PERNA FERREIRA",
+            "role": "DIRETOR EXECUTIVO",
+            "company": "VBTELECOM",
+            "cnpj": "08.709.153/0001-14",
+            "city": "MONSENHOR PAULO/MG",
+            "email": "rodolfo@vbtelecom.net.br",
+            "phone": "35999520045",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 156,
+            "contacts": 2,
+            "personas": 3,
+            "seniority": "C-level / Dono",
+            "reason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
+            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "tag": "ABM_YouSafer_01_T1",
+            "source": "https://vbtelecom.net.br",
+            "abmType": "1:1"
+          },
+          {
+            "rank": 5,
+            "name": "HUMBERTO MANSUR RODRIGUES DA SILVA",
+            "role": "SÓCIO PROPRIETÁRIO",
+            "company": "ITD INTERNET",
+            "cnpj": "20.418.733/0001-58",
+            "city": "SIMONÉSIA/MG",
+            "email": "betomansur3@hotmaip.com",
+            "phone": "33984253595",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 141,
+            "contacts": 3,
+            "personas": 2,
+            "seniority": "C-level / Dono",
+            "reason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
+            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "tag": "ABM_YouSafer_01_T2",
+            "source": null,
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 6,
+            "name": "SAMIR MANSUR RODRIGUES DA SILVA",
+            "role": "CEO",
+            "company": "ITD INTERNET",
+            "cnpj": "20.418.733/0001-58",
+            "city": "SIMONÉSIA/MG",
+            "email": "samirmansur2@gmail.com",
+            "phone": "33999118361",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 141,
+            "contacts": 3,
+            "personas": 2,
+            "seniority": "C-level / Dono",
+            "reason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
+            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "tag": "ABM_YouSafer_01_T2",
+            "source": null,
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 7,
+            "name": "FABIO BRUNO NUNES SANTOS",
+            "role": "DIRETOR COMERCIAL",
+            "company": "ITANET",
+            "cnpj": "00.068.334/0001-05",
+            "city": "ITABIRA/MG",
+            "email": "fabio@itanel.com.br",
+            "phone": "31987720208",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 141,
+            "contacts": 1,
+            "personas": 2,
+            "seniority": "C-level / Dono",
+            "reason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
+            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "tag": "ABM_YouSafer_01_T2",
+            "source": "https://itanel.com.br",
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 8,
+            "name": "FELIPE DE ASSIS BODEVAN",
+            "role": "SÓCIO ADM",
+            "company": "RAIMAX",
+            "cnpj": "08.804.735/0001-80",
+            "city": "SAO LOURENCO/MG",
+            "email": "felipe@raimaxfibra.com.br",
+            "phone": "35999057810",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 141,
+            "contacts": 1,
+            "personas": 2,
+            "seniority": "C-level / Dono",
+            "reason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
+            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "tag": "ABM_YouSafer_01_T2",
+            "source": "https://raimaxfibra.com.br",
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 9,
+            "name": "PAULO JOSÉ MARTINS SANTOS",
+            "role": "DIRETOR",
+            "company": "JETNETWORKS",
+            "cnpj": "09.643.061/0001-41",
+            "city": "BELO HORIZONTE/MG",
+            "email": "paulo@jetnetworks.com.br",
+            "phone": "31988020936",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 134,
+            "contacts": 1,
+            "personas": 1,
+            "seniority": "C-level / Dono",
+            "reason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
+            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "tag": "ABM_YouSafer_01_T2",
+            "source": "https://jetnetworks.com.br",
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 10,
+            "name": "HUMBERTO SOUZA BRANDAO",
+            "role": "DIRETOR",
+            "company": "GDNET",
+            "cnpj": "32.142.571/0001-57",
+            "city": "BELO HORIZONTE/MG",
+            "email": "beto.cetec@gmail.com",
+            "phone": "31992762843",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 133,
+            "contacts": 2,
+            "personas": 2,
+            "seniority": "C-level / Dono",
+            "reason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
+            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "tag": "ABM_YouSafer_01_T2",
+            "source": null,
+            "abmType": "1:Poucos"
+          }
+        ],
+        "crmSteps": [
+          {
+            "day": "D0",
+            "channel": "E-mail 1:1",
+            "goal": "Abrir dor executiva",
+            "message": "{{Nome}}, olhando para provedores como {{Empresa}}, a discussão não é mais “ter mais um SVA”, é proteger margem e reduzir churn sem entrar em guerra de preço. Fizemos um diagnóstico rápido para medir onde a base pode estar perdendo valor percebido.",
+            "cta": "Responder “quero diagnóstico”",
+            "condition": "Abriu/clicou/respondeu",
+            "tag": "DECISOR_D0",
+            "nextStatus": "Engajamento inicial"
+          },
+          {
+            "day": "D2",
+            "channel": "LinkedIn conexão",
+            "goal": "Criar familiaridade",
+            "message": "{{Nome}}, vi que você está à frente da {{Empresa}}. Estou conectando com donos de provedores que estão olhando retenção e diferenciação com mais profundidade.",
+            "cta": "Aceitar conexão",
+            "condition": "Conectou",
+            "tag": "DECISOR_D2",
+            "nextStatus": "Initial engagement"
+          },
+          {
+            "day": "D5",
+            "channel": "E-mail prova/insight",
+            "goal": "Gerar MQA",
+            "message": "Trouxe uma simulação simples: quanto custa perder 1% da base por mês versus criar um argumento de valor percebido com saúde e assistência. Vale eu te mandar a conta?",
+            "cta": "Receber simulação",
+            "condition": "Resposta positiva",
+            "tag": "DECISOR_D5",
+            "nextStatus": "MQA"
+          }
+        ]
+      },
+      {
+        "key": "comercial",
+        "label": "Comercial / Vendas",
+        "role": "Diretor, gerente ou liderança comercial que precisa vender plano de maior valor sem depender de desconto.",
+        "short": "Comercial",
+        "tone": "Prático, pitch e argumento de venda",
+        "asset": "Kit comercial SVA saúde",
+        "leads": [
+          {
+            "rank": 1,
+            "name": "JULIO CESAR DE BRITO",
+            "role": "GERENTE COMERCIAL",
+            "company": "NET VALE LTDA",
+            "cnpj": "09.460.884/0001-31",
+            "city": "CORONEL FABRICIANO/MG",
+            "email": "julio@netvale.psi.br",
+            "phone": "31985852034",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 156,
+            "contacts": 4,
+            "personas": 3,
+            "seniority": "Gerência",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
+            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "tag": "ABM_YouSafer_02_T1",
+            "source": "https://netvale.psi.br",
+            "abmType": "1:1"
+          },
+          {
+            "rank": 2,
+            "name": "RODOLFO PERNA FERREIRA",
+            "role": "DIRETOR EXECUTIVO",
+            "company": "VBTELECOM",
+            "cnpj": "08.709.153/0001-14",
+            "city": "MONSENHOR PAULO/MG",
+            "email": "rodolfo@vbtelecom.net.br",
+            "phone": "35999520045",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 156,
+            "contacts": 2,
+            "personas": 3,
+            "seniority": "C-level / Dono",
+            "reason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
+            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "tag": "ABM_YouSafer_02_T1",
+            "source": "https://vbtelecom.net.br",
+            "abmType": "1:1"
+          },
+          {
+            "rank": 3,
+            "name": "BERNARDO MESQUITA PELLUCCI BARRETO",
+            "role": "GERENTE DE VENDAS",
+            "company": "OMNITEL",
+            "cnpj": "49.712.446/0001-38",
+            "city": "BELO HORIZONTE/MG",
+            "email": "bernardopellucci@gmail.com",
+            "phone": "31971832779",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 147,
+            "contacts": 4,
+            "personas": 4,
+            "seniority": "Gerência",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
+            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "tag": "ABM_YouSafer_02_T1",
+            "source": null,
+            "abmType": "1:1"
+          },
+          {
+            "rank": 4,
+            "name": "GABRIELLE MIRANDA FERREIRA",
+            "role": "COMERCIAL",
+            "company": "NETWISE EMPRESAS",
+            "cnpj": "55.011.724/0001-22",
+            "city": "LAGOA DA PRATA/MG",
+            "email": "gabrielle.miranda@netwiseempresas.com.br",
+            "phone": "37999964138",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 141,
+            "contacts": 5,
+            "personas": 4,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
+            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "tag": "ABM_YouSafer_02_T1",
+            "source": "https://netwise.com.br",
+            "abmType": "1:1"
+          },
+          {
+            "rank": 5,
+            "name": "FABIO BRUNO NUNES SANTOS",
+            "role": "DIRETOR COMERCIAL",
+            "company": "ITANET",
+            "cnpj": "00.068.334/0001-05",
+            "city": "ITABIRA/MG",
+            "email": "fabio@itanel.com.br",
+            "phone": "31987720208",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 141,
+            "contacts": 1,
+            "personas": 2,
+            "seniority": "C-level / Dono",
+            "reason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
+            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "tag": "ABM_YouSafer_02_T2",
+            "source": "https://itanel.com.br",
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 6,
+            "name": "LUÍS FELIPE FONSECA TEIXEIRA",
+            "role": "CLOSER",
+            "company": "OMNITEL",
+            "cnpj": "49.712.446/0001-38",
+            "city": "BELO HORIZONTE/MG",
+            "email": "luisfelipefonseca0071@gmail.com",
+            "phone": "31995270968",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 139,
+            "contacts": 4,
+            "personas": 4,
+            "seniority": "Coord/Supervisão",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
+            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "tag": "ABM_YouSafer_02_T1",
+            "source": null,
+            "abmType": "1:1"
+          },
+          {
+            "rank": 7,
+            "name": "CASSIANA DA SILVA RODRIGUES",
+            "role": "VENDEDORA EXTERNA",
+            "company": "IMPLANTAR TELECOM",
+            "cnpj": "29.171.619/0001-40",
+            "city": "BELO HORIZONTE/MG",
+            "email": "kassybhz@gmail.com",
+            "phone": "31993823060",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 135,
+            "contacts": 8,
+            "personas": 2,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
+            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "tag": "ABM_YouSafer_02_T1",
+            "source": null,
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 8,
+            "name": "EMILY VITORIA DE ALMEIDA CUNHA",
+            "role": "CONSULTORA DE VENDAS",
+            "company": "IMPLANTAR TELECOM",
+            "cnpj": "29.171.619/0001-40",
+            "city": "BELO HORIZONTE/MG",
+            "email": "emilyvac14@gmail.com",
+            "phone": "31985960918",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 135,
+            "contacts": 8,
+            "personas": 2,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
+            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "tag": "ABM_YouSafer_02_T1",
+            "source": null,
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 9,
+            "name": "GLAUCIENE GONÇALVES BIZERRA",
+            "role": "VENDEDORA",
+            "company": "IMPLANTAR TELECOM",
+            "cnpj": "29.171.619/0001-40",
+            "city": "BELO HORIZONTE/MG",
+            "email": "glauciene.dpc@gmail.com",
+            "phone": "31975226990",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 135,
+            "contacts": 8,
+            "personas": 2,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
+            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "tag": "ABM_YouSafer_02_T1",
+            "source": null,
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 10,
+            "name": "LORENA SANTOS NASCIMENTO SOARES",
+            "role": "VENDEDOR EXTERNO",
+            "company": "IMPLANTAR TELECOM",
+            "cnpj": "29.171.619/0001-40",
+            "city": "CONTAGEM/MG",
+            "email": "lorenalolo958@gmail.com",
+            "phone": "31997994342",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 135,
+            "contacts": 8,
+            "personas": 2,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
+            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "tag": "ABM_YouSafer_02_T1",
+            "source": null,
+            "abmType": "1:Poucos"
+          }
+        ],
+        "crmSteps": [
+          {
+            "day": "D0",
+            "channel": "E-mail",
+            "goal": "Dor comercial",
+            "message": "{{Nome}}, quando o comercial vende só velocidade/preço, o concorrente sempre consegue copiar. O ponto é transformar benefício de saúde em argumento para vender plano de maior valor.",
+            "cta": "Receber kit comercial",
+            "condition": "Clique/abertura",
+            "tag": "COMERCIAL_D0",
+            "nextStatus": "Initial engagement"
+          },
+          {
+            "day": "D3",
+            "channel": "LinkedIn",
+            "goal": "Pitch individual",
+            "message": "Montei um pitch de abordagem para time comercial de provedor vender valor sem depender de desconto. Posso te enviar?",
+            "cta": "Pedir kit",
+            "condition": "Resposta",
+            "tag": "COMERCIAL_D3",
+            "nextStatus": "Meaningful engagement"
+          },
+          {
+            "day": "D7",
+            "channel": "WhatsApp/e-mail",
+            "goal": "Converter reunião",
+            "message": "Dá para adaptar esse pitch para a realidade da {{Empresa}} em 20 min e deixar pronto para o time usar.",
+            "cta": "Agendar conversa",
+            "condition": "Aceite reunião",
+            "tag": "COMERCIAL_D7",
+            "nextStatus": "SQA"
+          }
+        ]
+      },
+      {
+        "key": "cs",
+        "label": "CS / Retenção / Operações",
+        "role": "Operação, atendimento, retenção e relacionamento com a base de assinantes.",
+        "short": "CS/Retenção",
+        "tone": "Operacional, régua e ativação",
+        "asset": "Régua 30 dias de retenção",
+        "leads": [
+          {
+            "rank": 1,
+            "name": "YAN DE CASTRO",
+            "role": "GERENTE OPERACIONAL",
+            "company": "OMNITEL",
+            "cnpj": "49.712.446/0001-38",
+            "city": "BELO HORIZONTE/MG",
+            "email": "yancastroprofissional@gmail.com",
+            "phone": "31990623700",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 147,
+            "contacts": 4,
+            "personas": 4,
+            "seniority": "Gerência",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
+            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "tag": "ABM_YouSafer_03_T1",
+            "source": null,
+            "abmType": "1:1"
+          },
+          {
+            "rank": 2,
+            "name": "LUIS GUSTAVO RIBEIRO CARVALHO",
+            "role": "SUPORTE",
+            "company": "NETWISE EMPRESAS",
+            "cnpj": "02.728.850/0001-36",
+            "city": "LAGOA DA PRATA/MG",
+            "email": "luisgcarvalho@netwise.com.br",
+            "phone": "37998592740",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 135,
+            "contacts": 5,
+            "personas": 4,
+            "seniority": "Operacional",
+            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
+            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "tag": "ABM_YouSafer_03_T1",
+            "source": "https://netwise.com.br",
+            "abmType": "1:1"
+          },
+          {
+            "rank": 3,
+            "name": "ANA FLAVIA MOREIRA DO SANTOS",
+            "role": "SAC",
+            "company": "IMPLANTAR TELECOM",
+            "cnpj": "29.171.619/0001-40",
+            "city": "BELO HORIZONTE/MG",
+            "email": "ana.flavia.86241@gmail.com",
+            "phone": "31992991471",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 129,
+            "contacts": 8,
+            "personas": 2,
+            "seniority": "Operacional",
+            "reason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
+            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "tag": "ABM_YouSafer_03_T1",
+            "source": null,
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 4,
+            "name": "MARCOS VINÍCIUS FERREIRA",
+            "role": "SAC",
+            "company": "IMPLANTAR TELECOM",
+            "cnpj": "29.171.619/0001-40",
+            "city": "BELO HORIZONTE/MG",
+            "email": "marcosvfs13@gmail.com",
+            "phone": "31988689925",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 129,
+            "contacts": 8,
+            "personas": 2,
+            "seniority": "Operacional",
+            "reason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
+            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "tag": "ABM_YouSafer_03_T1",
+            "source": null,
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 5,
+            "name": "MARCOS VINICIUS RODRIGUES DOS SANTOS",
+            "role": "SAC",
+            "company": "IMPLANTAR TELECOM",
+            "cnpj": "29.171.619/0001-40",
+            "city": "BELO HORIZONTE/MG",
+            "email": "yudimarcos25@gmail.com",
+            "phone": "31988740243",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 129,
+            "contacts": 8,
+            "personas": 2,
+            "seniority": "Operacional",
+            "reason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
+            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "tag": "ABM_YouSafer_03_T1",
+            "source": null,
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 6,
+            "name": "GABRIEL FRANCISCO CORDEIRO GARCIA",
+            "role": "GESTOR OPERCIONAL",
+            "company": "GDNET",
+            "cnpj": "32.142.571/0001-57",
+            "city": "ESMERALDAS/MG",
+            "email": "gabrielspd45@gmail.com",
+            "phone": "31994336357",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 125,
+            "contacts": 2,
+            "personas": 2,
+            "seniority": "Gerência",
+            "reason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
+            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "tag": "ABM_YouSafer_03_T2",
+            "source": null,
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 7,
+            "name": "EPOLIANE REGINA CUSTÓDIA FERREIRA",
+            "role": "BACKOFFICE B2B",
+            "company": "GOX",
+            "cnpj": "07.543.400/0001-92",
+            "city": "ITAÚNA/MG",
+            "email": "epoliane.ferreira@goxinternet.com.br",
+            "phone": "31996365161",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 117,
+            "contacts": 4,
+            "personas": 2,
+            "seniority": "Não identificado",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
+            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "tag": "ABM_YouSafer_03_T2",
+            "source": "https://goxdatacenter.com.br",
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 8,
+            "name": "PEDRO HENRIQUE CARDOSO BRANDÃO",
+            "role": "SUPERVISOR DE ATENDIMENTO AO CLIENTE",
+            "company": "FIBINET SOLUÇÕES",
+            "cnpj": "32.687.867/0001-53",
+            "city": "CONTAGEM/MG",
+            "email": "pedrohcb002@gmail.com",
+            "phone": "31973453777",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 116,
+            "contacts": 3,
+            "personas": 3,
+            "seniority": "Coord/Supervisão",
+            "reason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
+            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "tag": "ABM_YouSafer_03_T2",
+            "source": null,
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 9,
+            "name": "LUCAS HENRIQUE SOUZA ARAUJO",
+            "role": "ATENTENDE DE SUPORTE TECNICO",
+            "company": "VIP TECNOLOGIA LTDA",
+            "cnpj": "23.121.314/0001-48",
+            "city": "ITAPECERICA/MG",
+            "email": "lucas.araujo@viptecnologia.com.br",
+            "phone": "37998691185",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 115,
+            "contacts": 5,
+            "personas": 2,
+            "seniority": "Operacional",
+            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
+            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "tag": "ABM_YouSafer_03_T2",
+            "source": "https://viptecnologia.com.br",
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 10,
+            "name": "CLARA OLINTO EUZEBIO",
+            "role": "OPERADOR DE SUPORTE",
+            "company": "GOX",
+            "cnpj": "07.543.400/0001-92",
+            "city": "ITAÚNA/MG",
+            "email": "claraolinto3@gmail.com",
+            "phone": "37998730507",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 112,
+            "contacts": 4,
+            "personas": 2,
+            "seniority": "Operacional",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
+            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "tag": "ABM_YouSafer_03_T2",
+            "source": "https://goxdatacenter.com.br",
+            "abmType": "1:Poucos"
+          }
+        ],
+        "crmSteps": [
+          {
+            "day": "D0",
+            "channel": "E-mail",
+            "goal": "Dor de retenção",
+            "message": "{{Nome}}, quando o cliente pede cancelamento, o atendimento precisa de algo melhor que desconto. A régua mostra como usar SVA de saúde nos 30 primeiros dias e na reversão.",
+            "cta": "Ver régua 30 dias",
+            "condition": "Clique",
+            "tag": "CS_D0",
+            "nextStatus": "Initial engagement"
+          },
+          {
+            "day": "D4",
+            "channel": "E-mail",
+            "goal": "Prova operacional",
+            "message": "A ideia é simples: ativar, lembrar, educar e usar o benefício como argumento antes do cliente pensar em sair.",
+            "cta": "Receber checklist",
+            "condition": "Download",
+            "tag": "CS_D4",
+            "nextStatus": "Meaningful engagement"
+          },
+          {
+            "day": "D8",
+            "channel": "LinkedIn/WhatsApp",
+            "goal": "Converter validação",
+            "message": "Posso te mostrar como isso entraria no SAC/CS da {{Empresa}} sem aumentar carga operacional.",
+            "cta": "Validar fluxo",
+            "condition": "Resposta",
+            "tag": "CS_D8",
+            "nextStatus": "SQA"
+          }
+        ]
+      },
+      {
+        "key": "financeiro",
+        "label": "Financeiro / Administrativo",
+        "role": "Financeiro, compras e administrativo que avaliam ROI, margem, churn e custo de implantação.",
+        "short": "Financeiro",
+        "tone": "Números, risco e margem",
+        "asset": "Calculadora churn x SVA",
+        "leads": [
+          {
+            "rank": 1,
+            "name": "GIOVANNA SOUSA VALADÃO",
+            "role": "FINANCEIRO",
+            "company": "NETWISE EMPRESAS",
+            "cnpj": "02.728.850/0001-36",
+            "city": "LAGOA DA PRATA/MG",
+            "email": "giovannavaladao@netwise.com.br",
+            "phone": "37998461582",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 141,
+            "contacts": 5,
+            "personas": 4,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
+            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "tag": "ABM_YouSafer_04_T1",
+            "source": "https://netwise.com.br",
+            "abmType": "1:1"
+          },
+          {
+            "rank": 2,
+            "name": "THIAGO AUGUSTO SILVA",
+            "role": "SUPERVISOR DE COMPRAS",
+            "company": "MAXX CONECTADO",
+            "cnpj": "08.395.644/0001-38",
+            "city": "BELO HORIZONTE/MG",
+            "email": "thiago.augusto@maxxnettelecom.com",
+            "phone": "31994667475",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 141,
+            "contacts": 5,
+            "personas": 2,
+            "seniority": "Coord/Supervisão",
+            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
+            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "tag": "ABM_YouSafer_04_T1",
+            "source": "https://maxxnettelecom.com",
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 3,
+            "name": "LUIZ GUSTAVO PAIVA MARQUES PEREIRA",
+            "role": "SETOR DE COMPRAS",
+            "company": "NET VALE LTDA",
+            "cnpj": "09.460.884/0001-31",
+            "city": "CORONEL FABRICIANO/MG",
+            "email": "luizgustavo@netvale.psi.br",
+            "phone": "31971458272",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 141,
+            "contacts": 4,
+            "personas": 3,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
+            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "tag": "ABM_YouSafer_04_T1",
+            "source": "https://netvale.psi.br",
+            "abmType": "1:1"
+          },
+          {
+            "rank": 4,
+            "name": "FELIPE DE ASSIS BODEVAN",
+            "role": "SÓCIO ADM",
+            "company": "RAIMAX",
+            "cnpj": "08.804.735/0001-80",
+            "city": "SAO LOURENCO/MG",
+            "email": "felipe@raimaxfibra.com.br",
+            "phone": "35999057810",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 141,
+            "contacts": 1,
+            "personas": 2,
+            "seniority": "C-level / Dono",
+            "reason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
+            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "tag": "ABM_YouSafer_04_T2",
+            "source": "https://raimaxfibra.com.br",
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 5,
+            "name": "LAYS FERREIRA DIANA ROCHA",
+            "role": "FINANCEIRO",
+            "company": "ALFA TELECOM",
+            "cnpj": "37.197.428/0001-86",
+            "city": "PARACATU/MG",
+            "email": "laysdiana@hotmail.con",
+            "phone": "38998185662",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 133,
+            "contacts": 4,
+            "personas": 3,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
+            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "tag": "ABM_YouSafer_04_T1",
+            "source": null,
+            "abmType": "1:1"
+          },
+          {
+            "rank": 6,
+            "name": "TIAGO DOS REIS RAMOS",
+            "role": "FINANCEIRO",
+            "company": "NEWNET",
+            "cnpj": "09.128.236/0001-82",
+            "city": "MATEUS LEME/MG",
+            "email": "ti_designer@hotmail.com",
+            "phone": "31990722326",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 133,
+            "contacts": 4,
+            "personas": 3,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
+            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "tag": "ABM_YouSafer_04_T1",
+            "source": null,
+            "abmType": "1:1"
+          },
+          {
+            "rank": 7,
+            "name": "ALEXANDRE HENRIQUE DIAS",
+            "role": "RH",
+            "company": "NETWISE EMPRESAS",
+            "cnpj": "02.728.850/0001-36",
+            "city": "LAGOA DA PRATA/MG",
+            "email": "alexandrehdias@netwise.com.br",
+            "phone": "37991362674",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 132,
+            "contacts": 5,
+            "personas": 4,
+            "seniority": "Não identificado",
+            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
+            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "tag": "ABM_YouSafer_04_T1",
+            "source": "https://netwise.com.br",
+            "abmType": "1:1"
+          },
+          {
+            "rank": 8,
+            "name": "LARISSA CATARINA RAMOS",
+            "role": "GERENTE ADMINISTRATIVO",
+            "company": "TOP37 INTERNET",
+            "cnpj": "26.198.692/0001-18",
+            "city": "FORMIGA/MG",
+            "email": "larissa.ramos@conexao10.com.br",
+            "phone": "37998388495",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 125,
+            "contacts": 1,
+            "personas": 2,
+            "seniority": "Gerência",
+            "reason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
+            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "tag": "ABM_YouSafer_04_T2",
+            "source": "https://conexao10.com.br",
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 9,
+            "name": "KÁTIA FAUSTINO DE CAMPOS",
+            "role": "ANALISTA DE RECURSOS HUMANOS",
+            "company": "INTERNET SUPER LTDA",
+            "cnpj": "24.774.313/0001-65",
+            "city": "JOÃO MONLEVADE/MG",
+            "email": "rh@internetsuper.com.br",
+            "phone": "31992115723",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 118,
+            "contacts": 3,
+            "personas": 3,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
+            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "tag": "ABM_YouSafer_04_T2",
+            "source": "https://internetsuper.com.br",
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 10,
+            "name": "EMERSON DE SOUZA SANTOS",
+            "role": "DIR. ADMINISTRATIVO",
+            "company": "HEXA TELECOM",
+            "cnpj": "09.361.993/0001-00",
+            "city": "BELO HORIZONTE/MG",
+            "email": "emerson@hexatelecom.com.br",
+            "phone": "31987997411",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 112,
+            "contacts": 5,
+            "personas": 2,
+            "seniority": "Não identificado",
+            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
+            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "tag": "ABM_YouSafer_04_T2",
+            "source": "https://hexatelecom.com.br",
+            "abmType": "1:Poucos"
+          }
+        ],
+        "crmSteps": [
+          {
+            "day": "D0",
+            "channel": "E-mail",
+            "goal": "Business case",
+            "message": "{{Nome}}, a conta que importa não é só custo do SVA. É custo do churn, desconto concedido e perda de LTV. Montei uma calculadora simples para isso.",
+            "cta": "Receber calculadora",
+            "condition": "Clique",
+            "tag": "FIN_D0",
+            "nextStatus": "Initial engagement"
+          },
+          {
+            "day": "D3",
+            "channel": "E-mail",
+            "goal": "ROI",
+            "message": "Com poucos dados — base ativa, churn médio e desconto médio — já dá para estimar se o SVA faz sentido como proteção de margem.",
+            "cta": "Simular cenário",
+            "condition": "Resposta",
+            "tag": "FIN_D3",
+            "nextStatus": "Meaningful engagement"
+          },
+          {
+            "day": "D7",
+            "channel": "E-mail",
+            "goal": "Levar para decisão",
+            "message": "Se fizer sentido, validamos junto com comercial/gestão o impacto esperado e montamos um business case.",
+            "cta": "Agendar validação",
+            "condition": "Aceite reunião",
+            "tag": "FIN_D7",
+            "nextStatus": "SQA"
+          }
+        ]
+      },
+      {
+        "key": "ti",
+        "label": "TI / Técnico / Redes",
+        "role": "Time técnico que precisa reduzir objeção de implantação e entender esforço operacional.",
+        "short": "TI/Técnico",
+        "tone": "Viabilidade, integração e suporte",
+        "asset": "Checklist técnico de implantação",
+        "leads": [
+          {
+            "rank": 1,
+            "name": "RODOLFO PERNA FERREIRA",
+            "role": "DIRETOR EXECUTIVO",
+            "company": "VBTELECOM",
+            "cnpj": "08.709.153/0001-14",
+            "city": "MONSENHOR PAULO/MG",
+            "email": "rodolfo@vbtelecom.net.br",
+            "phone": "35999520045",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 156,
+            "contacts": 2,
+            "personas": 3,
+            "seniority": "C-level / Dono",
+            "reason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
+            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "tag": "ABM_YouSafer_05_T1",
+            "source": "https://vbtelecom.net.br",
+            "abmType": "1:1"
+          },
+          {
+            "rank": 2,
+            "name": "PEDRO HENRIQUE PEREIRA",
+            "role": "SUPERVISOR NOC",
+            "company": "NET VALE LTDA",
+            "cnpj": "09.460.884/0001-31",
+            "city": "CORONEL FABRICIANO/MG",
+            "email": "pedro.pereira@netvale.psi.br",
+            "phone": "31936180622",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 148,
+            "contacts": 4,
+            "personas": 3,
+            "seniority": "Coord/Supervisão",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
+            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "tag": "ABM_YouSafer_05_T1",
+            "source": "https://netvale.psi.br",
+            "abmType": "1:1"
+          },
+          {
+            "rank": 3,
+            "name": "VITOR GANDRA ROCHA",
+            "role": "COORDENADOR TÉCNICO",
+            "company": "NET VALE LTDA",
+            "cnpj": "09.460.884/0001-31",
+            "city": "CORONEL FABRICIANO/MG",
+            "email": "vitorg.rocha@hotmail.com",
+            "phone": "31975239145",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 140,
+            "contacts": 4,
+            "personas": 3,
+            "seniority": "Coord/Supervisão",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
+            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "tag": "ABM_YouSafer_05_T1",
+            "source": "https://netvale.psi.br",
+            "abmType": "1:1"
+          },
+          {
+            "rank": 4,
+            "name": "IGOR VINICIUS SANTOS SILVA",
+            "role": "TÉCNICO",
+            "company": "NETWISE EMPRESAS",
+            "cnpj": "02.728.850/0001-36",
+            "city": "LAGOA DA PRATA/MG",
+            "email": "igorvinicius@netwise.com.br",
+            "phone": "37998436380",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 135,
+            "contacts": 5,
+            "personas": 4,
+            "seniority": "Operacional",
+            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
+            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "tag": "ABM_YouSafer_05_T1",
+            "source": "https://netwise.com.br",
+            "abmType": "1:1"
+          },
+          {
+            "rank": 5,
+            "name": "GABRIEL LUCAS MELO FERREIRA",
+            "role": "ANALISTA DE SISTEMAS",
+            "company": "MAXX CONECTADO",
+            "cnpj": "08.395.644/0001-38",
+            "city": "BELO HORIZONTE/MG",
+            "email": "gabriel.lucas@maxxnettelecom.com",
+            "phone": "31997561572",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 134,
+            "contacts": 5,
+            "personas": 2,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
+            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "tag": "ABM_YouSafer_05_T1",
+            "source": "https://maxxnettelecom.com",
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 6,
+            "name": "WANDERSON ALVES SANTANA",
+            "role": "ANALISTA DE REDES",
+            "company": "MAXX CONECTADO",
+            "cnpj": "08.395.644/0001-38",
+            "city": "BELO HORIZONTE/MG",
+            "email": "wanderson.alves@maxxnettelecom.com",
+            "phone": "31993078476",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 134,
+            "contacts": 5,
+            "personas": 2,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
+            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "tag": "ABM_YouSafer_05_T1",
+            "source": "https://maxxnettelecom.com",
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 7,
+            "name": "DELEON PARREIRAS",
+            "role": "SUPERVISOR DE TI",
+            "company": "GOX",
+            "cnpj": "07.543.400/0001-92",
+            "city": "ITAÚNA/MG",
+            "email": "deleon.parreiras@goxdatacenter.com.br",
+            "phone": "37988403020",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 133,
+            "contacts": 4,
+            "personas": 2,
+            "seniority": "Coord/Supervisão",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
+            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "tag": "ABM_YouSafer_05_T2",
+            "source": "https://goxdatacenter.com.br",
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 8,
+            "name": "GABRIEL MEIRELES CARDOSO",
+            "role": "MARKETING",
+            "company": "OMNITEL",
+            "cnpj": "49.712.446/0001-38",
+            "city": "CONTAGEM/MG",
+            "email": "delzzin.meireles0609@gmail.com",
+            "phone": "31987626884",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 132,
+            "contacts": 4,
+            "personas": 4,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
+            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "tag": "ABM_YouSafer_05_T1",
+            "source": null,
+            "abmType": "1:1"
+          },
+          {
+            "rank": 9,
+            "name": "LUAN ALMEIDA E SILVA",
+            "role": "TÉCNICO",
+            "company": "ALFA TELECOM",
+            "cnpj": "37.197.428/0001-86",
+            "city": "PARACATU/MG",
+            "email": "luan.almeida744@gmail.com",
+            "phone": "38997411891",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 127,
+            "contacts": 4,
+            "personas": 3,
+            "seniority": "Operacional",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
+            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "tag": "ABM_YouSafer_05_T1",
+            "source": null,
+            "abmType": "1:1"
+          },
+          {
+            "rank": 10,
+            "name": "MATEUS PEREIRA SOUZA",
+            "role": "DESENVOLVEDOR",
+            "company": "MAXX CONECTADO",
+            "cnpj": "08.395.644/0001-38",
+            "city": "BELO HORIZONTE/MG",
+            "email": "mateus.souza@maxxnettelecom.com",
+            "phone": "31988444021",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 125,
+            "contacts": 5,
+            "personas": 2,
+            "seniority": "Não identificado",
+            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
+            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "tag": "ABM_YouSafer_05_T1",
+            "source": "https://maxxnettelecom.com",
+            "abmType": "1:Poucos"
+          }
+        ],
+        "crmSteps": [
+          {
+            "day": "D0",
+            "channel": "E-mail",
+            "goal": "Reduzir objeção técnica",
+            "message": "{{Nome}}, antes de vender qualquer benefício para a base, o provedor precisa saber se a implantação vai gerar retrabalho. Separei um checklist técnico para validar isso.",
+            "cta": "Receber checklist",
+            "condition": "Clique",
+            "tag": "TI_D0",
+            "nextStatus": "Initial engagement"
+          },
+          {
+            "day": "D4",
+            "channel": "E-mail",
+            "goal": "Operação",
+            "message": "O checklist cobre ativação, comunicação, atendimento, dúvidas frequentes e pontos de integração/CRM.",
+            "cta": "Validar checklist",
+            "condition": "Download",
+            "tag": "TI_D4",
+            "nextStatus": "Meaningful engagement"
+          },
+          {
+            "day": "D8",
+            "channel": "E-mail/WhatsApp",
+            "goal": "SQA técnico",
+            "message": "Posso revisar com você onde isso entraria no fluxo atual da {{Empresa}} e o que precisa ser automatizado.",
+            "cta": "Marcar validação técnica",
+            "condition": "Resposta",
+            "tag": "TI_D8",
+            "nextStatus": "SQA"
+          }
+        ]
+      },
+      {
+        "key": "marketing",
+        "label": "Marketing / Conteúdo",
+        "role": "Marketing e comunicação que transformam SVA em percepção de valor na base.",
+        "short": "Marketing",
+        "tone": "Conteúdo, campanha e uso recorrente",
+        "asset": "Pauta de campanha para SVA",
+        "leads": [
+          {
+            "rank": 1,
+            "name": "GABRIEL MEIRELES CARDOSO",
+            "role": "MARKETING",
+            "company": "OMNITEL",
+            "cnpj": "49.712.446/0001-38",
+            "city": "CONTAGEM/MG",
+            "email": "delzzin.meireles0609@gmail.com",
+            "phone": "31987626884",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 1 - Prioridade máxima",
+            "score": 132,
+            "contacts": 4,
+            "personas": 4,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
+            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "tag": "ABM_YouSafer_06_T1",
+            "source": null,
+            "abmType": "1:1"
+          },
+          {
+            "rank": 2,
+            "name": "SAMARA RAISSA RIBEIRO RODRIGUES",
+            "role": "MARKETING",
+            "company": "LUMEN FIBRA",
+            "cnpj": "07.987.876/0001-12",
+            "city": "CURVELO/MG",
+            "email": "samara@lumenfibra.com.br",
+            "phone": "38998608594",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 118,
+            "contacts": 3,
+            "personas": 3,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
+            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "tag": "ABM_YouSafer_06_T2",
+            "source": "https://lumenfibra.com.br",
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 3,
+            "name": "HELOÍSA HELENA DE LIMA FERREIRA",
+            "role": "ATENDENTE TELEMARKETING",
+            "company": "LUMEN FIBRA",
+            "cnpj": "07.987.876/0001-12",
+            "city": "CURVELO/MG",
+            "email": "heloisahelenah8@gmail.com",
+            "phone": "38998485214",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 110,
+            "contacts": 3,
+            "personas": 3,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
+            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "tag": "ABM_YouSafer_06_T2",
+            "source": "https://lumenfibra.com.br",
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 4,
+            "name": "BIANCA PALOMA VIEIRA PEER",
+            "role": "MARKETING",
+            "company": "FIBINET SOLUÇÕES",
+            "cnpj": "32.687.867/0001-53",
+            "city": "CONTAGEM/MG",
+            "email": "palomapeer@gmail.com",
+            "phone": "31996203422",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 109,
+            "contacts": 3,
+            "personas": 3,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
+            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "tag": "ABM_YouSafer_06_T2",
+            "source": null,
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 5,
+            "name": "THÁBATA SILVA COSTA",
+            "role": "ANALISTA DE MARKETING",
+            "company": "INFINITY - SEESTEL",
+            "cnpj": "02.409.224/0001-87",
+            "city": "43/43",
+            "email": "thabatasilva4306@gmail.com",
+            "phone": "(31) 99166-7107",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 2 - Boa prioridade",
+            "score": 102,
+            "contacts": 3,
+            "personas": 3,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
+            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "tag": "ABM_YouSafer_06_T2",
+            "source": null,
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 6,
+            "name": "EUZENI DA SILVA LAUREANO",
+            "role": "AUXILIAR DE MARKETING",
+            "company": "BMI TELECOMUNICAÇÕES",
+            "cnpj": "43.176.694/0001-25",
+            "city": "BELO HORIZONTE/MG",
+            "email": "euzenisilva18@gmail.com",
+            "phone": "31996458596",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 3 - Nutrição/validação",
+            "score": 79,
+            "contacts": 1,
+            "personas": 2,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
+            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "tag": "ABM_YouSafer_06_T3",
+            "source": null,
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 7,
+            "name": "REULISON SILVA",
+            "role": "MARKETING",
+            "company": "CDB TELECOM",
+            "cnpj": "17.311.597/0001-98",
+            "city": "IBIRITÉ/MG",
+            "email": "reulisonrodrigo@gmail.com",
+            "phone": "31991172861",
+            "fit": "ICP Provedor/Telecom",
+            "tier": "Tier 3 - Nutrição/validação",
+            "score": 79,
+            "contacts": 1,
+            "personas": 2,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
+            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "tag": "ABM_YouSafer_06_T3",
+            "source": null,
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 8,
+            "name": "STEPHANIE PIRTTIAHO PEDROSO",
+            "role": "HEAD DE MARKETING",
+            "company": "B4",
+            "cnpj": "08.593.052/0001-20",
+            "city": "SÃO PAULO/SP",
+            "email": "stephanie.pedroso@somosb4.com.br",
+            "phone": "(11) 94471-1601",
+            "fit": "Validar ICP",
+            "tier": "Tier 3 - Nutrição/validação",
+            "score": 85,
+            "contacts": 2,
+            "personas": 2,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 2 contato(s) no evento/base e fit Validar ICP. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
+            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "tag": "ABM_YouSafer_06_T3",
+            "source": "https://somosb4.com.br",
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 9,
+            "name": "MARCOS DELON OLIVEIRA DE ARAÚJO",
+            "role": "GESTOR DE MARKETING",
+            "company": "PLUGIN",
+            "cnpj": "49.732.433/0001-20",
+            "city": "BRASÍLIA/DF",
+            "email": "marcosd.profissional@gamail.com",
+            "phone": "(61) 99871-2135",
+            "fit": "Adjacente/Parceiro",
+            "tier": "Tier 4 - Baixa prioridade/validar",
+            "score": 71,
+            "contacts": 1,
+            "personas": 2,
+            "seniority": "Gerência",
+            "reason": "Conta com 1 contato(s) no evento/base e fit Adjacente/Parceiro. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
+            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "tag": "ABM_YouSafer_06_T4",
+            "source": null,
+            "abmType": "1:Poucos"
+          },
+          {
+            "rank": 10,
+            "name": "ANA LUIZA CALVO BORELLI",
+            "role": "ANALISTA DE MARKETING",
+            "company": "BRISKCOM",
+            "cnpj": "05.493.946/0001-50",
+            "city": "NOVA LIMA/MG",
+            "email": "analuizaborelli@gmail.com",
+            "phone": "31987427771",
+            "fit": "Validar ICP",
+            "tier": "Tier 4 - Baixa prioridade/validar",
+            "score": 54,
+            "contacts": 1,
+            "personas": 2,
+            "seniority": "Analista/Especialista",
+            "reason": "Conta com 1 contato(s) no evento/base e fit Validar ICP. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
+            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "tag": "ABM_YouSafer_06_T4",
+            "source": null,
+            "abmType": "1:Poucos"
+          }
+        ],
+        "crmSteps": [
+          {
+            "day": "D0",
+            "channel": "E-mail",
+            "goal": "Conteúdo",
+            "message": "{{Nome}}, muitos provedores já têm SVA, mas poucos comunicam isso bem para gerar valor percebido. Montei uma pauta para transformar o benefício em conteúdo para base e aquisição.",
+            "cta": "Receber pauta",
+            "condition": "Clique",
+            "tag": "MKT_D0",
+            "nextStatus": "Initial engagement"
+          },
+          {
+            "day": "D3",
+            "channel": "LinkedIn",
+            "goal": "Autoridade",
+            "message": "A pauta mistura post, e-mail, vídeo curto e conteúdo de educação da base para aumentar uso e retenção.",
+            "cta": "Ver ideias",
+            "condition": "Resposta",
+            "tag": "MKT_D3",
+            "nextStatus": "Meaningful engagement"
+          },
+          {
+            "day": "D7",
+            "channel": "E-mail",
+            "goal": "Converter briefing",
+            "message": "Posso adaptar essa pauta para a comunicação da {{Empresa}} e já sair com 4 conteúdos da semana.",
+            "cta": "Agendar briefing",
+            "condition": "Aceite",
+            "tag": "MKT_D7",
+            "nextStatus": "SQA"
+          }
+        ]
+      }
+    ],
+    "abmTypes": {
+      "1:1": {
+        "label": "ABM 1:1",
+        "position": "Conta estratégica individual",
+        "criteria": "Score muito alto, conta Tier 1 e múltiplos stakeholders. Investimento e personalização máximos.",
+        "motion": "O lead entra em uma rota altamente personalizada com pesquisa pública, abordagem do Gabriel, diagnóstico 1:1 e business case.",
+        "steps": [
+          "Scrap público e tese da conta",
+          "Briefing executivo individual",
+          "Contato do Gabriel + SDR",
+          "Diagnóstico 1:1",
+          "Business case e proposta"
+        ]
+      },
+      "1:Poucos": {
+        "label": "ABM 1:poucos",
+        "position": "Cluster por dor/persona",
+        "criteria": "Conta com bom score, cargo claro ou grupo de contas semelhantes. Personalização por cluster.",
+        "motion": "O lead entra em uma rota por persona, com LP/ativo específico, cadência CRM e remarketing até virar SQA.",
+        "steps": [
+          "Agrupar por persona e dor",
+          "Enviar LP/ativo específico",
+          "Cadência Apollo + CRM",
+          "Retargeting e prova social",
+          "SDR/Closer com contexto"
+        ]
+      },
+      "1:Muitos": {
+        "label": "ABM 1:muitos",
+        "position": "Nutrição em escala",
+        "criteria": "Score menor, cargo menos claro ou sem múltiplos stakeholders. Escala primeiro, venda depois.",
+        "motion": "O lead recebe conteúdo educativo, redes sociais, blog e remarketing até demonstrar intenção real.",
+        "steps": [
+          "Inserir na base segmentada",
+          "Distribuir conteúdo por canal",
+          "Medir clique/visita/engajamento",
+          "Elevar score por intenção",
+          "Mover para cluster ou SQA"
+        ]
+      }
+    }
+  }
 };
