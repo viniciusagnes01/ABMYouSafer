@@ -280,10 +280,14 @@
       </div>
 
       <div class="channel-tabs channel-capture-tabs" role="tablist" aria-label="Selecionar canal de aquisição">
-        <button class="active" data-channel="LinkedIn">LinkedIn</button>
-        <button data-channel="Instagram">Instagram</button>
-        <button data-channel="Facebook">Facebook</button>
-        <button data-channel="Blog">Blog</button>
+        <button class="active" data-channel="LinkedIn" aria-selected="true">LinkedIn</button>
+        <button data-channel="Instagram" aria-selected="false">Instagram</button>
+        <button data-channel="Facebook" aria-selected="false">Facebook</button>
+        <button data-channel="Blog" aria-selected="false">Blog / Artigos</button>
+      </div>
+      <div class="panel-title-row compact channel-feed-head">
+        <h3 id="channelFeedTitle">Grade de posts por canal</h3>
+        <span id="channelFeedCount">0 conteúdos</span>
       </div>
       <div class="social-dashboard acquisition-dashboard">
         <aside class="channel-strategy" id="channelStrategy"></aside>

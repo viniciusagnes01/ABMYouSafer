@@ -80,16 +80,69 @@ function renderEmailPersona(key) {
   sequence.innerHTML = (p.sequence || []).map((item,i) => `<article class="email-step card-3d"><div class="step-day">${esc(item.day)}</div><div class="email-step-content"><small>${esc(item.trigger)}</small><h3>${esc(item.subject)}</h3><p>${esc(item.angle)}</p><span>${esc(item.cta)}</span></div><em>${String(i+1).padStart(2,'0')}</em></article>`).join('');
 }
 
+
+function renderChannelMatrix() {
+  const wrap = qs('#channelMatrix'); if(!wrap || !DATA.channelMatrix) return;
+  wrap.innerHTML = `<div class="matrix-table-scroll" role="region" aria-label="Matriz por canal"><table class="channel-matrix-table">
+    <thead><tr><th>Canal</th><th>Funil</th><th>Papel</th><th>CTA principal</th></tr></thead>
+    <tbody>${DATA.channelMatrix.map(row => `<tr data-channel-row="${esc(row.canal)}">
+      <td><button type="button" data-jump-channel="${esc(row.canal)}">${esc(row.canal)}</button><small>${esc(row.observacao || '')}</small></td>
+      <td>${esc(row.funil)}</td>
+      <td>${esc(row.papel)}</td>
+      <td><strong>${esc(row.cta)}</strong></td>
+    </tr>`).join('')}</tbody>
+  </table></div>`;
+  qsa('[data-jump-channel]', wrap).forEach(btn => btn.addEventListener('click', () => {
+    const target = btn.dataset.jumpChannel;
+    const tab = qs(`.channel-capture-tabs button[data-channel="${target}"]`);
+    if(tab) tab.click();
+  }));
+}
+function renderAcquisitionClusters() {
+  const wrap = qs('#channelBaseClusters'); if(!wrap || !DATA.userBaseChannelClusters) return;
+  wrap.innerHTML = DATA.userBaseChannelClusters.map((row, i)=>`<article class="base-channel-card card-3d">
+    <div class="card-index">${String(i+1).padStart(2,'0')}</div>
+    <h3>${esc(row.cluster)}</h3>
+    <dl><dt>Ângulo principal</dt><dd>${esc(row.angle)}</dd><dt>Melhor canal</dt><dd>${esc(row.bestChannels)}</dd></dl>
+    <blockquote>${esc(row.language)}</blockquote>
+  </article>`).join('');
+}
 function renderSocial(channel='LinkedIn') {
-  const strategy = DATA.socialStrategies[channel];
+  const normalized = channel === 'Blog / Artigos' ? 'Blog' : channel;
+  const strategy = DATA.socialStrategies[normalized] || DATA.socialStrategies.LinkedIn;
   const strategyWrap = qs('#channelStrategy');
-  if(strategyWrap && strategy) strategyWrap.innerHTML = `<small>Estratégia do canal</small><h3>${esc(channel)}</h3><dl><dt>Papel</dt><dd>${esc(strategy.role)}</dd><dt>Ritmo</dt><dd>${esc(strategy.rhythm)}</dd><dt>Métrica</dt><dd>${esc(strategy.metric)}</dd></dl>`;
+  const channelLabel = normalized === 'Blog' ? 'Blog / Artigos SEO' : normalized;
+  if(strategyWrap && strategy) strategyWrap.innerHTML = `<small>Canal selecionado</small><h3>${esc(channelLabel)}</h3><dl><dt>Funil</dt><dd>${esc(strategy.funil)}</dd><dt>Papel</dt><dd>${esc(strategy.role)}</dd><dt>CTA principal</dt><dd>${esc(strategy.cta)}</dd><dt>Ritmo</dt><dd>${esc(strategy.rhythm)}</dd><dt>Métrica</dt><dd>${esc(strategy.metric)}</dd></dl><p class="channel-note">${esc(strategy.note || '')}</p>`;
   const grid = qs('#socialGrid'); if(!grid) return;
-  const items = DATA.socialPosts.filter(p => p.channel === channel);
-  grid.innerHTML = items.map((post,i) => `<article class="social-card card-3d"><div class="card-index">${String(i+1).padStart(2,'0')}</div><span class="channel-pill">${esc(post.format)}</span><h3>${esc(post.title)}</h3><p>${esc(post.objective)}</p><strong>${esc(post.cta)}</strong></article>`).join('');
+  const items = DATA.socialPosts.filter(p => p.channel === normalized);
+  const title = qs('#channelFeedTitle');
+  const count = qs('#channelFeedCount');
+  if(title) title.textContent = normalized === 'Blog' ? 'Grade semanal — Blog / Artigos SEO' : `Grade de posts — ${normalized}`;
+  if(count) count.textContent = `${items.length} conteúdo${items.length === 1 ? '' : 's'}`;
+  if(!items.length) {
+    grid.innerHTML = `<article class="social-card acquisition-card empty-state"><h3>Nenhum conteúdo cadastrado para ${esc(channelLabel)}</h3><p>Adicione novos itens em DATA.socialPosts usando channel: "${esc(normalized)}".</p></article>`;
+    return;
+  }
+  grid.innerHTML = items.map((post,i) => `<article class="social-card acquisition-card card-3d">
+    <div class="card-index">${esc(post.day || post.post || String(i+1).padStart(2,'0'))}</div>
+    <span class="channel-pill">${esc(post.format)}</span>
+    <h3>${esc(post.title)}</h3>
+    <p>${esc(post.objective)}</p>
+    <div class="post-meta-grid">
+      ${post.keyword ? `<span><b>Palavra/cluster</b>${esc(post.keyword)}</span>` : ''}
+      <span><b>Persona</b>${esc(post.persona || 'Todos')}</span>
+      <span><b>Cluster de base</b>${esc(post.cluster || '-')}</span>
+      <span><b>Funil</b>${esc(post.funnel || strategy?.funil || '-')}</span>
+    </div>
+    <strong>${esc(post.cta)}</strong>
+  </article>`).join('');
 }
 function setupSocialTabs() {
-  qsa('.channel-tabs button').forEach(btn => btn.addEventListener('click', () => { qsa('.channel-tabs button').forEach(tab=>tab.classList.toggle('active',tab===btn)); renderSocial(btn.dataset.channel); }));
+  const tabs = qsa('.channel-capture-tabs button[data-channel]');
+  tabs.forEach(btn => btn.addEventListener('click', () => {
+    tabs.forEach(tab=>{ const active = tab===btn; tab.classList.toggle('active', active); tab.setAttribute('aria-selected', active ? 'true' : 'false'); });
+    renderSocial(btn.dataset.channel);
+  }));
 }
 function renderLps() {
   const wrap = qs('#personaLps'); if(!wrap) return;
@@ -124,26 +177,31 @@ function getClusterPersona(key) { return (DATA.scrapCluster.personas || []).find
 function renderScrapCluster() {
   if(!DATA.scrapCluster) return;
   const personas = DATA.scrapCluster.personas || []; if(!personas.length) return;
-  const stats = qs('#clusterStats'); if(stats){ const s=DATA.scrapCluster.source; stats.innerHTML = [['Leads válidos',s.validLeads],['Empresas únicas',s.uniqueAccounts],['Personas',s.personas],['Regra',s.rule]].map(([l,v])=>`<article><small>${esc(l)}</small><strong>${esc(v)}</strong></article>`).join(''); }
+  const stats = qs('#clusterStats'); if(stats){ const s=DATA.scrapCluster.source; stats.innerHTML = [['Leads válidos',s.validLeads],['Empresas únicas',s.uniqueAccounts],['Personas',s.personas],['Regra nova',s.baseLogic || s.rule],['Validação',s.validation || 'Validar porte antes do comercial']].map(([l,v])=>`<article><small>${esc(l)}</small><strong>${esc(v)}</strong></article>`).join(''); }
+  renderBaseRules();
   const tabs = qs('#clusterPersonaTabs'); if(tabs){ tabs.innerHTML = personas.map((p,i)=>`<button type="button" class="${i===0?'active':''}" data-cluster-persona="${esc(p.key)}"><span>${String(i+1).padStart(2,'0')}</span>${esc(p.label)}</button>`).join(''); tabs.addEventListener('click', e=>{ const b=e.target.closest('button[data-cluster-persona]'); if(!b) return; qsa('button',tabs).forEach(btn=>btn.classList.toggle('active',btn===b)); renderClusterPersona(b.dataset.clusterPersona); }); }
   renderClusterPersona(personas[0].key);
+}
+function renderBaseRules() {
+  const wrap=qs('#baseRules'); if(!wrap || !DATA.scrapCluster.baseRules) return;
+  wrap.innerHTML = DATA.scrapCluster.baseRules.map((r,i)=>`<article class="base-rule-card card-3d ${i===0?'hot':''}"><span>${String(i+1).padStart(2,'0')}</span><small>${esc(r.range)}</small><h3>${esc(r.tier)}</h3><b>${esc(r.abmType)}</b><p>${esc(r.why)}</p><em>${esc(r.investment)}</em></article>`).join('');
 }
 function renderClusterPersona(key) {
   const p = getClusterPersona(key); if(!p) return;
   const lbl=qs('#clusterTableLabel'); if(lbl) lbl.textContent = p.label;
-  const selected=qs('#clusterSelectedSummary'); if(selected){ const counts = { '1:1':0, '1:Poucos':0, '1:Muitos':0 }; p.leads.forEach(l=>counts[l.abmType]++); selected.innerHTML = `<h3>${esc(p.label)}</h3><p>${esc(p.role)}</p><div class="route-counters"><span><b>${counts['1:1']}</b> 1:1</span><span><b>${counts['1:Poucos']}</b> 1:poucos</span><span><b>${counts['1:Muitos']}</b> 1:muitos</span></div>`; }
+  const selected=qs('#clusterSelectedSummary'); if(selected){ const counts = { '1:1':0, '1:Poucos':0, '1:Muitos':0 }; const baseCounts={}; p.leads.forEach(l=>{counts[l.abmType]++; baseCounts[l.baseTier]=(baseCounts[l.baseTier]||0)+1;}); selected.innerHTML = `<h3>${esc(p.label)}</h3><p>${esc(p.role)}</p><div class="route-counters"><span><b>${counts['1:1']}</b> 1:1</span><span><b>${counts['1:Poucos']}</b> 1:poucos</span><span><b>${counts['1:Muitos']}</b> 1:muitos</span></div><div class="base-mini">${Object.entries(baseCounts).map(([k,v])=>`<i>${esc(k)} <b>${v}</b></i>`).join('')}</div>`; }
   renderClusterTable(p);
   renderActiveLead(p, p.leads[0]);
 }
 function renderClusterTable(persona) {
   const table=qs('#clusterLeadTable'); if(!table) return;
-  table.innerHTML = `<thead><tr><th>#</th><th>Lead</th><th>Empresa</th><th>Cargo</th><th>Score</th><th>Conta</th><th>Rota</th><th>Próximo passo</th></tr></thead><tbody>${persona.leads.map((lead,i)=>`<tr class="${i===0?'active':''}" data-lead-index="${i}" tabindex="0"><td>${String(lead.rank||i+1).padStart(2,'0')}</td><td><strong>${esc(lead.name)}</strong><small>${esc(lead.email || '')}</small></td><td>${esc(lead.company)}<small>${esc(lead.city)}</small></td><td>${esc(lead.role)}</td><td><b>${esc(lead.score)}</b></td><td>${esc(lead.tier)}<small>${esc(lead.contacts)} contatos · ${esc(lead.personas)} personas</small></td><td><span class="route-badge route-${routeClass(lead.abmType)}">${esc(lead.abmType)}</span></td><td>${esc(lead.nextStep)}</td></tr>`).join('')}</tbody>`;
+  table.innerHTML = `<thead><tr><th>#</th><th>Lead</th><th>Empresa</th><th>Cargo</th><th>Base estimada</th><th>Score</th><th>Conta</th><th>Rota</th><th>Próximo passo</th></tr></thead><tbody>${persona.leads.map((lead,i)=>`<tr class="${i===0?'active':''}" data-lead-index="${i}" tabindex="0"><td>${String(lead.rank||i+1).padStart(2,'0')}</td><td><strong>${esc(lead.name)}</strong><small>${esc(lead.email || '')}</small></td><td>${esc(lead.company)}<small>${esc(lead.city)}</small></td><td>${esc(lead.role)}</td><td><strong>${esc(lead.baseUsers || 'a validar')}</strong><small>${esc(lead.baseTier || '')}</small></td><td><b>${esc(lead.score)}</b></td><td>${esc(lead.tier)}<small>${esc(lead.contacts)} contatos · ${esc(lead.personas)} personas</small></td><td><span class="route-badge route-${routeClass(lead.abmType)}">${esc(lead.abmType)}</span></td><td>${esc(lead.nextStep)}</td></tr>`).join('')}</tbody>`;
   qsa('tbody tr',table).forEach(row=>{ const run=()=>{ qsa('tbody tr',table).forEach(r=>r.classList.toggle('active',r===row)); renderActiveLead(persona, persona.leads[Number(row.dataset.leadIndex)]); }; row.addEventListener('click',run); row.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();run();}}); });
 }
 function renderActiveLead(persona, lead) {
   if(!lead) return;
   const active=qs('#activeLeadCard');
-  if(active) active.innerHTML = `<small>Simulação ativa</small><h3>${esc(lead.name)}</h3><p><b>${esc(lead.role)}</b> · ${esc(lead.company)}</p><div class="active-lead-meta"><span>Persona <b>${esc(persona.label)}</b></span><span>Score <b>${esc(lead.score)}</b></span><span>Contatos <b>${esc(lead.contacts)}</b></span><span>Personas <b>${esc(lead.personas)}</b></span><span>Senioridade <b>${esc(lead.seniority)}</b></span><span>Tag <b>${esc(lead.tag)}</b></span></div><div class="active-route route-${routeClass(lead.abmType)}"><strong>${esc(lead.abmType)}</strong><span>${esc(lead.reason)}</span></div><p class="next-step"><b>Próximo passo:</b> ${esc(lead.nextStep)}</p>${lead.source ? `<p class="next-step"><b>Fonte:</b> ${esc(lead.source)}</p>` : ''}`;
+  if(active) active.innerHTML = `<small>Simulação ativa</small><h3>${esc(lead.name)}</h3><p><b>${esc(lead.role)}</b> · ${esc(lead.company)}</p><div class="active-lead-meta"><span>Base estimada <b>${esc(lead.baseUsers || 'a validar')}</b></span><span>Tier por base <b>${esc(lead.baseTier || 'a validar')}</b></span><span>Persona <b>${esc(persona.label)}</b></span><span>Score preservado <b>${esc(lead.score)}</b></span><span>Contatos <b>${esc(lead.contacts)}</b></span><span>Personas <b>${esc(lead.personas)}</b></span><span>Senioridade <b>${esc(lead.seniority)}</b></span><span>Tag <b>${esc(lead.tag)}</b></span></div><div class="active-route route-${routeClass(lead.abmType)}"><strong>${esc(lead.abmType)}</strong><span>${esc(lead.reason)}</span></div><p class="next-step"><b>Regra aplicada:</b> ${esc(lead.routeLogic || 'base define intensidade; persona define narrativa')}</p><p class="next-step"><b>Próximo passo:</b> ${esc(lead.nextStep)}</p>${lead.source ? `<p class="next-step"><b>Fonte:</b> ${esc(lead.source)}</p>` : ''}`;
   const label=qs('#activeFunnelLabel'); if(label) label.textContent = lead.abmType;
   const funnel=qs('#abmFunnelVisual'); if(funnel){ qsa('[data-type]',funnel).forEach(btn=>{ btn.classList.toggle('active', btn.dataset.type===lead.abmType); btn.classList.toggle('muted-route', btn.dataset.type!==lead.abmType); }); }
   renderClusterJourney(lead, persona); renderClusterCrm(persona, lead);
@@ -154,7 +212,7 @@ function renderClusterJourney(lead, persona) {
   flow.innerHTML = `<header class="journey-head"><div><p class="eyebrow"><span></span> Downflow do lead</p><h3>${esc(route.label)} · ${esc(route.position)}</h3><p>${esc(route.motion)}</p></div><strong>${esc(route.criteria)}</strong></header><div class="journey-steps">${route.steps.map((step,i)=>`<article class="journey-step card-3d" style="--delay:${i*.08}s"><span>${String(i+1).padStart(2,'0')}</span><h4>${esc(step)}</h4><p>${journeyCopy(lead, persona, i)}</p></article>`).join('')}</div>`;
 }
 function journeyCopy(lead, persona, index) {
-  const copies = [`Validar ${lead.company}, cargo, site, fonte pública e sinais de SVA antes da primeira abordagem.`, `Usar a dor da persona ${persona.short || persona.label} como âncora de mensagem e LP.`, `Registrar origem, score ${lead.score}, tag ${lead.tag || 'CRM'} e conteúdo consumido no CRM.`, `Avançar apenas com sinal real: resposta, clique, formulário, conexão ou abertura repetida.`, `Entregar ao comercial com briefing: por que entrou nessa rota e qual CTA usar.`];
+  const copies = [`Validar porte real da base de ${lead.company}: ${lead.baseUsers || 'a validar'}, Anatel/ZoomInfo/site e sinais públicos.`, `Usar a persona ${persona.short || persona.label} para adaptar dor, LP, argumento e CTA.`, `Registrar origem, baseTier ${lead.baseTier || 'a validar'}, score ${lead.score}, tag ${lead.tag || 'CRM'} e conteúdo consumido.`, `Avançar apenas com sinal real: resposta, clique, formulário, conexão ou abertura repetida.`, `Entregar ao comercial com briefing: porte da base, por que entrou em ${lead.abmType} e qual CTA usar.`];
   return copies[index] || copies[copies.length-1];
 }
 function renderClusterCrm(persona, lead) {
@@ -172,4 +230,4 @@ function setupNavigation() {
 function setupReveal() { const elements=qsa('[data-section], .card-3d'); const obs=new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('is-visible'); }); },{threshold:.05}); elements.forEach(el=>obs.observe(el)); }
 function setupMascotMotion(){ const imgs=qsa('.hero-mascot img, .final-mascot img, .with-mascot img'); window.addEventListener('pointermove', e=>{ if(window.innerWidth<900) return; const x=(e.clientX/window.innerWidth-.5)*8; const y=(e.clientY/window.innerHeight-.5)*8; imgs.forEach((img,i)=>{ img.style.transform=`translate3d(${x*(i?0.25:1)}px, ${y*(i?0.2:1)}px, 0)`; }); }); }
 
-renderControlMatrix(); renderScrapCluster(); renderFlow(); renderScoreChecks(); renderEmailTabs(); setupSocialTabs(); renderSocial('LinkedIn'); renderLps(); renderCrm(); renderContentLibrary(); renderPlayFilters(); renderPlays(); renderRoadmap(); renderDecisions(); setupNavigation(); setupReveal(); setupMascotMotion();
+renderControlMatrix(); renderScrapCluster(); renderFlow(); renderChannelMatrix(); renderAcquisitionClusters(); renderScoreChecks(); renderEmailTabs(); setupSocialTabs(); renderSocial('LinkedIn'); renderLps(); renderCrm(); renderContentLibrary(); renderPlayFilters(); renderPlays(); renderRoadmap(); renderDecisions(); setupNavigation(); setupReveal(); setupMascotMotion();

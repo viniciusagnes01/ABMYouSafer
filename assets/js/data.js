@@ -1,4 +1,4 @@
-/* YouSafer ABM Control Center v7 - camada de dados modular */
+/* YouSafer ABM Control Center v8 - camada de dados modular */
 window.ABM_DATA = {
   "scoreRules": [
     {
@@ -76,6 +76,12 @@ window.ABM_DATA = {
       "objective": "Fazer o problema ficar óbvio.",
       "signal": "Conta engaja com temas de preço, churn, retenção, valor percebido ou SVA útil.",
       "action": "Distribuir tese em LinkedIn, blog, email e social ads antes de pedir reunião."
+    },
+    {
+      "title": "Clusterização por base",
+      "desc": "Tamanho estimado da base define o nível de ABM; persona define a narrativa e a cadência.",
+      "metric": "Base > persona > intenção",
+      "status": "Nova regra"
     },
     {
       "icon": "megaphone",
@@ -538,278 +544,256 @@ window.ABM_DATA = {
   },
   "socialStrategies": {
     "LinkedIn": {
-      "role": "Autoridade executiva, multi-thread por conta e prova para decisores.",
-      "rhythm": "3 posts semanais + comentários do Gabriel + conexão consultiva.",
-      "metric": "Conexões aceitas, comentários de decisores, visitas em LP e score por conta."
+      "funil": "Fundo do funil quando ligado a ABM; topo/meio quando orgânico amplo",
+      "role": "Decisor, diagnóstico, ROI, comitê de compra, retargeting e social selling.",
+      "cta": "Diagnóstico, simulação, kit comercial",
+      "rhythm": "4 posts focados em decisão + comentários do Gabriel + conexão consultiva nas contas priorizadas.",
+      "metric": "Conexões aceitas, respostas de decisores, visitas em LP, pedidos de simulação e avanço para MQA/SQA.",
+      "note": "Chamar de fundo do funil apenas quando a distribuição estiver ligada a ABM, lista de contas, retargeting ou social selling. No orgânico amplo, LinkedIn também cumpre topo e meio, porque a maior parte dos compradores B2B não está in-market no curto prazo."
     },
     "Instagram": {
-      "role": "Tradução visual da tese para entendimento rápido e remarketing.",
-      "rhythm": "3 Reels/carrosséis por semana + stories de bastidor + prova social.",
-      "metric": "Retenção de vídeo, salvamentos, respostas, cliques e público de remarketing."
+      "funil": "Topo e meio",
+      "role": "Educação rápida, consciência de dor, carrossel, reels e remarketing leve.",
+      "cta": "Blog, checklist, régua",
+      "rhythm": "4 posts semanais em carrossel/reels + stories para reforço e públicos de remarketing.",
+      "metric": "Salvamentos, compartilhamentos, respostas, retenção de vídeo, cliques para blog/LP e público de remarketing.",
+      "note": "Canal para traduzir a tese em linguagem simples: guerra de preço, valor percebido, SVA útil e retenção antes do cancelamento."
     },
     "Facebook": {
-      "role": "Distribuição regional, reforço de prova e remarketing para contas/visitantes.",
-      "rhythm": "2 posts por semana + campanhas de engajamento + remarketing de LP.",
-      "metric": "Alcance em praças, engajamento, custo por visita qualificada e retorno de MQA."
+      "funil": "Topo e meio",
+      "role": "Educação acessível, regional, comunidade, dor prática e distribuição para praças específicas.",
+      "cta": "Blog, WhatsApp, checklist",
+      "rhythm": "4 posts semanais com linguagem direta + campanhas de engajamento + remarketing de visitantes.",
+      "metric": "Alcance regional, engajamento, custo por visita qualificada, cliques para WhatsApp e retorno de leads mornos.",
+      "note": "Bom para falar com gestores regionais e comunidades do setor com uma leitura menos técnica e mais prática."
     },
-    "Artigos / Blog": {
-      "role": "SEO, educação e captura de intenção de médio prazo.",
-      "rhythm": "1 artigo por semana + reaproveitamento em email e social.",
-      "metric": "Tráfego orgânico, tempo de leitura, cliques em LP e downloads de ativos."
+    "Blog": {
+      "funil": "Profundidade",
+      "role": "SEO, autoridade, prova, educação completa e ponte para LPs por persona.",
+      "cta": "LP, WhatsApp, diagnóstico",
+      "rhythm": "3 artigos por semana: segunda, quarta e sexta, sempre com utilidade real e CTA de avanço.",
+      "metric": "Tráfego orgânico, tempo de leitura, cliques para LP, downloads, WhatsApp e diagnósticos solicitados.",
+      "note": "O blog precisa ser útil para pessoas, não só SEO: original, completo, confiável e conectado à dor real do provedor."
     }
   },
+  "channelMatrix": [
+    {
+      "canal": "LinkedIn",
+      "funil": "Fundo do funil",
+      "papel": "Decisor, diagnóstico, ROI, comitê de compra",
+      "cta": "Diagnóstico, simulação, kit comercial",
+      "observacao": "Usar como fundo quando houver ABM, lista de contas, retargeting ou social selling; orgânico amplo também atua em topo/meio."
+    },
+    {
+      "canal": "Instagram",
+      "funil": "Topo e meio",
+      "papel": "Educação rápida, consciência de dor, carrossel e reels",
+      "cta": "Blog, checklist, régua",
+      "observacao": "Melhor para explicar a tese em poucos segundos e criar remarketing."
+    },
+    {
+      "canal": "Facebook",
+      "funil": "Topo e meio",
+      "papel": "Educação acessível, regional, comunidade e dor prática",
+      "cta": "Blog, WhatsApp, checklist",
+      "observacao": "Forte para alcance regional, grupos e linguagem menos técnica."
+    },
+    {
+      "canal": "Blog",
+      "funil": "Profundidade",
+      "papel": "SEO, autoridade, prova e ponte para LP",
+      "cta": "LP, WhatsApp, diagnóstico",
+      "observacao": "Base de autoridade e captura de intenção; cada artigo precisa levar para um próximo passo."
+    }
+  ],
+  "userBaseChannelClusters": [
+    {
+      "cluster": "Base menor",
+      "angle": "Diferenciação e sair da guerra de preço",
+      "bestChannels": "Instagram, Facebook, Blog educativo",
+      "language": "Seu provedor precisa ser lembrado por algo além de velocidade e desconto."
+    },
+    {
+      "cluster": "Base média",
+      "angle": "Retenção, ativação e argumento comercial",
+      "bestChannels": "Blog, Instagram, Facebook, LinkedIn",
+      "language": "Quanto maior sua base, mais importante é fazer o benefício virar uso e argumento de venda."
+    },
+    {
+      "cluster": "Base grande",
+      "angle": "ROI, margem, custo do churn e comitê decisor",
+      "bestChannels": "LinkedIn, Blog, LP, WhatsApp comercial",
+      "language": "Quanto maior sua base, mais caro fica perder clientes por falta de valor percebido."
+    }
+  ],
   "socialPosts": [
     {
-      "channel": "LinkedIn",
-      "format": "Post executivo",
-      "title": "Velocidade e preço viraram requisito, não diferencial",
-      "objective": "Abrir a tese de mercado para donos e diretores de ISPs.",
-      "cta": "Comentar “retenção”"
+      "channel": "Blog",
+      "day": "Segunda",
+      "format": "Artigo útil + SEO",
+      "title": "Quanto custa perder 1% da base por mês?",
+      "keyword": "custo de churn, churn provedor de internet",
+      "persona": "CEO / Financeiro",
+      "cluster": "Média e grande",
+      "funnel": "Profundidade / intenção",
+      "objective": "Transformar churn em conversa financeira e abrir espaço para simulação.",
+      "cta": "Simulação financeira"
+    },
+    {
+      "channel": "Blog",
+      "day": "Quarta",
+      "format": "Artigo educativo",
+      "title": "Como reduzir churn em provedores sem depender de desconto",
+      "keyword": "retenção de clientes, retenção provedor internet",
+      "persona": "CEO / CS",
+      "cluster": "Média e grande",
+      "funnel": "Profundidade / autoridade",
+      "objective": "Reposicionar retenção como estratégia antes do pedido de cancelamento.",
+      "cta": "Diagnóstico de retenção"
+    },
+    {
+      "channel": "Blog",
+      "day": "Sexta",
+      "format": "Checklist / artigo pilar",
+      "title": "Checklist: como escolher um SVA de alto valor percebido",
+      "keyword": "SVA para provedores, serviço de valor agregado",
+      "persona": "Produto / Comercial",
+      "cluster": "Pequena e média",
+      "funnel": "Profundidade / conversão leve",
+      "objective": "Ajudar o provedor a comparar SVA útil vs SVA que só ocupa contrato.",
+      "cta": "Baixar checklist / WhatsApp"
     },
     {
       "channel": "LinkedIn",
-      "format": "Carrossel",
-      "title": "O custo oculto de reconquistar clientes todo mês",
-      "objective": "Conectar churn com margem e previsibilidade.",
+      "post": "1",
+      "format": "Post executivo",
+      "title": "Quando a base cresce, perder pouco já custa muito",
+      "persona": "CEO / Financeiro",
+      "cluster": "Grande",
+      "funnel": "Fundo quando distribuído por ABM",
+      "objective": "Ativar decisor com custo de churn e tese de valor percebido.",
       "cta": "Pedir simulação"
     },
     {
       "channel": "LinkedIn",
-      "format": "Post do Gabriel",
-      "title": "Por que SVA precisa ser útil, não só listado no contrato",
-      "objective": "Criar autoridade e provocar decisores.",
-      "cta": "Receber checklist"
+      "post": "2",
+      "format": "Post provocativo",
+      "title": "Seu comercial vende velocidade ou motivo para ficar?",
+      "persona": "Diretor Comercial",
+      "cluster": "Média/grande",
+      "funnel": "Fundo quando ligado a social selling",
+      "objective": "Conectar SVA de saúde com argumento comercial e defesa de preço.",
+      "cta": "Receber kit comercial"
     },
     {
       "channel": "LinkedIn",
-      "format": "Documento",
-      "title": "Framework: Fit + Intent + Progression para ISPs",
-      "objective": "Educar sobre ABM e mostrar método.",
-      "cta": "Ver score ABM"
+      "post": "3",
+      "format": "Documento / carrossel B2B",
+      "title": "SVA que não vira uso vira custo",
+      "persona": "CS / Produto",
+      "cluster": "Média/grande",
+      "funnel": "Meio/fundo",
+      "objective": "Mostrar que benefício precisa de ativação e régua de uso.",
+      "cta": "Ver régua de ativação"
     },
     {
       "channel": "LinkedIn",
-      "format": "Case conceitual",
-      "title": "Como um benefício de saúde pode defender preço",
-      "objective": "Falar com Comercial e CEO.",
-      "cta": "Receber kit"
-    },
-    {
-      "channel": "LinkedIn",
-      "format": "Enquete",
-      "title": "Seu SVA gera uso ou só ocupa espaço no plano?",
-      "objective": "Gerar comentários e sinais de dor.",
-      "cta": "Votar"
-    },
-    {
-      "channel": "LinkedIn",
+      "post": "4",
       "format": "Post CFO",
-      "title": "Quanto 1% de churn impacta sua margem?",
-      "objective": "Acionar Financeiro com dor numérica.",
-      "cta": "Calcular impacto"
-    },
-    {
-      "channel": "LinkedIn",
-      "format": "Post CS",
-      "title": "Retenção começa antes do pedido de cancelamento",
-      "objective": "Acionar Operações/CS.",
-      "cta": "Ver régua"
-    },
-    {
-      "channel": "LinkedIn",
-      "format": "Convite",
-      "title": "Mesa: retenção em provedores além da velocidade",
-      "objective": "Criar evento de autoridade para multi-thread.",
-      "cta": "Inscrever-se"
+      "title": "Antes de aprovar um SVA, o financeiro vai perguntar isso",
+      "persona": "CFO / CEO",
+      "cluster": "Grande",
+      "funnel": "Fundo do funil",
+      "objective": "Antecipar objeção de ROI, margem e business case.",
+      "cta": "Diagnóstico / business case"
     },
     {
       "channel": "Instagram",
-      "format": "Reels",
-      "title": "3 sinais de que seu provedor está competindo só por preço",
-      "objective": "Gerar compreensão rápida da dor.",
-      "cta": "Salvar"
-    },
-    {
-      "channel": "Instagram",
+      "post": "1",
       "format": "Carrossel",
-      "title": "SVA útil vs SVA esquecido no contrato",
-      "objective": "Comparar valor percebido de forma visual.",
-      "cta": "Ver checklist"
+      "title": "5 sinais de que seu provedor virou commodity",
+      "persona": "CEO / Comercial",
+      "cluster": "Pequena e média",
+      "funnel": "Topo",
+      "objective": "Gerar consciência de dor com leitura rápida e visual.",
+      "cta": "Ler blog"
     },
     {
       "channel": "Instagram",
-      "format": "Stories",
-      "title": "Quiz: seu cliente lembra dos benefícios do plano?",
-      "objective": "Criar interação e público de remarketing.",
-      "cta": "Responder quiz"
-    },
-    {
-      "channel": "Instagram",
+      "post": "2",
       "format": "Reels",
-      "title": "Como explicar saúde digital em 30 segundos",
-      "objective": "Ajudar comercial/marketing a simplificar a oferta.",
-      "cta": "Compartilhar"
+      "title": "Cliente não cancela só por preço",
+      "persona": "CEO / CS",
+      "cluster": "Pequena, média e grande",
+      "funnel": "Topo",
+      "objective": "Desconstruir a explicação simplista de churn.",
+      "cta": "Salvar / compartilhar"
     },
     {
       "channel": "Instagram",
+      "post": "3",
       "format": "Carrossel",
-      "title": "A régua de 30 dias para ativar o benefício",
-      "objective": "Mostrar operação de CS.",
-      "cta": "Receber régua"
-    },
-    {
-      "channel": "Instagram",
-      "format": "Prova social",
-      "title": "O que um benefício recorrente muda na relação com a base",
-      "objective": "Reforçar utilidade real.",
-      "cta": "Ver exemplo"
-    },
-    {
-      "channel": "Instagram",
-      "format": "Bastidor",
-      "title": "Como uma conta vira MQA no ABM",
-      "objective": "Mostrar o método de forma leve.",
-      "cta": "Ver score"
-    },
-    {
-      "channel": "Instagram",
-      "format": "Reels",
-      "title": "O erro de vender internet só por velocidade",
-      "objective": "Educar topo de funil.",
-      "cta": "Enviar para alguém"
-    },
-    {
-      "channel": "Instagram",
-      "format": "Stories",
-      "title": "Caixa de perguntas: SVA, retenção e saúde digital",
-      "objective": "Capturar objeções para conteúdo futuro.",
-      "cta": "Perguntar"
-    },
-    {
-      "channel": "Facebook",
-      "format": "Post regional",
-      "title": "Provedores regionais precisam de diferenciação que a base entende",
-      "objective": "Falar com donos e gerentes em praças regionais.",
-      "cta": "Saiba mais"
-    },
-    {
-      "channel": "Facebook",
-      "format": "Vídeo curto",
-      "title": "Por que desconto não resolve churn para sempre",
-      "objective": "Educar e aquecer público frio.",
-      "cta": "Assistir"
-    },
-    {
-      "channel": "Facebook",
-      "format": "Post prova",
-      "title": "Benefício que entra na rotina tem mais chance de ser lembrado",
-      "objective": "Construir percepção de valor.",
-      "cta": "Ver benefícios"
-    },
-    {
-      "channel": "Facebook",
-      "format": "Remarketing",
-      "title": "Você viu o checklist de SVA? Agora veja a calculadora",
-      "objective": "Reengajar visitantes de LP.",
-      "cta": "Calcular impacto"
-    },
-    {
-      "channel": "Facebook",
-      "format": "Post comercial",
-      "title": "Como vender plano de maior valor sem depender só de velocidade",
-      "objective": "Ativar gestores comerciais.",
-      "cta": "Receber kit"
-    },
-    {
-      "channel": "Facebook",
-      "format": "Post CS",
-      "title": "Régua de ativação para cliente não esquecer o benefício",
-      "objective": "Ativar operação e retenção.",
-      "cta": "Ver régua"
-    },
-    {
-      "channel": "Facebook",
-      "format": "Post financeiro",
-      "title": "O custo de churn aparece antes do cancelamento",
-      "objective": "Acionar financeiro com narrativa simples.",
-      "cta": "Simular"
-    },
-    {
-      "channel": "Facebook",
-      "format": "Evento",
-      "title": "Conversa sobre retenção em provedores",
-      "objective": "Gerar inscrição e audiência.",
-      "cta": "Participar"
-    },
-    {
-      "channel": "Facebook",
-      "format": "Depoimento/FAQ",
-      "title": "Assistência de saúde não é plano de saúde: como comunicar certo",
-      "objective": "Reduzir objeção e confusão.",
-      "cta": "Entender diferença"
-    },
-    {
-      "channel": "Artigos / Blog",
-      "format": "SEO",
-      "title": "Como reduzir churn em provedores de internet sem depender só de desconto",
-      "objective": "Capturar demanda de retenção e churn.",
-      "cta": "Ver diagnóstico"
-    },
-    {
-      "channel": "Artigos / Blog",
-      "format": "SEO",
-      "title": "SVA para provedor de internet: o que gera valor percebido de verdade",
-      "objective": "Educar Produto/SVA e Comercial.",
+      "title": "SVA de saúde vs entretenimento: quando cada um ajuda?",
+      "persona": "Produto / Comercial",
+      "cluster": "Pequena e média",
+      "funnel": "Meio",
+      "objective": "Ajudar a comparar tipos de SVA por utilidade percebida.",
       "cta": "Baixar checklist"
     },
     {
-      "channel": "Artigos / Blog",
-      "format": "SEO",
-      "title": "Custo de churn: como calcular impacto real na margem do provedor",
-      "objective": "Falar com Financeiro e CEO.",
-      "cta": "Pedir calculadora"
+      "channel": "Instagram",
+      "post": "4",
+      "format": "Reels",
+      "title": "O que é valor percebido para quem assina internet?",
+      "persona": "Marketing / CS",
+      "cluster": "Média",
+      "funnel": "Meio",
+      "objective": "Traduzir valor percebido em exemplos simples para assinantes.",
+      "cta": "Ir para WhatsApp/LP"
     },
     {
-      "channel": "Artigos / Blog",
-      "format": "SEO",
-      "title": "Régua de ativação de benefício: 30 dias para aumentar lembrança e uso",
-      "objective": "Apoiar CS/Retenção.",
-      "cta": "Receber régua"
+      "channel": "Facebook",
+      "post": "1",
+      "format": "Post educativo",
+      "title": "Internet boa virou mínimo esperado. E agora?",
+      "persona": "Dono / Gestor regional",
+      "cluster": "Base menor",
+      "funnel": "Topo",
+      "objective": "Abrir dor de diferenciação sem linguagem técnica.",
+      "cta": "Ler artigo"
     },
     {
-      "channel": "Artigos / Blog",
-      "format": "SEO",
-      "title": "Como vender internet com saúde digital no pacote sem parecer benefício genérico",
-      "objective": "Apoiar Comercial.",
-      "cta": "Receber kit"
+      "channel": "Facebook",
+      "post": "2",
+      "format": "Carrossel",
+      "title": "Desconto não pode ser seu plano de retenção",
+      "persona": "CEO / Comercial",
+      "cluster": "Pequena e média",
+      "funnel": "Topo",
+      "objective": "Mostrar limite do desconto como estratégia de permanência.",
+      "cta": "Diagnóstico"
     },
     {
-      "channel": "Artigos / Blog",
-      "format": "SEO",
-      "title": "ABM para provedores: como priorizar contas, cargos e sinais de intenção",
-      "objective": "Mostrar método e autoridade.",
-      "cta": "Ver score ABM"
+      "channel": "Facebook",
+      "post": "3",
+      "format": "Vídeo curto",
+      "title": "O benefício que a família entende sem explicação",
+      "persona": "Comercial / Marketing",
+      "cluster": "Base menor e média",
+      "funnel": "Meio",
+      "objective": "Posicionar saúde como SVA fácil de comunicar e entender.",
+      "cta": "Conhecer SVA de saúde"
     },
     {
-      "channel": "Artigos / Blog",
-      "format": "SEO",
-      "title": "Retenção em ISPs: por que velocidade deixou de ser diferencial",
-      "objective": "Aprofundar tese executiva.",
-      "cta": "Agendar diagnóstico"
-    },
-    {
-      "channel": "Artigos / Blog",
-      "format": "SEO",
-      "title": "Checklist técnico para implantar SVA de saúde em provedor de internet",
-      "objective": "Reduzir objeção técnica.",
-      "cta": "Validar implantação"
-    },
-    {
-      "channel": "Artigos / Blog",
-      "format": "SEO",
-      "title": "Como comunicar SVA de saúde para a base de assinantes",
-      "objective": "Apoiar Marketing/Conteúdo.",
-      "cta": "Receber pauta"
+      "channel": "Facebook",
+      "post": "4",
+      "format": "Post com pergunta",
+      "title": "Seu cliente lembra dos benefícios do plano?",
+      "persona": "CS / Retenção",
+      "cluster": "Média",
+      "funnel": "Meio",
+      "objective": "Capturar dor de ativação e gerar conversa sobre régua de uso.",
+      "cta": "Baixar régua de ativação"
     }
   ],
   "personaLps": [
@@ -1198,7 +1182,9 @@ window.ABM_DATA = {
       "validLeads": 179,
       "uniqueAccounts": 90,
       "personas": 6,
-      "rule": "Score ABM por fit ISP, profundidade da conta, senioridade, comitê e domínio corporativo"
+      "rule": "Nova regra: tamanho estimado da base define 1:1 / 1:poucos / 1:muitos; persona define mensagem, LP e cadência. Score ABM permanece intacto.",
+      "baseLogic": "Base de usuários = potencial econômico. Cargo/persona = argumento de convencimento. Intenção = timing para vendas.",
+      "validation": "Faixas são hipóteses operacionais para priorização; validar em Anatel, ZoomInfo, LinkedIn, site e CRM antes do contato comercial."
     },
     "personas": [
       {
@@ -1224,11 +1210,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 3,
             "seniority": "C-level / Dono",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "reason": "Tier 1 Estratégico: base estimada > 20 mil assinantes (score alto + múltiplos contatos/personas + decisor mapeado). Score ABM preservado em 156. A persona Decisor final / Dono orienta a mensagem; a validação de porte confirma se a conta recebe 1:1.",
+            "nextStep": "Validar porte real da base + mapear comitê + enviar diagnóstico executivo de retenção e simulação churn x SVA.",
             "tag": "ABM_YouSafer_01_T1",
             "source": null,
-            "abmType": "1:1"
+            "abmType": "1:1",
+            "previousRoute": "1:1",
+            "baseUsers": "> 20 mil assinantes",
+            "baseTier": "Tier 1 Estratégico",
+            "baseSignal": "Alto potencial",
+            "baseEvidence": "score alto + múltiplos contatos/personas + decisor mapeado",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 2,
@@ -1245,11 +1237,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 3,
             "seniority": "C-level / Dono",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "reason": "Tier 1 Estratégico: base estimada > 20 mil assinantes (score alto + múltiplos contatos/personas + decisor mapeado). Score ABM preservado em 156. A persona Decisor final / Dono orienta a mensagem; a validação de porte confirma se a conta recebe 1:1.",
+            "nextStep": "Validar porte real da base + mapear comitê + enviar diagnóstico executivo de retenção e simulação churn x SVA.",
             "tag": "ABM_YouSafer_01_T1",
             "source": null,
-            "abmType": "1:1"
+            "abmType": "1:1",
+            "previousRoute": "1:1",
+            "baseUsers": "> 20 mil assinantes",
+            "baseTier": "Tier 1 Estratégico",
+            "baseSignal": "Alto potencial",
+            "baseEvidence": "score alto + múltiplos contatos/personas + decisor mapeado",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 3,
@@ -1266,11 +1264,17 @@ window.ABM_DATA = {
             "contacts": 2,
             "personas": 3,
             "seniority": "C-level / Dono",
-            "reason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "reason": "Tier 1 Estratégico: base estimada > 20 mil assinantes (score alto + múltiplos contatos/personas + decisor mapeado). Score ABM preservado em 156. A persona Decisor final / Dono orienta a mensagem; a validação de porte confirma se a conta recebe 1:1.",
+            "nextStep": "Validar porte real da base + mapear comitê + enviar diagnóstico executivo de retenção e simulação churn x SVA.",
             "tag": "ABM_YouSafer_01_T1",
             "source": "https://vbtelecom.net.br",
-            "abmType": "1:1"
+            "abmType": "1:1",
+            "previousRoute": "1:1",
+            "baseUsers": "> 20 mil assinantes",
+            "baseTier": "Tier 1 Estratégico",
+            "baseSignal": "Alto potencial",
+            "baseEvidence": "score alto + múltiplos contatos/personas + decisor mapeado",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 4,
@@ -1287,11 +1291,17 @@ window.ABM_DATA = {
             "contacts": 2,
             "personas": 3,
             "seniority": "C-level / Dono",
-            "reason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "reason": "Tier 1 Estratégico: base estimada > 20 mil assinantes (score alto + múltiplos contatos/personas + decisor mapeado). Score ABM preservado em 156. A persona Decisor final / Dono orienta a mensagem; a validação de porte confirma se a conta recebe 1:1.",
+            "nextStep": "Validar porte real da base + mapear comitê + enviar diagnóstico executivo de retenção e simulação churn x SVA.",
             "tag": "ABM_YouSafer_01_T1",
             "source": "https://vbtelecom.net.br",
-            "abmType": "1:1"
+            "abmType": "1:1",
+            "previousRoute": "1:1",
+            "baseUsers": "> 20 mil assinantes",
+            "baseTier": "Tier 1 Estratégico",
+            "baseSignal": "Alto potencial",
+            "baseEvidence": "score alto + múltiplos contatos/personas + decisor mapeado",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 5,
@@ -1308,11 +1318,17 @@ window.ABM_DATA = {
             "contacts": 3,
             "personas": 2,
             "seniority": "C-level / Dono",
-            "reason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 141. A persona Decisor final / Dono orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_01_T2",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 6,
@@ -1329,11 +1345,17 @@ window.ABM_DATA = {
             "contacts": 3,
             "personas": 2,
             "seniority": "C-level / Dono",
-            "reason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 141. A persona Decisor final / Dono orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_01_T2",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 7,
@@ -1350,11 +1372,17 @@ window.ABM_DATA = {
             "contacts": 1,
             "personas": 2,
             "seniority": "C-level / Dono",
-            "reason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 141. A persona Decisor final / Dono orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_01_T2",
             "source": "https://itanel.com.br",
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 8,
@@ -1371,11 +1399,17 @@ window.ABM_DATA = {
             "contacts": 1,
             "personas": 2,
             "seniority": "C-level / Dono",
-            "reason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 141. A persona Decisor final / Dono orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_01_T2",
             "source": "https://raimaxfibra.com.br",
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 9,
@@ -1392,11 +1426,17 @@ window.ABM_DATA = {
             "contacts": 1,
             "personas": 1,
             "seniority": "C-level / Dono",
-            "reason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "reason": "Tier 3 Escalável: base estimada 1 mil a 5 mil assinantes (fit ICP, mas precisa de mais sinais antes de venda). Score ABM preservado em 134. A persona Decisor final / Dono orienta a mensagem; a validação de porte confirma se a conta recebe 1:Muitos.",
+            "nextStep": "Nutrir com conteúdo/remarketing, enriquecer base e só acionar SDR após sinal de intenção.",
             "tag": "ABM_YouSafer_01_T2",
             "source": "https://jetnetworks.com.br",
-            "abmType": "1:Poucos"
+            "abmType": "1:Muitos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "1 mil a 5 mil assinantes",
+            "baseTier": "Tier 3 Escalável",
+            "baseSignal": "Potencial em validação",
+            "baseEvidence": "fit ICP, mas precisa de mais sinais antes de venda",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 10,
@@ -1413,11 +1453,17 @@ window.ABM_DATA = {
             "contacts": 2,
             "personas": 2,
             "seniority": "C-level / Dono",
-            "reason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque o cargo tem poder de decisão ou influência direta sobre tese de retenção, margem e diferenciação por SVA.",
-            "nextStep": "Enviar diagnóstico executivo de retenção + convite para conversa de 20 min com simulação de churn.",
+            "reason": "Tier 3 Escalável: base estimada 1 mil a 5 mil assinantes (fit ICP, mas precisa de mais sinais antes de venda). Score ABM preservado em 133. A persona Decisor final / Dono orienta a mensagem; a validação de porte confirma se a conta recebe 1:Muitos.",
+            "nextStep": "Nutrir com conteúdo/remarketing, enriquecer base e só acionar SDR após sinal de intenção.",
             "tag": "ABM_YouSafer_01_T2",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Muitos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "1 mil a 5 mil assinantes",
+            "baseTier": "Tier 3 Escalável",
+            "baseSignal": "Potencial em validação",
+            "baseEvidence": "fit ICP, mas precisa de mais sinais antes de venda",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           }
         ],
         "crmSteps": [
@@ -1476,11 +1522,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 3,
             "seniority": "Gerência",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 156. A persona Comercial / Vendas orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_02_T1",
             "source": "https://netvale.psi.br",
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 2,
@@ -1497,11 +1549,17 @@ window.ABM_DATA = {
             "contacts": 2,
             "personas": 3,
             "seniority": "C-level / Dono",
-            "reason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "reason": "Tier 1 Estratégico: base estimada > 20 mil assinantes (score alto + múltiplos contatos/personas + decisor mapeado). Score ABM preservado em 156. A persona Comercial / Vendas orienta a mensagem; a validação de porte confirma se a conta recebe 1:1.",
+            "nextStep": "Validar porte real da base + mapear comitê + enviar diagnóstico executivo de retenção e simulação churn x SVA.",
             "tag": "ABM_YouSafer_02_T1",
             "source": "https://vbtelecom.net.br",
-            "abmType": "1:1"
+            "abmType": "1:1",
+            "previousRoute": "1:1",
+            "baseUsers": "> 20 mil assinantes",
+            "baseTier": "Tier 1 Estratégico",
+            "baseSignal": "Alto potencial",
+            "baseEvidence": "score alto + múltiplos contatos/personas + decisor mapeado",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 3,
@@ -1518,11 +1576,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 4,
             "seniority": "Gerência",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 147. A persona Comercial / Vendas orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_02_T1",
             "source": null,
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 4,
@@ -1539,11 +1603,17 @@ window.ABM_DATA = {
             "contacts": 5,
             "personas": 4,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 141. A persona Comercial / Vendas orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_02_T1",
             "source": "https://netwise.com.br",
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 5,
@@ -1560,11 +1630,17 @@ window.ABM_DATA = {
             "contacts": 1,
             "personas": 2,
             "seniority": "C-level / Dono",
-            "reason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 141. A persona Comercial / Vendas orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_02_T2",
             "source": "https://itanel.com.br",
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 6,
@@ -1581,11 +1657,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 4,
             "seniority": "Coord/Supervisão",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 139. A persona Comercial / Vendas orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_02_T1",
             "source": null,
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 7,
@@ -1602,11 +1684,17 @@ window.ABM_DATA = {
             "contacts": 8,
             "personas": 2,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 135. A persona Comercial / Vendas orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_02_T1",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 8,
@@ -1623,11 +1711,17 @@ window.ABM_DATA = {
             "contacts": 8,
             "personas": 2,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 135. A persona Comercial / Vendas orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_02_T1",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 9,
@@ -1644,11 +1738,17 @@ window.ABM_DATA = {
             "contacts": 8,
             "personas": 2,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 135. A persona Comercial / Vendas orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_02_T1",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 10,
@@ -1665,11 +1765,17 @@ window.ABM_DATA = {
             "contacts": 8,
             "personas": 2,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque comercial/vendas sente a dor de vender valor, plano premium e redução da competição por preço.",
-            "nextStep": "Enviar kit comercial: pitch de SVA saúde + argumento para plano premium + convite para treinamento rápido.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 135. A persona Comercial / Vendas orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_02_T1",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           }
         ],
         "crmSteps": [
@@ -1728,11 +1834,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 4,
             "seniority": "Gerência",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 147. A persona CS / Retenção / Operações orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_03_T1",
             "source": null,
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 2,
@@ -1749,11 +1861,17 @@ window.ABM_DATA = {
             "contacts": 5,
             "personas": 4,
             "seniority": "Operacional",
-            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 135. A persona CS / Retenção / Operações orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_03_T1",
             "source": "https://netwise.com.br",
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 3,
@@ -1770,11 +1888,17 @@ window.ABM_DATA = {
             "contacts": 8,
             "personas": 2,
             "seniority": "Operacional",
-            "reason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 129. A persona CS / Retenção / Operações orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_03_T1",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 4,
@@ -1791,11 +1915,17 @@ window.ABM_DATA = {
             "contacts": 8,
             "personas": 2,
             "seniority": "Operacional",
-            "reason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 129. A persona CS / Retenção / Operações orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_03_T1",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 5,
@@ -1812,11 +1942,17 @@ window.ABM_DATA = {
             "contacts": 8,
             "personas": 2,
             "seniority": "Operacional",
-            "reason": "Conta com 8 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 129. A persona CS / Retenção / Operações orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_03_T1",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 6,
@@ -1833,11 +1969,17 @@ window.ABM_DATA = {
             "contacts": 2,
             "personas": 2,
             "seniority": "Gerência",
-            "reason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "reason": "Tier 3 Escalável: base estimada 1 mil a 5 mil assinantes (fit ICP, mas precisa de mais sinais antes de venda). Score ABM preservado em 125. A persona CS / Retenção / Operações orienta a mensagem; a validação de porte confirma se a conta recebe 1:Muitos.",
+            "nextStep": "Nutrir com conteúdo/remarketing, enriquecer base e só acionar SDR após sinal de intenção.",
             "tag": "ABM_YouSafer_03_T2",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Muitos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "1 mil a 5 mil assinantes",
+            "baseTier": "Tier 3 Escalável",
+            "baseSignal": "Potencial em validação",
+            "baseEvidence": "fit ICP, mas precisa de mais sinais antes de venda",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 7,
@@ -1854,11 +1996,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 2,
             "seniority": "Não identificado",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 117. A persona CS / Retenção / Operações orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_03_T2",
             "source": "https://goxdatacenter.com.br",
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 8,
@@ -1875,11 +2023,17 @@ window.ABM_DATA = {
             "contacts": 3,
             "personas": 3,
             "seniority": "Coord/Supervisão",
-            "reason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 116. A persona CS / Retenção / Operações orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_03_T2",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 9,
@@ -1896,11 +2050,17 @@ window.ABM_DATA = {
             "contacts": 5,
             "personas": 2,
             "seniority": "Operacional",
-            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 115. A persona CS / Retenção / Operações orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_03_T2",
             "source": "https://viptecnologia.com.br",
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 10,
@@ -1917,11 +2077,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 2,
             "seniority": "Operacional",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque CS/operação/SAC sofre com cancelamento, downgrade, suporte e ativação do benefício na base.",
-            "nextStep": "Enviar régua de retenção/ativação 30 dias + checklist de uso no SAC/CS.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 112. A persona CS / Retenção / Operações orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_03_T2",
             "source": "https://goxdatacenter.com.br",
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           }
         ],
         "crmSteps": [
@@ -1980,11 +2146,17 @@ window.ABM_DATA = {
             "contacts": 5,
             "personas": 4,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 141. A persona Financeiro / Administrativo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_04_T1",
             "source": "https://netwise.com.br",
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 2,
@@ -2001,11 +2173,17 @@ window.ABM_DATA = {
             "contacts": 5,
             "personas": 2,
             "seniority": "Coord/Supervisão",
-            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 141. A persona Financeiro / Administrativo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_04_T1",
             "source": "https://maxxnettelecom.com",
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 3,
@@ -2022,11 +2200,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 3,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 141. A persona Financeiro / Administrativo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_04_T1",
             "source": "https://netvale.psi.br",
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 4,
@@ -2043,11 +2227,17 @@ window.ABM_DATA = {
             "contacts": 1,
             "personas": 2,
             "seniority": "C-level / Dono",
-            "reason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 141. A persona Financeiro / Administrativo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_04_T2",
             "source": "https://raimaxfibra.com.br",
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 5,
@@ -2064,11 +2254,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 3,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 133. A persona Financeiro / Administrativo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_04_T1",
             "source": null,
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 6,
@@ -2085,11 +2281,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 3,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 133. A persona Financeiro / Administrativo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_04_T1",
             "source": null,
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 7,
@@ -2106,11 +2308,17 @@ window.ABM_DATA = {
             "contacts": 5,
             "personas": 4,
             "seniority": "Não identificado",
-            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 132. A persona Financeiro / Administrativo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_04_T1",
             "source": "https://netwise.com.br",
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 8,
@@ -2127,11 +2335,17 @@ window.ABM_DATA = {
             "contacts": 1,
             "personas": 2,
             "seniority": "Gerência",
-            "reason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "reason": "Tier 3 Escalável: base estimada 1 mil a 5 mil assinantes (fit ICP, mas precisa de mais sinais antes de venda). Score ABM preservado em 125. A persona Financeiro / Administrativo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Muitos.",
+            "nextStep": "Nutrir com conteúdo/remarketing, enriquecer base e só acionar SDR após sinal de intenção.",
             "tag": "ABM_YouSafer_04_T2",
             "source": "https://conexao10.com.br",
-            "abmType": "1:Poucos"
+            "abmType": "1:Muitos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "1 mil a 5 mil assinantes",
+            "baseTier": "Tier 3 Escalável",
+            "baseSignal": "Potencial em validação",
+            "baseEvidence": "fit ICP, mas precisa de mais sinais antes de venda",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 9,
@@ -2148,11 +2362,17 @@ window.ABM_DATA = {
             "contacts": 3,
             "personas": 3,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 118. A persona Financeiro / Administrativo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_04_T2",
             "source": "https://internetsuper.com.br",
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 10,
@@ -2169,11 +2389,17 @@ window.ABM_DATA = {
             "contacts": 5,
             "personas": 2,
             "seniority": "Não identificado",
-            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque financeiro/adm valida custo por assinante, ROI, impacto de churn e viabilidade operacional.",
-            "nextStep": "Enviar calculadora churn x desconto x SVA + proposta de validar custo por assinante.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 112. A persona Financeiro / Administrativo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_04_T2",
             "source": "https://hexatelecom.com.br",
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           }
         ],
         "crmSteps": [
@@ -2232,11 +2458,17 @@ window.ABM_DATA = {
             "contacts": 2,
             "personas": 3,
             "seniority": "C-level / Dono",
-            "reason": "Conta com 2 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "reason": "Tier 1 Estratégico: base estimada > 20 mil assinantes (score alto + múltiplos contatos/personas + decisor mapeado). Score ABM preservado em 156. A persona TI / Técnico / Redes orienta a mensagem; a validação de porte confirma se a conta recebe 1:1.",
+            "nextStep": "Validar porte real da base + mapear comitê + enviar diagnóstico executivo de retenção e simulação churn x SVA.",
             "tag": "ABM_YouSafer_05_T1",
             "source": "https://vbtelecom.net.br",
-            "abmType": "1:1"
+            "abmType": "1:1",
+            "previousRoute": "1:1",
+            "baseUsers": "> 20 mil assinantes",
+            "baseTier": "Tier 1 Estratégico",
+            "baseSignal": "Alto potencial",
+            "baseEvidence": "score alto + múltiplos contatos/personas + decisor mapeado",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 2,
@@ -2253,11 +2485,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 3,
             "seniority": "Coord/Supervisão",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 148. A persona TI / Técnico / Redes orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_05_T1",
             "source": "https://netvale.psi.br",
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 3,
@@ -2274,11 +2512,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 3,
             "seniority": "Coord/Supervisão",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 140. A persona TI / Técnico / Redes orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_05_T1",
             "source": "https://netvale.psi.br",
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 4,
@@ -2295,11 +2539,17 @@ window.ABM_DATA = {
             "contacts": 5,
             "personas": 4,
             "seniority": "Operacional",
-            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 135. A persona TI / Técnico / Redes orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_05_T1",
             "source": "https://netwise.com.br",
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 5,
@@ -2316,11 +2566,17 @@ window.ABM_DATA = {
             "contacts": 5,
             "personas": 2,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 134. A persona TI / Técnico / Redes orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_05_T1",
             "source": "https://maxxnettelecom.com",
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 6,
@@ -2337,11 +2593,17 @@ window.ABM_DATA = {
             "contacts": 5,
             "personas": 2,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 134. A persona TI / Técnico / Redes orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_05_T1",
             "source": "https://maxxnettelecom.com",
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 7,
@@ -2358,11 +2620,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 2,
             "seniority": "Coord/Supervisão",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 133. A persona TI / Técnico / Redes orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_05_T2",
             "source": "https://goxdatacenter.com.br",
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 8,
@@ -2379,11 +2647,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 4,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 132. A persona TI / Técnico / Redes orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_05_T1",
             "source": null,
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 9,
@@ -2400,11 +2674,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 3,
             "seniority": "Operacional",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 127. A persona TI / Técnico / Redes orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_05_T1",
             "source": null,
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 10,
@@ -2421,11 +2701,17 @@ window.ABM_DATA = {
             "contacts": 5,
             "personas": 2,
             "seniority": "Não identificado",
-            "reason": "Conta com 5 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque TI/redes/operação valida implantação, integração, suporte e risco de atrito técnico.",
-            "nextStep": "Enviar checklist técnico/operacional + fluxo de implantação/integracões + pedido de validação de complexidade.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 125. A persona TI / Técnico / Redes orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_05_T1",
             "source": "https://maxxnettelecom.com",
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           }
         ],
         "crmSteps": [
@@ -2484,11 +2770,17 @@ window.ABM_DATA = {
             "contacts": 4,
             "personas": 4,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 4 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
-            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 132. A persona Marketing / Conteúdo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_06_T1",
             "source": null,
-            "abmType": "1:1"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:1",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 2,
@@ -2505,11 +2797,17 @@ window.ABM_DATA = {
             "contacts": 3,
             "personas": 3,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
-            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 118. A persona Marketing / Conteúdo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_06_T2",
             "source": "https://lumenfibra.com.br",
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 3,
@@ -2526,11 +2824,17 @@ window.ABM_DATA = {
             "contacts": 3,
             "personas": 3,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
-            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 110. A persona Marketing / Conteúdo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_06_T2",
             "source": "https://lumenfibra.com.br",
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 4,
@@ -2547,11 +2851,17 @@ window.ABM_DATA = {
             "contacts": 3,
             "personas": 3,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
-            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 109. A persona Marketing / Conteúdo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_06_T2",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 5,
@@ -2568,11 +2878,17 @@ window.ABM_DATA = {
             "contacts": 3,
             "personas": 3,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 3 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
-            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "reason": "Tier 2 Prioritário: base estimada 5 mil a 20 mil assinantes (conta com sinais suficientes para cluster por dor/persona). Score ABM preservado em 102. A persona Marketing / Conteúdo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Poucos.",
+            "nextStep": "Agrupar por dor/persona, enviar LP específica e ativar cadência Apollo/CRM até MQA.",
             "tag": "ABM_YouSafer_06_T2",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Poucos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "5 mil a 20 mil assinantes",
+            "baseTier": "Tier 2 Prioritário",
+            "baseSignal": "Potencial médio/alto",
+            "baseEvidence": "conta com sinais suficientes para cluster por dor/persona",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 6,
@@ -2589,11 +2905,17 @@ window.ABM_DATA = {
             "contacts": 1,
             "personas": 2,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
-            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "reason": "Tier 3 Escalável: base estimada 1 mil a 5 mil assinantes (fit ICP, mas precisa de mais sinais antes de venda). Score ABM preservado em 79. A persona Marketing / Conteúdo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Muitos.",
+            "nextStep": "Nutrir com conteúdo/remarketing, enriquecer base e só acionar SDR após sinal de intenção.",
             "tag": "ABM_YouSafer_06_T3",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Muitos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "1 mil a 5 mil assinantes",
+            "baseTier": "Tier 3 Escalável",
+            "baseSignal": "Potencial em validação",
+            "baseEvidence": "fit ICP, mas precisa de mais sinais antes de venda",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 7,
@@ -2610,11 +2932,17 @@ window.ABM_DATA = {
             "contacts": 1,
             "personas": 2,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 1 contato(s) no evento/base e fit ICP Provedor/Telecom. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
-            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "reason": "Tier 3 Escalável: base estimada 1 mil a 5 mil assinantes (fit ICP, mas precisa de mais sinais antes de venda). Score ABM preservado em 79. A persona Marketing / Conteúdo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Muitos.",
+            "nextStep": "Nutrir com conteúdo/remarketing, enriquecer base e só acionar SDR após sinal de intenção.",
             "tag": "ABM_YouSafer_06_T3",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Muitos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "1 mil a 5 mil assinantes",
+            "baseTier": "Tier 3 Escalável",
+            "baseSignal": "Potencial em validação",
+            "baseEvidence": "fit ICP, mas precisa de mais sinais antes de venda",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 8,
@@ -2631,11 +2959,17 @@ window.ABM_DATA = {
             "contacts": 2,
             "personas": 2,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 2 contato(s) no evento/base e fit Validar ICP. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
-            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "reason": "Tier 3 Escalável: base estimada 1 mil a 5 mil assinantes (fit ICP, mas precisa de mais sinais antes de venda). Score ABM preservado em 85. A persona Marketing / Conteúdo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Muitos.",
+            "nextStep": "Nutrir com conteúdo/remarketing, enriquecer base e só acionar SDR após sinal de intenção.",
             "tag": "ABM_YouSafer_06_T3",
             "source": "https://somosb4.com.br",
-            "abmType": "1:Poucos"
+            "abmType": "1:Muitos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "1 mil a 5 mil assinantes",
+            "baseTier": "Tier 3 Escalável",
+            "baseSignal": "Potencial em validação",
+            "baseEvidence": "fit ICP, mas precisa de mais sinais antes de venda",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 9,
@@ -2652,11 +2986,17 @@ window.ABM_DATA = {
             "contacts": 1,
             "personas": 2,
             "seniority": "Gerência",
-            "reason": "Conta com 1 contato(s) no evento/base e fit Adjacente/Parceiro. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
-            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "reason": "Tier 3 Escalável: base estimada 1 mil a 5 mil assinantes (fit ICP, mas precisa de mais sinais antes de venda). Score ABM preservado em 71. A persona Marketing / Conteúdo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Muitos.",
+            "nextStep": "Nutrir com conteúdo/remarketing, enriquecer base e só acionar SDR após sinal de intenção.",
             "tag": "ABM_YouSafer_06_T4",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Muitos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "1 mil a 5 mil assinantes",
+            "baseTier": "Tier 3 Escalável",
+            "baseSignal": "Potencial em validação",
+            "baseEvidence": "fit ICP, mas precisa de mais sinais antes de venda",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           },
           {
             "rank": 10,
@@ -2673,11 +3013,17 @@ window.ABM_DATA = {
             "contacts": 1,
             "personas": 2,
             "seniority": "Analista/Especialista",
-            "reason": "Conta com 1 contato(s) no evento/base e fit Validar ICP. Priorizar porque marketing ajuda a transformar SVA em percepção de valor, campanha e conteúdo para base.",
-            "nextStep": "Enviar pauta de conteúdo para comunicar benefício na base + exemplos de post/e-mail/app.",
+            "reason": "Tier 3 Escalável: base estimada 1 mil a 5 mil assinantes (fit ICP, mas precisa de mais sinais antes de venda). Score ABM preservado em 54. A persona Marketing / Conteúdo orienta a mensagem; a validação de porte confirma se a conta recebe 1:Muitos.",
+            "nextStep": "Nutrir com conteúdo/remarketing, enriquecer base e só acionar SDR após sinal de intenção.",
             "tag": "ABM_YouSafer_06_T4",
             "source": null,
-            "abmType": "1:Poucos"
+            "abmType": "1:Muitos",
+            "previousRoute": "1:Poucos",
+            "baseUsers": "1 mil a 5 mil assinantes",
+            "baseTier": "Tier 3 Escalável",
+            "baseSignal": "Potencial em validação",
+            "baseEvidence": "fit ICP, mas precisa de mais sinais antes de venda",
+            "routeLogic": "base define intensidade do ABM; persona define narrativa; score/intenção define timing"
           }
         ],
         "crmSteps": [
@@ -2718,12 +3064,12 @@ window.ABM_DATA = {
       "1:1": {
         "label": "ABM 1:1",
         "position": "Conta estratégica individual",
-        "criteria": "Score muito alto, conta Tier 1 e múltiplos stakeholders. Investimento e personalização máximos.",
-        "motion": "O lead entra em uma rota altamente personalizada com pesquisa pública, abordagem do Gabriel, diagnóstico 1:1 e business case.",
+        "criteria": "Base grande ou potencial econômico alto + decisor/comitê mapeado. Personalização individual justificada.",
+        "motion": "Conta estratégica: validar porte, mapear comitê, acionar Gabriel/Closer e construir diagnóstico executivo.",
         "steps": [
-          "Scrap público e tese da conta",
-          "Briefing executivo individual",
-          "Contato do Gabriel + SDR",
+          "Validar base e porte real",
+          "Mapear comitê decisor",
+          "Conectar decisor e dor executiva",
           "Diagnóstico 1:1",
           "Business case e proposta"
         ]
@@ -2731,29 +3077,63 @@ window.ABM_DATA = {
       "1:Poucos": {
         "label": "ABM 1:poucos",
         "position": "Cluster por dor/persona",
-        "criteria": "Conta com bom score, cargo claro ou grupo de contas semelhantes. Personalização por cluster.",
-        "motion": "O lead entra em uma rota por persona, com LP/ativo específico, cadência CRM e remarketing até virar SQA.",
+        "criteria": "Base média ou boa conta com dor/persona semelhante a outras. Clusterização por problema e cargo.",
+        "motion": "Cluster por dor: usar LP/persona, cadência específica, prova social e handoff após MQA.",
         "steps": [
-          "Agrupar por persona e dor",
-          "Enviar LP/ativo específico",
+          "Agrupar por base + dor",
+          "Enviar LP/persona",
           "Cadência Apollo + CRM",
           "Retargeting e prova social",
-          "SDR/Closer com contexto"
+          "SDR/Closer com briefing"
         ]
       },
       "1:Muitos": {
         "label": "ABM 1:muitos",
         "position": "Nutrição em escala",
-        "criteria": "Score menor, cargo menos claro ou sem múltiplos stakeholders. Escala primeiro, venda depois.",
-        "motion": "O lead recebe conteúdo educativo, redes sociais, blog e remarketing até demonstrar intenção real.",
+        "criteria": "Base menor, desconhecida ou sem sinal comercial. Escala via conteúdo e automação até ganhar intenção.",
+        "motion": "Nutrição escalável: educar, remarcar, pontuar e subir rota quando houver clique, resposta ou formulário.",
         "steps": [
-          "Inserir na base segmentada",
-          "Distribuir conteúdo por canal",
-          "Medir clique/visita/engajamento",
-          "Elevar score por intenção",
-          "Mover para cluster ou SQA"
+          "Enriquecer dados",
+          "Distribuir conteúdo",
+          "Score de intenção",
+          "Remarketing",
+          "Subir para MQA"
         ]
       }
-    }
+    },
+    "baseRules": [
+      {
+        "tier": "Tier 1 Estratégico",
+        "range": "> 20 mil assinantes",
+        "abmType": "1:1",
+        "investment": "Pesquisa individual + comitê + diagnóstico executivo",
+        "sla": "SDR/Closer em até 4h após sinal forte",
+        "why": "O impacto de retenção, margem e SVA justifica personalização alta e abordagem do Gabriel/decisor."
+      },
+      {
+        "tier": "Tier 2 Prioritário",
+        "range": "5 mil a 20 mil assinantes",
+        "abmType": "1:Poucos",
+        "investment": "Cluster por dor/persona + LP específica + cadência consultiva",
+        "sla": "SDR em até 24h após MQA",
+        "why": "Conta tem potencial, mas escala melhor agrupando empresas com dores semelhantes."
+      },
+      {
+        "tier": "Tier 3 Escalável",
+        "range": "1 mil a 5 mil assinantes",
+        "abmType": "1:Muitos",
+        "investment": "Conteúdo, automação, remarketing e nutrição",
+        "sla": "Ativação automática até gerar sinal",
+        "why": "Base menor precisa de eficiência operacional; vendas só entra com intenção clara."
+      },
+      {
+        "tier": "Nurture / Enriquecer",
+        "range": "Base desconhecida ou < 1 mil",
+        "abmType": "Nurture",
+        "investment": "Enriquecimento de dados + conteúdo de autoridade",
+        "sla": "Sem handoff comercial até validar porte ou sinal",
+        "why": "Evita gastar esforço comercial sem potencial ou fit comprovado."
+      }
+    ]
   }
 };
